@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,7 +24,7 @@ public class ProjectType extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_type_id")
-    private Long projectTypeId; // 프로젝트 유형 ID
+    private Long Id; // 프로젝트 유형 ID
 
     @Column(name = "project_type_name", nullable = false, length = 255)
     private String projectTypeName; // 프로젝트 유형명

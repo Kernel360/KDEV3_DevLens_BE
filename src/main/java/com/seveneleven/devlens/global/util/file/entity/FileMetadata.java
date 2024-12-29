@@ -3,6 +3,9 @@ package com.seveneleven.devlens.global.util.file.entity;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder(toBuilder = true)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "FILE_METADATA")
@@ -44,9 +48,11 @@ public class FileMetadata {
     @Column(name = "file_path", length = 1000)
     private String filePath; // 파일 경로
 
+    @CreatedBy
     @Column(name = "created_by")
     private Long createdBy; // 최초 작성자 ID
 
+    @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt; // 최초 등록 일시
 }

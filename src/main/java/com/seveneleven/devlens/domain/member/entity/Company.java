@@ -1,15 +1,13 @@
 package com.seveneleven.devlens.domain.member.entity;
 
-import com.seveneleven.devlens.domain.project.entity.Project;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
+@ToString
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
