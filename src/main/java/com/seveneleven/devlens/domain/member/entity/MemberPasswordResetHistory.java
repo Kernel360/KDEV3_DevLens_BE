@@ -18,8 +18,8 @@ public class MemberPasswordResetHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id; // 식별 ID
+    @Column(name = "member_password_reset_history_id")
+    private Long memberPasswordResetHistoryId; // 식별 ID
 
     @Column(name = "member_id", nullable = false)
     private Long memberId; // 회원 ID

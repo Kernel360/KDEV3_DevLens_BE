@@ -18,18 +18,18 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long Id; // 회원 ID
+    @Column(name = "member_id")
+    private Long memberId; // 회원 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
-    private Company company; // 회사 ID (연관관계)
+    private Company companyId; // 회사 ID (연관관계)
 
     @Column(name = "role", nullable = false, length = 50)
     private String role; // 계정 권한 (ROLE_ADMIN, ROLE_SUPER, ROLE_USER)
 
-    @Column(name = "username", nullable = false, length = 50)
-    private String username; // 아이디
+    @Column(name = "login_id", nullable = false, length = 50)
+    private String loginId; // 아이디
 
     @Column(name = "password", nullable = false, length = 100)
     private String password; // 비밀번호
@@ -52,9 +52,11 @@ public class Member extends BaseEntity {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber; // 전화번호
 
-    @Column(name = "department", length = 100)
-    private String department; // 부서명
+    @JoinColumn(name = "department_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Department departmentId; // 부서명
 
-    @Column(name = "position", length = 100)
-    private String position; // 직책
+    @JoinColumn(name = "positionId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Position position; // 직책
 }

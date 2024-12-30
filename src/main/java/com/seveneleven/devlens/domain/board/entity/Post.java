@@ -1,9 +1,14 @@
-package com.seveneleven.devlens.domain.project.entity;
+package com.seveneleven.devlens.domain.board.entity;
 
 import com.seveneleven.devlens.domain.member.entity.Member;
+import com.seveneleven.devlens.domain.project.entity.ProjectStep;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +24,8 @@ public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id; // 게시물 ID
+    @Column(name = "post_id")
+    private Long postId; // 게시물 ID
 
     @JoinColumn(name = "project_step_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,22 +53,26 @@ public class Post extends BaseEntity {
     @Column(name = "has_link", nullable = false)
     private Boolean hasLink; // 링크 유무
 
+    @CreatedBy
     @JoinColumn(name = "register_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member register;
+    private Member registerId;
 
     @Column(name = "registered_ip", length = 50)
     private String registeredIp; // 등록자 IP
 
-    @Column(name = "registerd_date")
-    private LocalDateTime registerdDate; // 등록일
+    @CreatedDate
+    @Column(name = "registered_date")
+    private LocalDateTime registeredDate; // 등록일
 
+    @LastModifiedBy
     @JoinColumn(name = "modified_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member modifier; // 수정자
 
+    @LastModifiedDate
     @Column(name = "modified_date")
-    private LocalDateTime modifiedDate; // 등록일
+    private LocalDateTime modifiedDate; // 수정일
 
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp; // 수정자 IP

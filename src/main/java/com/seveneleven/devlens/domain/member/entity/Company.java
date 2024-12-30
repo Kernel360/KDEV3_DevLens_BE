@@ -16,8 +16,8 @@ public class Company extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long Id; // 회사 ID
+    @Column(name = "company_id")
+    private Long companyId; // 회사 ID
 
     @Column(name = "company_name", nullable = false, length = 255)
     private String companyName; // 회사명

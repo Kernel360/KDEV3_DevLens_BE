@@ -1,5 +1,6 @@
-package com.seveneleven.devlens.domain.project.entity;
+package com.seveneleven.devlens.domain.board.entity;
 
+import com.seveneleven.devlens.domain.member.entity.Member;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,8 +23,8 @@ public class Question extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id; // 질문 ID
+    @Column(name = "question_id")
+    private Long questionId; // 질문 ID
 
     @JoinColumn(name = "post_id", nullable = false)
     @OneToOne(fetch = FetchType.LAZY)
@@ -35,40 +36,27 @@ public class Question extends BaseEntity {
     @Column(name = "answer_content", columnDefinition = "TEXT")
     private String answerContent; // 답변 내용
 
-    @Column(name = "is_answered", nullable = false, length = 1)
-    private String isAnswered; // 답변 여부 (Y, N)
-
     @CreatedDate
-    @Column(name = "registration_date", nullable = false, updatable = false)
-    private LocalDateTime registrationDate; // 등록일시
+    @Column(name = "registered_date", nullable = false, updatable = false)
+    private LocalDateTime registeredDate; // 등록일시
 
     @LastModifiedDate
     @Column(name = "modification_date")
     private LocalDateTime modificationDate; // 수정일시
 
     @CreatedBy
-    @Column(name = "registered_by", length = 100)
-    private String registeredBy; // 등록자
+    @JoinColumn(name = "register_id", updatable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member registerId; // 등록자
 
     @LastModifiedBy
-    @Column(name = "modified_by", length = 100)
-    private String modifiedBy; // 수정자
+    @JoinColumn(name = "modified_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member modifierId; // 수정자
 
-    @Column(name = "registered_ip", length = 50)
-    private String registeredIp; // 등록자 IP
+    @Column(name = "register_ip", length = 50)
+    private String registerIp; // 등록자 IP
 
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp; // 수정자 IP
-
-    @Column(name = "answer_registered_ip", length = 50)
-    private String answerRegisteredIp; // 답변 등록자 IP
-
-    @Column(name = "answer_registered_date")
-    private LocalDateTime answerRegisteredDate;
-
-    @Column(name = "answer_modifier_ip", length = 50)
-    private String answerModifierIp; // 답변 수정자 IP
-
-    @Column(name = "answer_modified_date")
-    private LocalDateTime answerModifiedDate;
 }

@@ -18,8 +18,8 @@ public class MemberProfileHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id; // 회원 프로필 이력 ID
+    @Column(name = "member_profile_history_id")
+    private Long memberProfileHistoryId; // 회원 프로필 이력 ID
 
     @Column(name = "member_email", nullable = false)
     private Long memberEmail; // 회원 ID

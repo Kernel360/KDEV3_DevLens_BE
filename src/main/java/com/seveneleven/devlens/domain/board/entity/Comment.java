@@ -1,4 +1,4 @@
-package com.seveneleven.devlens.domain.project.entity;
+package com.seveneleven.devlens.domain.board.entity;
 
 import com.seveneleven.devlens.domain.member.entity.Member;
 import com.seveneleven.devlens.global.entity.BaseEntity;
@@ -19,8 +19,8 @@ public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id; // 댓글 ID
+    @Column(name = "comment_id")
+    private Long commentId; // 댓글 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
@@ -30,25 +30,25 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Comment parentCommentId; // 부모 댓글 ID
 
-    @Column(name = "is_active", nullable = false, length = 1)
-    private String isActive; // 사용 유무 (Y, N)
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive; // 사용 유무 (Y, N)
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content; // 내용
 
     @JoinColumn(name = "register_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member register;
+    private Member registerId;
 
-    @Column(name = "registered_ip", length = 50)
-    private String registeredIp; // 등록자 IP
+    @Column(name = "register_ip", length = 50)
+    private String registerIp; // 등록자 IP
 
-    @Column(name = "registerd_date")
-    private LocalDateTime registerdDate; // 등록일
+    @Column(name = "registered_date")
+    private LocalDateTime registeredDate; // 등록일
 
-    @JoinColumn(name = "modified_id", nullable = false)
+    @JoinColumn(name = "modifier_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member modifier; // 수정자
+    private Member modifierId; // 수정자
 
     @Column(name = "modified_date")
     private LocalDateTime modifiedDate; // 등록일
