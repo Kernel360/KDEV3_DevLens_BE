@@ -49,7 +49,7 @@ public class FileMetadataHistory {
     @Column(name = "file_format", length = 50, nullable = false)
     private String fileFormat; // 파일 확장자
 
-    @Column(name = "file_size", precision = 10, scale = 2, nullable = false)
+    @Column(name = "file_size", precision = 10, nullable = false)
     private Float fileSize; // 파일 크기 (KB)
 
     @Column(name = "file_path", length = 1000, nullable = false)
