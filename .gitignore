@@ -19,7 +19,7 @@ target/
 *.iml
 *.ipr
 
-# Ignore .env file
+# Ignore ..env file
 *.env
 
 ### NetBeans ###
