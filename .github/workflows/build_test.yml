@@ -9,20 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: 12345678
-          MYSQL_DATABASE: actions_test
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-start-period=30s --health-timeout=5s --health-retries=3
 
     env:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/actions_test
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
       SPRING_JWT_SECRET: ${{ secrets.SPRING_JWT_SECRET }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
       AWS_STACK_AUTO: ${{ secrets.AWS_STACK_AUTO }}
