@@ -29,42 +29,20 @@ jobs:
       actions: read
 
     steps:
-      # 1. Checkout Repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Gradle Cache Restoration
-      - name: Restore Gradle cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches/modules-2/files-2.1
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
-
-      # 3. JDK Setup
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # 4. Build and Test with Gradle
       - name: Build and Test
         run: |
           ./gradlew clean build --no-daemon
           ./gradlew test --no-daemon
 
-      # 5. Gradle Cache Save
-      - name: Save Gradle cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches/modules-2/files-2.1
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
-
-      # 6. Upload Test Results
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
