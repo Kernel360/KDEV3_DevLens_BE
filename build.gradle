@@ -30,8 +30,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     // https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
-    implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '3.0.0'
-//    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+//    implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '3.0.0'
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
