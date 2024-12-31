@@ -31,28 +31,28 @@ public class Comment extends BaseEntity {
     private Comment parentCommentId; // 부모 댓글 ID
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive; // 사용 유무 (Y, N)
+    private Boolean isActive; // 사용 유무 (true, false)
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content; // 내용
 
     @JoinColumn(name = "register_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member registerId;
+    private Member registerId; // 등록자 ID
 
     @Column(name = "register_ip", length = 50)
     private String registerIp; // 등록자 IP
 
     @Column(name = "registered_date")
-    private LocalDateTime registeredDate; // 등록일
+    private LocalDateTime registeredDate; // 등록일시
 
     @JoinColumn(name = "modifier_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member modifierId; // 수정자
-
-    @Column(name = "modified_date")
-    private LocalDateTime modifiedDate; // 등록일
+    private Member modifierId; // 수정자 ID
 
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp; // 수정자 IP
+
+    @Column(name = "modified_date")
+    private LocalDateTime modifiedDate; // 등록일시
 }

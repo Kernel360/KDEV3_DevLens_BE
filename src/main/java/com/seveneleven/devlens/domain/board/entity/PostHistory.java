@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,10 +21,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "post_history")
 public class PostHistory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_history_id")
-    private Long postHistoryId; // 게시물 ID
+    private Long postHistoryId; // 게시물 이력 ID
+
+    @Column(name = "post_id", nullable = false)
+    private Long postId; // 게시물 ID
 
     @Column(name = "project_step_id", nullable = false)
     private Long projectStepId; // 프로젝트 단계 ID
@@ -32,10 +37,10 @@ public class PostHistory {
     private Long parentPostId; // 부모 게시물 ID
 
     @Column(name = "is_pinned_post")
-    private Boolean isPinnedPost; // 고정 여부
+    private Boolean isPinnedPost; // 상단고정 여부
 
     @Column(name = "status", nullable = false, length = 50)
-    private String status; // 상태 (요청, 진행, 피드백, 완료, 보류)
+    private String status; // 상태 (기본, 요청, 진행, 피드백, 완료, 보류)
 
     @Column(name = "title", nullable = false, length = 255)
     private String title; // 제목
@@ -49,27 +54,31 @@ public class PostHistory {
     @Column(name = "has_link", nullable = false)
     private Boolean hasLink; // 링크 유무
 
+    @Column(name = "deadline")
+    private LocalDate deadline; // 마감일자
+
     @CreatedBy
     @JoinColumn(name = "register_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member registerId;
+    private Member registerId; // 등록자 ID
 
     @Column(name = "registered_ip", length = 50)
     private String registeredIp; // 등록자 IP
 
     @CreatedDate
     @Column(name = "registered_date")
-    private LocalDateTime registeredDate; // 등록일
+    private LocalDateTime registeredDate; // 등록일시
 
     @LastModifiedBy
     @JoinColumn(name = "modified_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member modifier; // 수정자
-
-    @LastModifiedDate
-    @Column(name = "modified_date")
-    private LocalDateTime modifiedDate; // 등록일
+    private Member modifierID; // 수정자 ID
 
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp; // 수정자 IP
+
+    @LastModifiedDate
+    @Column(name = "modified_date")
+    private LocalDateTime modifiedDate; // 등록일시
+
 }

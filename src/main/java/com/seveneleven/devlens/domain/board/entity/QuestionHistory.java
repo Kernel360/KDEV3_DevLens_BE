@@ -20,39 +20,42 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "question_history")
 public class QuestionHistory extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_history_id")
-    private Long questionHistoryId; // 질문 ID
+    private Long questionHistoryId; // 질문 이력 ID
 
     @Column(name = "post_id", nullable = false)
     private Long postId; // 게시물 ID
 
+    @Column(name = "question_id", nullable = false)
+    private Long questionId; // 질문 ID
+
     @Column(name = "question_content", nullable = false, columnDefinition = "TEXT")
     private String questionContent; // 질문 내용
 
-    @Column(name = "answer_content", columnDefinition = "TEXT")
-    private String answerContent; // 답변 내용
+    @CreatedBy
+    @Column(name = "register_id", updatable = false)
+    private Long registerId; // 등록자 ID
+
+    @Column(name = "register_ip", length = 50)
+    private String registerIp; // 등록자 IP
 
     @CreatedDate
     @Column(name = "registered_date", nullable = false, updatable = false)
     private LocalDateTime registeredDate; // 등록일시
 
-    @LastModifiedDate
-    @Column(name = "modification_date")
-    private LocalDateTime modificationDate; // 수정일시
-
-    @CreatedBy
-    @Column(name = "register_id", updatable = false)
-    private Long registerId; // 등록자
-
     @LastModifiedBy
     @Column(name = "modifier_id")
-    private Long modifierId; // 수정자
-
-    @Column(name = "register_ip", length = 50)
-    private String registerIp; // 등록자 IP
+    private Long modifierId; // 수정자 ID
 
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp; // 수정자 IP
+
+    @LastModifiedDate
+    @Column(name = "modificated_date")
+    private LocalDateTime modificatedDate; // 수정일시
+
+
 }

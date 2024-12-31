@@ -33,30 +33,27 @@ public class Question extends BaseEntity {
     @Column(name = "question_content", nullable = false, columnDefinition = "TEXT")
     private String questionContent; // 질문 내용
 
-    @Column(name = "answer_content", columnDefinition = "TEXT")
-    private String answerContent; // 답변 내용
+    @CreatedBy
+    @JoinColumn(name = "register_id", updatable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member registerId; // 등록자 ID
+
+    @Column(name = "register_ip", length = 50)
+    private String registerIp; // 등록자 IP
 
     @CreatedDate
     @Column(name = "registered_date", nullable = false, updatable = false)
     private LocalDateTime registeredDate; // 등록일시
 
-    @LastModifiedDate
-    @Column(name = "modification_date")
-    private LocalDateTime modificationDate; // 수정일시
-
-    @CreatedBy
-    @JoinColumn(name = "register_id", updatable = false)
-    @OneToOne(fetch = FetchType.LAZY)
-    private Member registerId; // 등록자
-
     @LastModifiedBy
-    @JoinColumn(name = "modified_id")
+    @JoinColumn(name = "modifier_id")
     @OneToOne(fetch = FetchType.LAZY)
-    private Member modifierId; // 수정자
-
-    @Column(name = "register_ip", length = 50)
-    private String registerIp; // 등록자 IP
+    private Member modifierId; // 수정자 ID
 
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp; // 수정자 IP
+
+    @LastModifiedDate
+    @Column(name = "modified_date")
+    private LocalDateTime modifiedDate; // 수정일시
 }

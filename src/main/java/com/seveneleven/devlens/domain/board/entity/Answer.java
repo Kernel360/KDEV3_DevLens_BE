@@ -3,6 +3,9 @@ package com.seveneleven.devlens.domain.board.entity;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,8 +30,12 @@ public class Answer extends BaseEntity {
     private String content; // 답변 내용
 
     @Column(name = "register_id", nullable = false)
-    private String registerId; // 답변 등록자
+    private String registerId; // 답변 등록자 ID
 
     @Column(name = "register_ip", nullable = false)
     private String registerIp; // 답변 등록자 IP
+
+    @CreatedDate
+    @Column(name = "registered_date", nullable = false, updatable = false)
+    private LocalDateTime registeredDate; // 답변 등록일시
 }

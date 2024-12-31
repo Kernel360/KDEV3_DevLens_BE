@@ -16,13 +16,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "answer_history")
 public class AnswerHistory extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "question_history_id")
-    private Long questionHistoryId;
+    @Column(name = "answer_history_id")
+    private Long answerHistoryId; // 답변 기록 ID
 
     @Column(name = "question_id") // 질문 ID를 기본 키로 사용
-    private Long questionId;
+    private Long questionId; // 질문 ID
+
+    @Column(name = "isActive", nullable = false)
+    private Boolean isActive; // 사용 유무
 
     @Column(name = "content", nullable = false)
     private String content; // 답변 내용
@@ -35,5 +39,7 @@ public class AnswerHistory extends BaseEntity {
 
     @CreatedDate
     @Column(name = "registered_date", nullable = false)
-    private LocalDateTime registeredDate;
+    private LocalDateTime registeredDate; // 답변 등록일시
+
+
 }
