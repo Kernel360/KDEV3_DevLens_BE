@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         #mysql 설정
         env:
           # MYSQL_USER : 지정하지 않은경우 root
@@ -26,6 +26,14 @@ jobs:
       SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/actions_test
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345678
+#      SPRING_JWT_SECRET: ${{secrets.SPRING_JWT_SECRET}}
+#      AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
+#      AWS_STACK_AUTO: ${{secrets.AWS_STACK_AUTO}}
+#      AWS_REGION: ${{secrets.AWS_REGION}}
+#      AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
+#      AWS_SECRET_KEY: ${{secrets.AWS_SECRET_KEY}}
+#      MULTIPART_MAX_FILE_SIZE: ${{secrets.MULTIPART_MAX_FILE_SIZE}}
+#      MULTIPART_MAX_REQUEST_SIZE: ${{secrets.MULTIPART_MAX_REQUEST_SIZE}}
     permissions:
       pull-requests: write  # PR에 댓글, 체크 실행을 할 수 있는 권한
       checks: write          # 체크 결과를 기록할 권한
