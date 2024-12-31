@@ -27,6 +27,9 @@ jobs:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345678
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${{ secrets.SPRING_DATASOURCE_DRIVER_CLASS_NAME }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      SPRING_MAIN_BANNER_MODE: ${{ secrets.SPRING_MAIN_BANNER_MODE }}
+      SPRING_MAIN_WEB_APPLICATION_TYPE: ${{ secrets.SPRING_MAIN_WEB_APPLICATION_TYPE }}
     permissions:
       pull-requests: write  # PR에 댓글, 체크 실행을 할 수 있는 권한
       checks: write          # 체크 결과를 기록할 권한
