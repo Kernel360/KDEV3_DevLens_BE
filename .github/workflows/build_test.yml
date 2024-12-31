@@ -83,7 +83,6 @@ jobs:
           path: build/reports/tests/test
 
   dependency-submission: # 두 번째 작업
-    needs: build
 
     runs-on: ubuntu-latest
     permissions:
