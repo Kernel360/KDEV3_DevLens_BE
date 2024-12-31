@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         #mysql 설정
         env:
           # MYSQL_USER : 지정하지 않은경우 root
