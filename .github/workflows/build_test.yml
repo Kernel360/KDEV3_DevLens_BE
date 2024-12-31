@@ -82,6 +82,15 @@ jobs:
           name: test-results
           path: build/reports/tests/test
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+
   dependency-submission: # 두 번째 작업
 
     runs-on: ubuntu-latest
