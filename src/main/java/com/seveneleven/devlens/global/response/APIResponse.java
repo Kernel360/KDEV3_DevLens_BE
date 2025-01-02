@@ -3,6 +3,7 @@ package com.seveneleven.devlens.global.response;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 @ToString
@@ -39,5 +40,9 @@ public class APIResponse<T> {
 
     public static <T> APIResponse<T> create(int code, String message, T data) {
         return new APIResponse<>(code, message, data);
+    }
+
+    public ResponseEntity<APIResponse<T>> toResponseEntity() {
+        return ResponseEntity.status(code).body(this);
     }
 }
