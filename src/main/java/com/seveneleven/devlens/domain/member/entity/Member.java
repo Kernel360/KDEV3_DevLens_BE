@@ -62,9 +62,8 @@ public class Member extends BaseEntity {
 
 
     // 생성 메서드
-    public static Member createMember(String loginId, String password, Company companyId, Role role,
-                                      YN profileImageExists, String name, String email, LocalDate birthDate,
-                                      String phoneNumber, Long departmentId, Long positionId) {
+    public static Member createMember(String loginId, String password, Company companyId, Role role, String name, String email,
+                                      LocalDate birthDate, String phoneNumber, Long departmentId, Long positionId) {
         Member member = new Member();
         member.name         = name;
         member.role         = role;
@@ -76,17 +75,17 @@ public class Member extends BaseEntity {
         member.phoneNumber  = phoneNumber;
         member.positionId   = positionId;
         member.departmentId = departmentId;
-        member.profileImageExists = profileImageExists;
         return member;
     }
 
     // 업데이트 메서드
-    public void updateMember(String password, String phoneNumber, Company company, Long departmentId, Long positionId) {
+    public void updateMember(String password, String phoneNumber, Company company, Long departmentId, Long positionId, YN profileImageExists) {
         this.company      = company;
         this.password     = password;
         this.phoneNumber  = phoneNumber;
         this.departmentId = departmentId;
         this.positionId   = positionId;
+        this.profileImageExists = profileImageExists;
     }
 
     // 삭제 메서드

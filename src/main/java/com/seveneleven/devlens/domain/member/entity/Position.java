@@ -30,4 +30,24 @@ public class Position extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private YN isActive = YN.Y;
 
+
+    // 생성 메서드
+    public static Position createPosition( Department department, String positionName, String description) {
+        Position position = new Position();
+        position.department   = department;
+        position.description  = description;
+        position.positionName = positionName;
+        return position;
+    }
+
+    // 부서 설정 메서드
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    // 삭제 메서드
+    public void deletePostion() {
+        this.isActive = YN.N;
+    }
+
 }

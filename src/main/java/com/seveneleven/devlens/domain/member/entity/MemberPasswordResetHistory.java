@@ -31,4 +31,17 @@ public class MemberPasswordResetHistory extends BaseEntity {
 
     @Column(name = "change_ip", nullable = false, length = 50)
     private String changeIp; // 변경 IP
+
+
+    // 생성 메서드
+    public static MemberPasswordResetHistory createPwdHistory( Long memberId, String password, String changer, String changeIp ) {
+        MemberPasswordResetHistory history = new MemberPasswordResetHistory();
+        history.memberId   = memberId;
+        history.password   = password;
+        history.changer    = changer;
+        history.changeIp   = changeIp;
+        history.changeDate = LocalDateTime.now();
+        return history;
+    }
+
 }
