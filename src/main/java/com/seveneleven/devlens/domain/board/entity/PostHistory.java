@@ -50,7 +50,7 @@ public class PostHistory {
     private Boolean hasLink; // 링크 유무
 
     @CreatedBy
-    @JoinColumn(name = "register_id", nullable = false)
+    @JoinColumn(name = "register_id", nullable = false, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member registerId;
 
@@ -62,7 +62,7 @@ public class PostHistory {
     private LocalDateTime registeredDate; // 등록일
 
     @LastModifiedBy
-    @JoinColumn(name = "modified_id", nullable = false)
+    @JoinColumn(name = "modified_id", nullable = false, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member modifier; // 수정자
 

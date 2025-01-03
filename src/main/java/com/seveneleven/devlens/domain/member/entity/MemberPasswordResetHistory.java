@@ -8,18 +8,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-@ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member_password_reset_history")
 public class MemberPasswordResetHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_password_reset_history_id")
-    private Long memberPasswordResetHistoryId; // 식별 ID
+    @Column(name = "id")
+    private Long id; // 식별 ID
 
     @Column(name = "member_id", nullable = false)
     private Long memberId; // 회원 ID

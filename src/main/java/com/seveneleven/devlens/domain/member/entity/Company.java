@@ -1,23 +1,21 @@
 package com.seveneleven.devlens.domain.member.entity;
 
+import com.seveneleven.devlens.domain.member.constant.BusinessType;
+import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
-@Setter
-@ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "company")
 public class Company extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "company_id")
-    private Long companyId; // 회사 ID
+    @Column(name = "id")
+    private Long id; // 회사 ID
 
     @Column(name = "company_name", nullable = false, length = 255)
     private String companyName; // 회사명
@@ -35,14 +33,17 @@ public class Company extends BaseEntity {
     private String address; // 주소
 
     @Column(name = "business_type", nullable = false, length = 50)
-    private String businessType; // 사업자 유형 (개인/법인)
+    @Enumerated(EnumType.STRING)
+    private BusinessType businessType; // 사업자 유형 (개인/법인)
 
     @Column(name = "business_registration_number", nullable = false, length = 50)
     private String businessRegistrationNumber; // 사업자번호
 
     @Column(name = "representative_image_exists", nullable = false)
-    private Boolean representativeImageExists; // 대표 이미지 유무
+    @Enumerated(EnumType.STRING)
+    private YN representativeImageExists = YN.N; // 대표 이미지 유무
 
-    @Column(name = "active_status", nullable = false)
-    private Boolean activeStatus; // 사용 여부
+    @Column(name = "is_active", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private YN isActive = YN.Y; // 사용 여부
 }

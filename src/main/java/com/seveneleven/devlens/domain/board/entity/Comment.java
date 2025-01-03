@@ -36,7 +36,7 @@ public class Comment extends BaseEntity {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content; // 내용
 
-    @JoinColumn(name = "register_id", nullable = false)
+    @JoinColumn(name = "register_id", nullable = false, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member registerId;
 
@@ -46,7 +46,7 @@ public class Comment extends BaseEntity {
     @Column(name = "registered_date")
     private LocalDateTime registeredDate; // 등록일
 
-    @JoinColumn(name = "modifier_id", nullable = false)
+    @JoinColumn(name = "modifier_id", nullable = false, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member modifierId; // 수정자
 

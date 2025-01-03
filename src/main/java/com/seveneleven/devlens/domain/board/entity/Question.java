@@ -45,12 +45,12 @@ public class Question extends BaseEntity {
     private LocalDateTime modificationDate; // 수정일시
 
     @CreatedBy
-    @JoinColumn(name = "register_id", updatable = false)
+    @JoinColumn(name = "register_id", updatable = false, referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     private Member registerId; // 등록자
 
     @LastModifiedBy
-    @JoinColumn(name = "modified_id")
+    @JoinColumn(name = "modified_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     private Member modifierId; // 수정자
 

@@ -33,7 +33,7 @@ public class CheckRequest extends BaseEntity {
     private String approvalStatus; // 승인 여부(결과)
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "requester_id", nullable = false)
+    @JoinColumn(name = "requester_id", nullable = false, referencedColumnName = "id")
     private Member requesterId; // 요청자 ID
 
     @Column(name = "request_ip", length = 50)

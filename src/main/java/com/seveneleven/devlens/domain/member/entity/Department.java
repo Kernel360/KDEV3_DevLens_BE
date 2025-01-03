@@ -1,27 +1,24 @@
 package com.seveneleven.devlens.domain.member.entity;
 
+import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
-@Setter
-@ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "department")
 public class Department extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "department_id")
-    private Long departmentId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company companyId;
+    @JoinColumn(name = "company_id", nullable = false, referencedColumnName = "id")
+    private Company company;
 
     @Column(name = "department_name", nullable = false, length = 50)
     private String departmentName;
@@ -29,6 +26,7 @@ public class Department extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_use", nullable = false)
-    private Boolean isUse;
+    @Column(name = "is_active", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private YN isActive = YN.Y;
 }

@@ -1,16 +1,13 @@
 package com.seveneleven.devlens.domain.member.entity;
 
+import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
-@Setter
-@ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "term")
 public class Term extends BaseEntity {
 
@@ -26,5 +23,6 @@ public class Term extends BaseEntity {
     private String content; // 약관 내용
 
     @Column(name = "is_required", nullable = false)
-    private Boolean isRequired; // 필수 여부
+    @Enumerated(EnumType.STRING)
+    private YN isRequired; // 필수 여부
 }

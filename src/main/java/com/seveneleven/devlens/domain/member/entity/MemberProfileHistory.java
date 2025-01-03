@@ -1,5 +1,6 @@
 package com.seveneleven.devlens.domain.member.entity;
 
+import com.seveneleven.devlens.domain.member.constant.Role;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,27 +9,24 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@Setter
-@ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member_profile_history")
 public class MemberProfileHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_profile_history_id")
-    private Long memberProfileHistoryId; // 회원 프로필 이력 ID
+    @Column(name = "id")
+    private Long id; // 회원 프로필 이력 ID
 
     @Column(name = "member_email", nullable = false)
-    private Long memberEmail; // 회원 ID
+    private Long memberEmail; // 회원 이메일
 
-    @Column(name = "company_name", nullable = false)
-    private Long companyName; // 회사 ID
+    @Column(name = "company_id", nullable = false)
+    private Long companyId; // 회사 ID
 
     @Column(name = "role", nullable = false, length = 50)
-    private String role; // 계정 권한 (ROLE_ADMIN, ROLE_SUPER, ROLE_USER)
+    @Enumerated(EnumType.STRING)
+    private Role role; // 계정 권한 (ROLE_ADMIN, ROLE_SUPER, ROLE_USER)
 
     @Column(name = "name", nullable = false, length = 100)
     private String name; // 이름

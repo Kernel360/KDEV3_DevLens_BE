@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class ProjectAuthorization extends BaseEntity {
 
     @Id
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member memberId; // 회원 ID
 

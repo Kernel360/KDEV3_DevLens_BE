@@ -29,7 +29,7 @@ public class CheckResult extends BaseEntity {
     @Column(name = "approval_status", length = 50)
     private String approvalStatus; // 승인 여부(결과)
 
-    @JoinColumn(name = "processor_member_id")
+    @JoinColumn(name = "processor_member_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member processorMemberId; // 처리자
 

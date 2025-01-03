@@ -47,7 +47,7 @@ public class Project extends BaseEntity {
     @Column(name = "project_status_code", nullable = false, length = 50)
     private String projectStatusCode; // 프로젝트 상태 코드 (준비, 진행, 완료, 보류, 취소)
 
-    @JoinColumn(name = "bns_manager_id", nullable = false)
+    @JoinColumn(name = "bns_manager_id", nullable = false, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member bnsManagerId; // BNS 담당자 ID
 
