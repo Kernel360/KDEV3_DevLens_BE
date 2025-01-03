@@ -51,4 +51,25 @@ public class MemberProfileHistory extends BaseEntity {
 
     @Column(name = "position", length = 100)
     private String position; // 직책
+
+
+
+    public static MemberProfileHistory createProfileHistory( Long memberId, String memberEmail, Long companyId, Role role, String name, String email,
+                                        LocalDate birthDate, String phoneNumber, Boolean profileImageExists, String department, String position ) {
+        MemberProfileHistory history = new MemberProfileHistory();
+        history.memberId    = memberId;
+        history.memberEmail = memberEmail;
+        history.companyId   = companyId;
+        history.role        = role;
+        history.name        = name;
+        history.email       = email;
+        history.birthDate   = birthDate;
+        history.phoneNumber = phoneNumber;
+        history.department  = department;
+        history.position    = position;
+        history.profileImageExists = profileImageExists != null ? profileImageExists : false;
+        return history;
+    }
+
+
 }

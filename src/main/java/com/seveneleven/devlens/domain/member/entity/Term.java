@@ -25,4 +25,19 @@ public class Term extends BaseEntity {
     @Column(name = "is_required", nullable = false)
     @Enumerated(EnumType.STRING)
     private YN isRequired; // 필수 여부
+
+
+    // 생성 메서드
+    public static Term createTerm(String title, String content, YN isRequired) {
+        Term term = new Term();
+        term.title      = title;
+        term.content    = content;
+        term.isRequired = isRequired != null? isRequired : YN.N;
+        return term;
+    }
+
+    // 삭제 메서드
+    public void delete() {
+
+    }
 }
