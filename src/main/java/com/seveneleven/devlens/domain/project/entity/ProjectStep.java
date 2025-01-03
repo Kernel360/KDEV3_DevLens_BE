@@ -20,7 +20,6 @@ public class ProjectStep extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long Id; // 프로젝트 단계 ID
 
     @JoinColumn(name = "project_id", nullable = false)

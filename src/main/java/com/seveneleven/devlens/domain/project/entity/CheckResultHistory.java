@@ -15,7 +15,6 @@ public class CheckResultHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id; // ID
 
     @Column(columnDefinition = "TEXT")

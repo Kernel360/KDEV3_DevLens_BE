@@ -16,7 +16,6 @@ public class CheckResult extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id; // 체크 결과 ID
 
     @OneToOne(fetch = FetchType.LAZY)

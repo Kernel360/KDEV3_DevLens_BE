@@ -20,7 +20,6 @@ public class ProjectType extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_type_id")
     private Long Id; // 프로젝트 유형 ID
 
     @Column(nullable = false)

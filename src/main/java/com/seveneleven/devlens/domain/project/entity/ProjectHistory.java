@@ -19,7 +19,6 @@ public class ProjectHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id; // 관리 번호
 
     @Column(nullable = false)

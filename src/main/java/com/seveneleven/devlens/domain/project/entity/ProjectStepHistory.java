@@ -19,7 +19,6 @@ public class ProjectStepHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id; // 프로젝트 단계 이력 ID
 
     @Column(nullable = false)

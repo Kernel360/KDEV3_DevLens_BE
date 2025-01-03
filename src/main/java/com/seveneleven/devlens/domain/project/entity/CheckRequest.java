@@ -16,7 +16,6 @@ public class CheckRequest extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column()
     private Long id; // 체크 요청 ID
 
     @ManyToOne(fetch = FetchType.LAZY)

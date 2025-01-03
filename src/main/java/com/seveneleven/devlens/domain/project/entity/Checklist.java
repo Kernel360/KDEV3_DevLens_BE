@@ -20,7 +20,6 @@ public class Checklist extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id; // 체크리스트 ID
 
     @JoinColumn(name = "project_step_id", nullable = false)
