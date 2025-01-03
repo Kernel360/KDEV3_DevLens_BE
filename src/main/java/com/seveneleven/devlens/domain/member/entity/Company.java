@@ -46,4 +46,17 @@ public class Company extends BaseEntity {
     @Column(name = "is_active", nullable = false)
     @Enumerated(EnumType.STRING)
     private YN isActive = YN.Y; // 사용 여부
+
+    public Company(Long id, String companyName, String representativeName, String representativeContact, String representativeEmail, String address, BusinessType businessType, String businessRegistrationNumber, YN representativeImageExists, YN isActive) {
+        this.id = id;
+        this.companyName = companyName;
+        this.representativeName = representativeName;
+        this.representativeContact = representativeContact;
+        this.representativeEmail = representativeEmail;
+        this.address = address;
+        this.businessType = businessType;
+        this.businessRegistrationNumber = businessRegistrationNumber;
+        this.representativeImageExists = representativeImageExists;
+        this.isActive = isActive;
+    }
 }

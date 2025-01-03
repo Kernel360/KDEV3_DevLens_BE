@@ -10,6 +10,7 @@ public enum ErrorCode {
 
     // 1000번대 코드 : 회원 관련
     UNAUTHORIZED(1000, HttpStatus.UNAUTHORIZED, "사용자 인증이 필요합니다."),
+    COMPANY_DUPLICATED_NUMBER(1000, HttpStatus.BAD_REQUEST,"이미 등록된 회사입니다."),
 
     // 2000번대 코드 : 프로젝트 관련
 
