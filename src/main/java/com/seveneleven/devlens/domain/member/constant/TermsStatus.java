@@ -1,7 +1,9 @@
 package com.seveneleven.devlens.domain.member.constant;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum TermsStatus {
     ACTIVE("활성화"),       // 약관이 현재 사용 중

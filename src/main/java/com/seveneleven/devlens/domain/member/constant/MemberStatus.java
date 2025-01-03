@@ -1,7 +1,9 @@
 package com.seveneleven.devlens.domain.member.constant;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum MemberStatus {
     ACTIVE("활성"),
