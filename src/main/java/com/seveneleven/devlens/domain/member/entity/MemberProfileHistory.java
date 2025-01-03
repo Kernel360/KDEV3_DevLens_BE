@@ -18,8 +18,11 @@ public class MemberProfileHistory extends BaseEntity {
     @Column(name = "id")
     private Long id; // 회원 프로필 이력 ID
 
+    @Column(name = "member_id", nullable = false)
+    private Long memberId; // 회원 ID
+
     @Column(name = "member_email", nullable = false)
-    private Long memberEmail; // 회원 이메일
+    private String memberEmail; // 회원 이메일
 
     @Column(name = "company_id", nullable = false)
     private Long companyId; // 회사 ID
