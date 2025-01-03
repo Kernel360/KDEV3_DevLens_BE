@@ -2,6 +2,7 @@ package com.seveneleven.devlens.domain.project.entity;
 
 import com.seveneleven.devlens.domain.member.entity.Member;
 import com.seveneleven.devlens.global.entity.BaseEntity;
+import com.seveneleven.devlens.global.entity.YesNo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -13,47 +14,36 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-@ToString
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "project_authorization")
-@IdClass(ProjectAuthorizationId.class)
 public class ProjectAuthorization extends BaseEntity {
 
-    @Id
+    @EmbeddedId
+    private MemberProjectStepId id; // 복합 키
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("memberId") // 복합 키의 memberId와 매핑
     @JoinColumn(name = "member_id", nullable = false, referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member memberId; // 회원 ID
+    private Member member;
 
-    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("projectStepId") // 복합 키의 projectStepId와 매핑
     @JoinColumn(name = "project_step_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ProjectStep projectStepId; // 프로젝트 단계 ID
+    private ProjectStep projectStep;
 
-    @Column(name = "member_type", nullable = false, length = 50)
     private String memberType; // 회원 구분 (client, developer)
 
-    @Column(name = "authorization_code", nullable = false, length = 50)
     private String authorizationCode; // 권한 코드
 
-    @Column(name = "is_deleted", nullable = false)
-    private Boolean isDeleted; // 삭제 여부
+    @Enumerated(EnumType.STRING)
+    private YesNo isDeleted; // 삭제 여부
 
-    @CreatedDate
-    @Column(name = "registration_date", nullable = false, updatable = false)
-    private LocalDateTime registrationDate; // 등록일시
+    @Getter
+    @AllArgsConstructor
+    enum memberType {
+        CLIENT("client"),
+        DEVELOPER("developer");
 
-    @LastModifiedDate
-    @Column(name = "modification_date")
-    private LocalDateTime modificationDate; // 수정일시
-
-    @CreatedBy
-    @Column(name = "registered_by", length = 100)
-    private String registeredBy; // 등록자
-
-    @LastModifiedBy
-    @Column(name = "modified_by", length = 100)
-    private String modifiedBy; // 수정자
+        final String description;
+    }
 }
