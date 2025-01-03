@@ -31,7 +31,8 @@ public class ProjectAuthorization extends BaseEntity {
     @JoinColumn(name = "project_step_id", nullable = false)
     private ProjectStep projectStep;
 
-    private String memberType; // 회원 구분 (client, developer)
+    @Enumerated(EnumType.STRING)
+    private memberType memberType; // 회원 구분 (client, developer)
 
     private String authorizationCode; // 권한 코드
 
