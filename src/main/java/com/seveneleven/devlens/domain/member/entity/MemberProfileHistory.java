@@ -1,6 +1,7 @@
 package com.seveneleven.devlens.domain.member.entity;
 
 import com.seveneleven.devlens.domain.member.constant.Role;
+import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,7 +45,7 @@ public class MemberProfileHistory extends BaseEntity {
     private String phoneNumber; // 전화번호
 
     @Column(name = "profile_image_exists", nullable = false)
-    private Boolean profileImageExists; // 프로필 이미지 유무
+    private YN profileImageExists; // 프로필 이미지 유무
 
     @Column(name = "department", length = 100)
     private String department; // 부서명
@@ -54,20 +55,19 @@ public class MemberProfileHistory extends BaseEntity {
 
 
 
-    public static MemberProfileHistory createProfileHistory( Long memberId, String memberEmail, Long companyId, Role role, String name, String email,
-                                        LocalDate birthDate, String phoneNumber, Boolean profileImageExists, String department, String position ) {
+    public static MemberProfileHistory createProfileHistory(Member member, String department, String position) {
         MemberProfileHistory history = new MemberProfileHistory();
-        history.memberId    = memberId;
-        history.memberEmail = memberEmail;
-        history.companyId   = companyId;
-        history.role        = role;
-        history.name        = name;
-        history.email       = email;
-        history.birthDate   = birthDate;
-        history.phoneNumber = phoneNumber;
+        history.memberId    = member.getId();
+        history.memberEmail = member.getEmail();
+        history.companyId   = member.getCompany().getId();
+        history.role        = member.getRole();
+        history.name        = member.getName();
+        history.email       = member.getEmail();
+        history.birthDate   = member.getBirthDate();
+        history.phoneNumber = member.getPhoneNumber();
         history.department  = department;
         history.position    = position;
-        history.profileImageExists = profileImageExists != null ? profileImageExists : false;
+        history.profileImageExists = member.getProfileImageExists();
         return history;
     }
 
