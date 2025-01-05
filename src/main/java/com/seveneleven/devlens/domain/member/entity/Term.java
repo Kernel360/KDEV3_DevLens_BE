@@ -1,9 +1,11 @@
 package com.seveneleven.devlens.domain.member.entity;
 
+import com.seveneleven.devlens.domain.member.constant.TermsStatus;
 import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.joda.time.DateTime;
 
 @Entity
 @Getter
@@ -24,5 +26,28 @@ public class Term extends BaseEntity {
 
     @Column(name = "is_required", nullable = false)
     @Enumerated(EnumType.STRING)
-    private YN isRequired; // 필수 여부
+    private YN isRequired = YN.N; // 필수 여부
+
+    @Column(name = "expiration_date")
+    private DateTime expiration_date; // 만료 일자
+
+    @Column(name = "status", length = 50)
+    @Enumerated(EnumType.STRING)
+    private TermsStatus status; // 상태
+
+
+    // 생성 메서드
+    public static Term createTerm(String title, String content, YN isRequired, TermsStatus status) {
+        Term term = new Term();
+        term.title      = title;
+        term.content    = content;
+        term.isRequired = isRequired;
+        term.status     = status;
+        return term;
+    }
+
+    // 상태 변경 메서드
+    public void updateStatus(TermsStatus status) {
+        this.status = status;
+    }
 }
