@@ -30,19 +30,14 @@ public class TermsAgreementHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private YN is_agree; // 약관 동의 여부
 
-    @Column(name = "status", length = 50)
-    @Enumerated(EnumType.STRING)
-    private TermsStatus status; // 상태
-
 
     // 생성 메서드
-    public static TermsAgreementHistory createTermsAgreementHistory( Long termId, Long termTitle, Long memberId, YN is_agree, TermsStatus status) {
+    public static TermsAgreementHistory createTermsAgreementHistory( Long termId, Long termTitle, Long memberId, YN is_agree) {
         TermsAgreementHistory termsAgreeHistory = new TermsAgreementHistory();
         termsAgreeHistory.termId    = termId;
         termsAgreeHistory.termTitle = termTitle;
         termsAgreeHistory.memberId  = memberId;
         termsAgreeHistory.is_agree  = is_agree;
-        termsAgreeHistory.status    = status;
         return termsAgreeHistory;
     }
 
