@@ -21,7 +21,7 @@ public class TermsAgreementHistory extends BaseEntity {
     private Long termId; // 약관 이력 ID
 
     @Column(name = "term_title", nullable = false)
-    private Long termTitle; // 약관 항목
+    private String termTitle; // 약관 항목
 
     @Column(name = "member_id", nullable = false)
     private Long memberId; // 회원 ID
@@ -32,7 +32,7 @@ public class TermsAgreementHistory extends BaseEntity {
 
 
     // 생성 메서드
-    public static TermsAgreementHistory createTermsAgreementHistory( Long termId, Long termTitle, Long memberId, YN is_agree) {
+    public static TermsAgreementHistory createTermsAgreementHistory( Long termId, String termTitle, Long memberId, YN is_agree) {
         TermsAgreementHistory termsAgreeHistory = new TermsAgreementHistory();
         termsAgreeHistory.termId    = termId;
         termsAgreeHistory.termTitle = termTitle;

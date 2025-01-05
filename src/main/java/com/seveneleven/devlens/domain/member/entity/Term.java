@@ -26,7 +26,7 @@ public class Term extends BaseEntity {
 
     @Column(name = "is_required", nullable = false)
     @Enumerated(EnumType.STRING)
-    private YN isRequired; // 필수 여부
+    private YN isRequired = YN.N; // 필수 여부
 
     @Column(name = "expiration_date")
     private DateTime expiration_date; // 만료 일자
@@ -41,7 +41,7 @@ public class Term extends BaseEntity {
         Term term = new Term();
         term.title      = title;
         term.content    = content;
-        term.isRequired = isRequired != null? isRequired : YN.N;
+        term.isRequired = isRequired;
         term.status     = status;
         return term;
     }
