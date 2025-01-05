@@ -45,6 +45,7 @@ public class MemberProfileHistory extends BaseEntity {
     private String phoneNumber; // 전화번호
 
     @Column(name = "profile_image_exists", nullable = false)
+    @Enumerated(EnumType.STRING)
     private YN profileImageExists; // 프로필 이미지 유무
 
     @Column(name = "department", length = 100)
