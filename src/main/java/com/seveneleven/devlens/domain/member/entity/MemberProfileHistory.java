@@ -38,7 +38,7 @@ public class MemberProfileHistory extends BaseEntity {
     @Column(name = "email", nullable = false, length = 100)
     private String email; // 이메일
 
-    @Column(name = "birth_date")
+    @Column(name = "date_of_birth")
     private LocalDate birthDate; // 생년월일
 
     @Column(name = "phone_number", length = 20)
