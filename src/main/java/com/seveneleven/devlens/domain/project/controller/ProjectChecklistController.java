@@ -58,8 +58,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 "Test Checklist Name",
                 "Test Checklist Description",
                 YN.Y,
-                YN.N,
-                "John Doe"
+                YN.N
         );
 
         return APIResponse.success(response);
@@ -130,6 +129,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
     public APIResponse<PostProjectChecklistAccept.Response> postProjectChecklistAccept(
             @PathVariable Long applicationId
     ) {
+
         PostProjectChecklistAccept.Response response = new PostProjectChecklistAccept.Response(
                 100L,         // projectId
                 200L,         // checklistId

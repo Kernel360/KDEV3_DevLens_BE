@@ -1,6 +1,6 @@
 package com.seveneleven.devlens.domain.project.controller;
 
-import com.seveneleven.devlens.domain.project.dto.getProjectList;
+import com.seveneleven.devlens.domain.project.dto.GetProjectList;
 import com.seveneleven.devlens.global.response.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,10 +24,10 @@ public interface MyProjectDocs {
                             description = "성공적으로 프로젝트 목록을 반환했습니다.",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = getProjectList.Response.class)
+                                    schema = @Schema(implementation = GetProjectList.Response.class)
                             )
                     )
             }
     )
-    APIResponse<getProjectList.Response> getMyProject();
+    APIResponse<GetProjectList.Response> getMyProject();
 }

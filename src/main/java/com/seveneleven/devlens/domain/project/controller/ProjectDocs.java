@@ -1,7 +1,7 @@
 package com.seveneleven.devlens.domain.project.controller;
 
 import com.seveneleven.devlens.domain.project.dto.GetProjectDetail;
-import com.seveneleven.devlens.domain.project.dto.getProjectStep;
+import com.seveneleven.devlens.domain.project.dto.GetProjectStep;
 import com.seveneleven.devlens.global.response.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -52,7 +52,7 @@ public interface ProjectDocs {
                             description = "성공적으로 프로젝트 단계를 반환했습니다.",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = getProjectStep.Response.class)
+                                    schema = @Schema(implementation = GetProjectStep.Response.class)
                             )
                     )
             },
@@ -65,7 +65,7 @@ public interface ProjectDocs {
                     )
             }
     )
-    APIResponse<getProjectStep.Response> getProjectStep(
+    APIResponse<GetProjectStep.Response> getProjectStep(
             @PathVariable Long projectId
     );
 }
