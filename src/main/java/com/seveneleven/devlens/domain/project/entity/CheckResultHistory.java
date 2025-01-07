@@ -2,6 +2,7 @@ package com.seveneleven.devlens.domain.project.entity;
 
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import com.seveneleven.devlens.global.entity.YesNo;
+import com.seveneleven.devlens.global.entity.converter.YesNoConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,13 +21,11 @@ public class CheckResultHistory extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description; // 요청 내용
 
-    @Column(length = 50)
     private String approvalStatus; // 승인 여부(결과)
 
     @Column(nullable = false)
     private Long processorId; // 처리자 ID
 
-    @Column(length = 50)
     private String processorIp; // 처리자 IP
 
     private LocalDateTime processedAt; // 처리 일시
@@ -35,14 +34,14 @@ public class CheckResultHistory extends BaseEntity {
     private String rejectionReason; // 거부 사유
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo hasFile; // 파일 유무
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo hasLink; // 링크 유무
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo isActive; // 사용 유무
 }

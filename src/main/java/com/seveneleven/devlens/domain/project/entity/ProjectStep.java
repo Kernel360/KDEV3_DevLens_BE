@@ -2,15 +2,11 @@ package com.seveneleven.devlens.domain.project.entity;
 
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import com.seveneleven.devlens.global.entity.YesNo;
+import com.seveneleven.devlens.global.entity.converter.YesNoConverter;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -29,13 +25,12 @@ public class ProjectStep extends BaseEntity {
     @Column(nullable = false)
     private String stepName; // 프로젝트 단계명
 
-    @Column(length = 500)
     private String stepDescription; // 프로젝트 단계 설명
 
     @Column(nullable = false)
     private Integer stepOrder; // 단계 순서
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo useStatus; // 사용 유무
 }

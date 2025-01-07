@@ -4,12 +4,11 @@ import com.seveneleven.devlens.domain.member.entity.Company;
 import com.seveneleven.devlens.domain.member.entity.Member;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import com.seveneleven.devlens.global.entity.YesNo;
+import com.seveneleven.devlens.global.entity.converter.YesNoConverter;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -49,7 +48,7 @@ public class Project extends BaseEntity {
     private Member bnsManager; // BNS 담당자 ID
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo hasImage; // 이미지 여부
 
     private String contractNumber; // 계약서 번호

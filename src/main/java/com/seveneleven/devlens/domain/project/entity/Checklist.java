@@ -2,13 +2,11 @@ package com.seveneleven.devlens.domain.project.entity;
 
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import com.seveneleven.devlens.global.entity.YesNo;
+import com.seveneleven.devlens.global.entity.converter.YesNoConverter;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -33,14 +31,13 @@ public class Checklist extends BaseEntity {
     private String description; // 체크리스트 설명
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo isActive; // 사용 유무
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo isMandatory; // 체크 유무
 
-    @Column(length = 100)
     private Long approverId; // 승인자 ID
 
     private LocalDateTime approvalDate; // 승인 일시

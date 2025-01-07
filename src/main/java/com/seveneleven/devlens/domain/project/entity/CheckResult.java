@@ -1,10 +1,12 @@
 package com.seveneleven.devlens.domain.project.entity;
 
-import com.seveneleven.devlens.domain.member.entity.Member;
 import com.seveneleven.devlens.global.entity.BaseEntity;
 import com.seveneleven.devlens.global.entity.YesNo;
+import com.seveneleven.devlens.global.entity.converter.YesNoConverter;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +24,6 @@ public class CheckResult extends BaseEntity {
     @JoinColumn(name = "check_request_id", nullable = false)
     private CheckRequest checkRequestId; // 체크 요청 ID
 
-    @Column(length = 50)
     private String approvalStatus; // 승인 여부(결과)
 
     private Long processorMemberId; // 처리자
@@ -35,7 +36,7 @@ public class CheckResult extends BaseEntity {
     private String rejectionReason; // 거부 사유
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = YesNoConverter.class)
     private YesNo hasFile; // 파일 유무
 
     @Column(nullable = false)
