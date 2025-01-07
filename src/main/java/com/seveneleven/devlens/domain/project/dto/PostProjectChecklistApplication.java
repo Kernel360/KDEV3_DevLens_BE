@@ -9,7 +9,9 @@ import java.io.File;
 import java.util.List;
 
 public class PostProjectChecklistApplication {
-
+    /**
+     * AllArgsContructor는 개발 시 삭제 예정
+     */
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class PutProjectChecklist {
+    /**
+     * AllArgsContructor는 개발 시 삭제 예정
+     */
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

@@ -8,7 +8,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class GetProjectList {
-
+    /**
+     * AllArgsContructor는 개발 시 삭제 예정
+     */
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

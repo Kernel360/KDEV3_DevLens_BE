@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 public class GetProjectStep {
+    /**
+     * AllArgsContructor는 개발 시 삭제 예정
+     */
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

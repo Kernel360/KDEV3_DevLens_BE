@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 public class PostProjectChecklistReject {
-
+    /**
+     * AllArgsContructor는 개발 시 삭제 예정
+     */
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
