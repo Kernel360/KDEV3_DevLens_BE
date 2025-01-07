@@ -1,6 +1,6 @@
 package com.seveneleven.devlens.domain.project.dto;
 
-import com.seveneleven.devlens.domain.member.constant.YN;
+import com.seveneleven.devlens.global.entity.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,6 @@ public class PutProjectChecklist {
         private Long id;
         private String name;
         private String description;
-        private YN isChecked;
+        private YesNo isChecked;
     }
 }

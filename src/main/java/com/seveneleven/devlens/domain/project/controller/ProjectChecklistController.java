@@ -1,7 +1,7 @@
 package com.seveneleven.devlens.domain.project.controller;
 
-import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.domain.project.dto.*;
+import com.seveneleven.devlens.global.entity.YesNo;
 import com.seveneleven.devlens.global.response.APIResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +26,13 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 new GetProjectChecklist.projectChecklist(
                         1L,
                         "Checklist Item A",
-                        YN.Y,
+                        YesNo.YES,
                         LocalDateTime.of(2023, 1, 1, 12, 0)
                 ),
                 new GetProjectChecklist.projectChecklist(
                         2L,
                         "Checklist Item B",
-                        YN.N,
+                        YesNo.NO,
                         LocalDateTime.of(2023, 2, 1, 14, 30)
                 )
         );
@@ -57,8 +57,8 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 1L,
                 "Test Checklist Name",
                 "Test Checklist Description",
-                YN.Y,
-                YN.N
+                YesNo.YES,
+                YesNo.NO
         );
 
         return APIResponse.success(response);
@@ -76,7 +76,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 1L,                                 // id
                 "Updated Checklist Name",           // name
                 "Updated Checklist Description",    // description
-                YN.Y                                // isChecked
+                YesNo.YES                                // isChecked
         );
 
         return APIResponse.success(response);
@@ -92,7 +92,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
     ) {
         DeleteProjectChecklist.Response response = new DeleteProjectChecklist.Response(
                 checklistId,                        // checklistId
-                YN.Y                                // checklistStatus
+                YesNo.YES                                // checklistStatus
         );
 
         return APIResponse.success(response);
@@ -114,8 +114,8 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 "Test description for the checklist application.", // description
                 "requester123",                  // requesterId
                 "192.168.0.1",                   // requesterIp
-                YN.Y,                          // hasFile
-                YN.N                            // hasLink
+                YesNo.YES,                          // hasFile
+                YesNo.NO                            // hasLink
         );
 
         return APIResponse.success(response);
@@ -133,7 +133,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
         PostProjectChecklistAccept.Response response = new PostProjectChecklistAccept.Response(
                 100L,         // projectId
                 200L,         // checklistId
-                YN.Y,         // checklistStatus (mocked as YES)
+                YesNo.YES,         // checklistStatus (mocked as YES)
                 85.5          // checkRate (mocked as 85.5%)
         );
 
@@ -150,13 +150,13 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
     ) {
         PostProjectChecklistReject.Response response = new PostProjectChecklistReject.Response(
                 applicationId,                 // applicationId
-                YN.N,                          // approvalStatus (mocked as NO)
+                YesNo.NO,                          // approvalStatus (mocked as NO)
                 123L,                          // processorId (mocked ID)
                 "192.168.1.100",               // processorIp
                 LocalDateTime.now(),           // processDate (current date and time)
                 "Invalid data submitted",      // rejectReason (mocked reason)
-                YN.Y,                          // hasFile (mocked as YES)
-                YN.N                           // hasLink (mocked as NO)
+                YesNo.YES,                          // hasFile (mocked as YES)
+                YesNo.NO                           // hasLink (mocked as NO)
         );
 
         return APIResponse.success(response);

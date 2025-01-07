@@ -1,6 +1,6 @@
 package com.seveneleven.devlens.domain.project.dto;
 
-import com.seveneleven.devlens.domain.member.constant.YN;
+import com.seveneleven.devlens.global.entity.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +16,12 @@ public class PostProjectChecklistReject {
     @AllArgsConstructor
     public static class Response {
         private Long applicationId;
-        private YN approvalStatus;
+        private YesNo approvalStatus;
         private Long processorId;
         private String processorIp;
         private LocalDateTime processDate;
         private String rejectReason;
-        private YN hasFile;
-        private YN hasLink;
+        private YesNo hasFile;
+        private YesNo hasLink;
     }
 }

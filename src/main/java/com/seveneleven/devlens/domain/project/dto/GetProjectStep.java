@@ -1,6 +1,6 @@
 package com.seveneleven.devlens.domain.project.dto;
 
-import com.seveneleven.devlens.domain.member.constant.YN;
+import com.seveneleven.devlens.global.entity.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +34,6 @@ public class GetProjectStep {
     public static class ProjectChecklist {
         private Long checklistId;
         private String checklistName;
-        private YN checklistStatus;
+        private YesNo checklistStatus;
     }
 }

@@ -1,12 +1,15 @@
 package com.seveneleven.devlens.domain.project.controller;
 
-import com.seveneleven.devlens.domain.member.constant.YN;
 import com.seveneleven.devlens.domain.project.dto.GetProjectDetail;
 import com.seveneleven.devlens.domain.project.dto.GetProjectStep;
+import com.seveneleven.devlens.global.entity.YesNo;
 import com.seveneleven.devlens.global.response.APIResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -76,12 +79,12 @@ public class ProjectController implements ProjectDocs {
                 new GetProjectStep.ProjectChecklist(
                         101L,                      // checklistId
                         "Checklist Item 1",        // checklistName
-                        YN.Y                       // checklistStatus
+                        YesNo.YES                       // checklistStatus
                 ),
                 new GetProjectStep.ProjectChecklist(
                         102L,                      // checklistId
                         "Checklist Item 2",        // checklistName
-                        YN.N                       // checklistStatus
+                        YesNo.NO                       // checklistStatus
                 )
         );
 
@@ -89,12 +92,12 @@ public class ProjectController implements ProjectDocs {
                 new GetProjectStep.ProjectChecklist(
                         201L,                      // checklistId
                         "Checklist Item A",        // checklistName
-                        YN.Y                       // checklistStatus
+                        YesNo.YES                       // checklistStatus
                 ),
                 new GetProjectStep.ProjectChecklist(
                         202L,                      // checklistId
                         "Checklist Item B",        // checklistName
-                        YN.N                       // checklistStatus
+                        YesNo.NO                       // checklistStatus
                 )
         );
 

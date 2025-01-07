@@ -1,6 +1,6 @@
 package com.seveneleven.devlens.domain.project.dto;
 
-import com.seveneleven.devlens.domain.member.constant.YN;
+import com.seveneleven.devlens.global.entity.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +33,7 @@ public class PostProjectChecklistApplication {
         private String description;
         private String requesterId;
         private String requesterIp;
-        private YN hasFile;
-        private YN hasLink;
+        private YesNo hasFile;
+        private YesNo hasLink;
     }
 }
