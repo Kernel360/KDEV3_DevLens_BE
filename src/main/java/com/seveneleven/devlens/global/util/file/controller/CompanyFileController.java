@@ -54,4 +54,16 @@ public class CompanyFileController {
         return ResponseEntity.status(filesResponse.getCode()).body(filesResponse);
     }
 
+    /**
+     * 3. 회사 로고 삭제
+     * @param fileId 삭제할 파일 id
+     * @return 성공 메시지
+     */
+    @DeleteMapping("")
+    public ResponseEntity<APIResponse> deleteCompanyLogo(@RequestParam("fileId") Long fileId) throws Exception {
+        APIResponse deleteResponse = companyFileService.deleteLogo(fileId);
+
+        return ResponseEntity.status(deleteResponse.getCode()).body(deleteResponse);
+    }
+
 }

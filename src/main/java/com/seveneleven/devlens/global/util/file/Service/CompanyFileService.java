@@ -77,5 +77,26 @@ public class CompanyFileService {
 
         return APIResponse.success(SuccessCode.OK, fileDto);
     }
+
+
+    /**
+     * 3. 회사 로고 이미지 삭제
+     * @auth admin, super(해당 회사 대표회원)
+     * @param fileId 해당 파일 id
+     * @return APIResponse S3에 저장된 파일의 메타데이터 response
+     */
+    @Transactional
+    public APIResponse deleteLogo(Long fileId) throws Exception{
+        //fileId로 해당 파일 존재 유무 판별
+        FileMetadata fileMetadata = fileMetadataRepository.findById(fileId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.FILE_NOT_FOUND_ERROR));
+
+        //TODO) 2. 수행자 권한 판별 validation - admin판별, super의 회사 판별
+
+        //삭제
+        APIResponse deleteResponse = fileService.deleteFile(fileId);
+
+        return deleteResponse;
+    }
 }
 

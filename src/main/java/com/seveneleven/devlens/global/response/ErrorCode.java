@@ -26,7 +26,7 @@ public enum ErrorCode {
     PROJECT_DUPLICATED_NAME(2001,HttpStatus.BAD_REQUEST, "이미 등록된 프로젝트명입니다."),
     PROJECT_HISTORY_NOT_FOUND_EXCEPTION(2002,HttpStatus.BAD_REQUEST,"프로젝트 이력을 찾을 수 없습니다."),
     // 3000번대 코드 : DB 관련
-
+    FILE_NOT_FOUND_ERROR(3000, HttpStatus.NOT_FOUND, "해당 파일을 찾을 수 없습니다."),
 
     // 4000번대 코드 : 파일 s3 버킷 업/다운로드 관련
     FILE_UPLOAD_FAIL_ERROR(4000, HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다."),

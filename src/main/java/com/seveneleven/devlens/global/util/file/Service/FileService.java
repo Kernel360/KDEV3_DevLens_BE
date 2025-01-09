@@ -119,4 +119,46 @@ public class FileService {
         //반환
         return fileMetadataDtos;
     }
+
+    /**
+     * 3-1. 파일 삭제(단일 삭제)
+     * 파일 메타데이터 테이블에선 삭제하고 이력테이블에 삭제 이력을 남긴다.
+     * S3에선 삭제하지 않는다.
+     * @param fileMetadataId 삭제할 파일 id
+     * @return 삭제 완료 response
+     */
+    public APIResponse deleteFile(Long fileMetadataId){
+        //1. 파일 메타데이터 id를 받아서 파일 존재 여부 검사를 한다.
+        FileMetadata fileMetadata = fileMetadataRepository.findById(fileMetadataId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.FILE_NOT_FOUND_ERROR));
+
+        //2. TODO) 이력테이블에 등록
+
+        //3. 파일 메타 데이터 삭제
+        fileMetadataRepository.deleteById(fileMetadata.getId());
+
+        return APIResponse.success(SuccessCode.OK);
+    }
+
+    /**
+     * 3. 파일 삭제(다중 삭제)
+     * 파일 메타데이터 테이블에선 삭제하고 이력테이블에 삭제 이력을 남긴다.
+     * S3에선 삭제하지 않는다.
+     * @param fileMetadataIds 삭제할 파일 id 리스트
+     * @return 삭제 완료 response
+     */
+    public APIResponse deleteFiles(List<Long> fileMetadataIds){
+        //1. 파일 메타데이터 id를 받아서 파일 존재 여부 검사를 한다.
+        List<FileMetadata> fileMetadataEntities = fileMetadataRepository.findAllById(fileMetadataIds);
+
+        if(fileMetadataEntities.isEmpty()){
+            throw new BusinessException(ErrorCode.FILE_NOT_EXIST_ERROR);
+        }
+
+        //2. TODO) 이력테이블에 등록
+        //3. 파일 메타 데이터 삭제
+        fileMetadataRepository.deleteAllById(fileMetadataIds);
+
+        return APIResponse.success(SuccessCode.OK);
+    }
 }
