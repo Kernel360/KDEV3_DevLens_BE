@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class DevLensApplication {
 
     public static void main(String[] args) {
-        System.out.println("\"소나큐브 테스트\" = " + "소나큐브 테스트");
+        System.err.println("\"소나큐브 테스트\" = " + "소나큐브 테스트");
         SpringApplication.run(DevLensApplication.class, args);
     }
 
