@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -42,5 +44,15 @@ public class ChecklistStoreImpl implements ChecklistStore {
     @Override
     public void accept(Checklist checklist) {
         checklist.acceptChecklist();
+    }
+
+    @Override
+    public void delete(Checklist checklist) {
+        checklist.deleteChecklist();
+    }
+
+    @Override
+    public void deleteAll(List<Checklist> checklists) {
+        checklists.forEach(this::delete);
     }
 }

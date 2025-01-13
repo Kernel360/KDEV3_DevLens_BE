@@ -2,7 +2,6 @@ package com.seveneleven.project.service.step;
 
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectStep;
-import com.seveneleven.project.dto.DeleteProjectStep;
 import com.seveneleven.project.dto.PostProjectStep;
 import com.seveneleven.project.dto.PutProjectStep;
 import com.seveneleven.project.repository.ChecklistRepository;
@@ -43,10 +42,9 @@ public class StepStoreImpl implements StepStore {
     }
 
     @Override
-    public DeleteProjectStep.Response delete(
-            DeleteProjectStep.Request requestDto,
-            Project project
+    public void delete(
+            ProjectStep projectStep
     ) {
-        return null;
+        projectStep.delete();
     }
 }

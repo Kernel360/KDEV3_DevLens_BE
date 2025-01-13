@@ -1,8 +1,6 @@
 package com.seveneleven.project.controller;
 
-import com.seveneleven.project.dto.GetProjectStep;
-import com.seveneleven.project.dto.GetStepChecklist;
-import com.seveneleven.project.dto.PostProjectStep;
+import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -97,4 +95,60 @@ public interface ProjectStepDocs {
     ResponseEntity<APIResponse<GetStepChecklist.Response>> getProjectChecklist(
             @PathVariable Long stepId
     );
+
+    @PutMapping("/steps")
+    @Operation(
+            summary = "프로젝트 단계 수정",
+            description = "특정 프로젝트의 단계를 수정합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "프로젝트 단계가 성공적으로 수정되었습니다.",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = PutProjectStep.Response.class)
+                            )
+                    )
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "수정할 프로젝트 단계의 요청 데이터",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PutProjectStep.Request.class)
+                    )
+            )
+    )
+    ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
+            @RequestBody PutProjectStep.Request requestDto
+    );
+
+
+    @DeleteMapping("/steps")
+    @Operation(
+            summary = "프로젝트 단계 삭제",
+            description = "특정 프로젝트 단계를 삭제합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "프로젝트 단계가 성공적으로 삭제되었습니다.",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = DeleteProjectStep.Response.class)
+                            )
+                    )
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "삭제할 프로젝트 단계의 요청 데이터",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = DeleteProjectStep.Request.class)
+                    )
+            )
+    )
+    ResponseEntity<APIResponse<DeleteProjectStep.Response>> deleteProjectStep(
+            @RequestBody DeleteProjectStep.Request requestDto
+    );
+
 }

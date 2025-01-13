@@ -3,6 +3,8 @@ package com.seveneleven.entity.project;
 import com.seveneleven.entity.global.BaseEntity;
 import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.global.converter.YesNoConverter;
+import com.seveneleven.exception.BusinessException;
+import com.seveneleven.response.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -44,5 +46,13 @@ public class ProjectStep extends BaseEntity {
 
     public static ProjectStep create(Project project, String stepName, String description, Integer stepOrder) {
         return new ProjectStep(project, stepName, description, stepOrder);
+    }
+
+    public void delete() {
+        if(isActive != YesNo.NO) {
+            isActive = YesNo.NO;
+            return;
+        }
+        throw new BusinessException(ErrorCode.PROJECT_STEP_ALREADY_DELETED);
     }
 }

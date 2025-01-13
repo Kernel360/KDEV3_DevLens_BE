@@ -1,5 +1,6 @@
 package com.seveneleven.project.controller;
 
+import com.seveneleven.project.dto.DeleteProjectStep;
 import com.seveneleven.project.dto.GetProjectStep;
 import com.seveneleven.project.dto.GetStepChecklist;
 import com.seveneleven.project.dto.PostProjectStep;
@@ -25,5 +26,9 @@ public class ProjectStepFacade {
 
     public PostProjectStep.Response postProjectStep(PostProjectStep.Request requestDto) {
         return projectStepService.postProjectStep(requestDto);
+    }
+
+    public DeleteProjectStep.Response deleteProjectStep(DeleteProjectStep.Request request) {
+        return projectStepService.deleteProjectStep(request.getProjectId(), request.getStepId());
     }
 }
