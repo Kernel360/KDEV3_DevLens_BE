@@ -26,7 +26,7 @@ public class CheckResult extends BaseEntity {
     private ApprovalStatus approvalStatus; // 승인 여부(결과)
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "check")
+    @JoinColumn(name = "prosess_member_id")
     private Member processorMember; // 처리자
 
     private String processorIp; // 처리자 IP

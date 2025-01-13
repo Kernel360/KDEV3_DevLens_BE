@@ -83,6 +83,21 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
         return response;
     }
 
+    @Override
+    @Transactional
+    public PostProjectChecklistReject.Response postProjectReject(
+            PostProjectChecklistReject.Request requestDto,
+            Long memberId,
+            HttpServletRequest request
+    ) {
+        CheckRequest checkRequest = checkRequestReader.read(requestDto.getApplicationId());
+        String processorIp = getIpUtil.getIpAddress(request);
+        Member member = getMember(memberId);
+        PostProjectChecklistReject.Response response = checkResultStore.postApplicationReject(checkRequest, member, processorIp, requestDto.getRejectReason());
+        checkRequestStore.rejectCheckRequest(checkRequest);
+        return response;
+    }
+
     // TODO - 회원 쪽 서비스 코드 교체 필요
     private Member getMember(Long id) {
         return memberRepository.findByIdAndStatus(

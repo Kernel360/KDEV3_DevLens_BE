@@ -7,11 +7,19 @@ public interface ProjectChecklistService {
     GetStepChecklist.Response getStepChecklist(Long stepId);
     GetProjectChecklistApplication.Response getApplicationDetail(Long applicationId);
     PostProjectChecklist.Response postProjectChecklist(PostProjectChecklist.Request postProjectChecklist);
+
     PostProjectChecklistApplication.Response postProjectChecklistApplication(
             PostProjectChecklistApplication.Request requestDto,
             HttpServletRequest request
     );
+
     PutProjectChecklist.Response putProjectChecklist(PutProjectChecklist.Request putProjectChecklist);
     DeleteProjectChecklist.Response deleteProjectChecklist(Long checklistId);
     PostProjectChecklistAccept.Response postProjectAccept(Long applicationId, Long memberId, HttpServletRequest request);
+
+    PostProjectChecklistReject.Response postProjectReject(
+            PostProjectChecklistReject.Request requestDto,
+            Long memberId,
+            HttpServletRequest request
+    );
 }

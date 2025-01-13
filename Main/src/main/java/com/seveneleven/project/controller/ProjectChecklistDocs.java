@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Tag(name = "프로젝트 체크리스트 API", description = "프로젝트 체크리스트 관련 API")
@@ -212,6 +213,8 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
-            @PathVariable Long applicationId
+            @RequestPart PostProjectChecklistReject.Request requestDto,
+            @RequestPart List<File> files,
+            HttpServletRequest request
     );
 }

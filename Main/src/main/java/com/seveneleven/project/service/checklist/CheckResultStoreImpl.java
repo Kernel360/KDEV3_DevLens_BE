@@ -25,7 +25,14 @@ public class CheckResultStoreImpl implements CheckResultStore {
     }
 
     @Override
-    public PostProjectChecklistReject.Response postApplicationReject(CheckRequest checkRequest, Member member, String processorIp) {
-        return null;
+    public PostProjectChecklistReject.Response postApplicationReject(
+            CheckRequest checkRequest,
+            Member member,
+            String processorIp,
+            String rejectionReason
+    ) {
+        CheckResult checkResult = CheckResult.reject(checkRequest, member, processorIp, rejectionReason);
+        checkResultRepository.save(checkResult);
+        return PostProjectChecklistReject.Response.toDto(checkResult);
     }
 }

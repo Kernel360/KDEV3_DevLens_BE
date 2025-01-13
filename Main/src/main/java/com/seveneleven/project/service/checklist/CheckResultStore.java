@@ -7,6 +7,16 @@ import com.seveneleven.project.dto.PostProjectChecklistReject;
 
 public interface CheckResultStore {
 
-    PostProjectChecklistAccept.Response postApplicationAccept(CheckRequest requestDto, Member member, String processorIp);
-    PostProjectChecklistReject.Response postApplicationReject(CheckRequest requestDto, Member member, String processorIp);
+    PostProjectChecklistAccept.Response postApplicationAccept(
+            CheckRequest requestDto,
+            Member member,
+            String processorIp
+    );
+
+    PostProjectChecklistReject.Response postApplicationReject(
+            CheckRequest checkRequest,
+            Member member,
+            String rejectionReason,
+            String processorIp
+    );
 }

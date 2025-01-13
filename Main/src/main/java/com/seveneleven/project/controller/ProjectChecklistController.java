@@ -1,6 +1,5 @@
 package com.seveneleven.project.controller;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
@@ -12,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -104,7 +103,8 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
     ) {
         // TODO - 파일 관련 처리 필요.
 
-        return ResponseEntity.status(HttpStatus.OK).body(APIResponse.success(SuccessCode.CREATED, projectChecklistFacade.postProjectChecklistApplication(requestDto, request)));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(APIResponse.success(SuccessCode.CREATED, projectChecklistFacade.postProjectChecklistApplication(requestDto, request)));
     }
 
     /**
@@ -132,19 +132,21 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      */
     @PostMapping("/reject/{applicationId}")
     public ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
-            @PathVariable Long applicationId
+            @RequestPart PostProjectChecklistReject.Request requestDto,
+            @RequestPart List<File> files,
+            HttpServletRequest request
     ) {
-        PostProjectChecklistReject.Response response = new PostProjectChecklistReject.Response(
-                applicationId,                 // applicationId
-                YesNo.NO,                          // approvalStatus (mocked as NO)
-                123L,                          // processorId (mocked ID)
-                "192.168.1.100",               // processorIp
-                LocalDateTime.now(),           // processDate (current date and time)
-                "Invalid data submitted",      // rejectReason (mocked reason)
-                YesNo.YES,                          // hasFile (mocked as YES)
-                YesNo.NO                           // hasLink (mocked as NO)
+        // TODO - CustomUserDetails - UserId 찾기 코드 필요
+        Long memberId = 1L;
+        PostProjectChecklistReject.Response response = projectChecklistFacade.postProjectChecklistReject(
+                requestDto,
+                memberId,
+                request
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(APIResponse.success(SuccessCode.CREATED, response));
+        // TODO - 파일 등록 필요.
+
+        return ResponseEntity.status(SuccessCode.CREATED.getStatusCode())
+                .body(APIResponse.success(SuccessCode.CREATED, response));
     }
 }
