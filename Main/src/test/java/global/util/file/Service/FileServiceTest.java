@@ -1,11 +1,13 @@
 package global.util.file.Service;
 
-import com.seveneleven.devlens.global.exception.BusinessException;
-import com.seveneleven.devlens.global.response.APIResponse;
-import com.seveneleven.devlens.global.response.ErrorCode;
-import com.seveneleven.devlens.global.util.file.constant.FileCategory;
-import com.seveneleven.devlens.global.util.file.entity.FileMetadata;
-import com.seveneleven.devlens.global.util.file.repository.FileMetadataRepository;
+import com.seveneleven.entity.file.FileMetadata;
+import com.seveneleven.entity.file.constant.FileCategory;
+import com.seveneleven.exception.BusinessException;
+import com.seveneleven.response.APIResponse;
+import com.seveneleven.response.ErrorCode;
+import com.seveneleven.util.file.Service.FileService;
+import com.seveneleven.util.file.Service.S3ClientService;
+import com.seveneleven.util.file.repository.FileMetadataRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
