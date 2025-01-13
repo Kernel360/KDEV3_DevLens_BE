@@ -139,7 +139,7 @@ public interface ProjectChecklistDocs {
             @PathVariable Long checklistId
     );
 
-    @PostMapping(value = "/application", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(
             summary = "체크리스트 신청 생성",
             description = "체크리스트에 새로운 신청을 생성합니다.",
@@ -184,7 +184,8 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
-            @PathVariable Long applicationId
+            @PathVariable Long applicationId,
+            HttpServletRequest request
     );
 
     @PostMapping("/reject/{applicationId}")

@@ -1,4 +1,4 @@
-package com.seveneleven.member;
+package com.seveneleven;
 
 import com.seveneleven.dto.MemberDto;
 import com.seveneleven.exception.BusinessException;

@@ -25,7 +25,7 @@ public class PostProjectChecklist {
         private List<String> links;
 
         public Checklist toEntity(ProjectStep projectStep) {
-            return new Checklist(title, description, projectStep);
+            return Checklist.create(title, description, projectStep);
         }
     }
 

@@ -31,7 +31,10 @@ public enum ErrorCode {
     PROJECT_DUPLICATED_NAME(2001,HttpStatus.BAD_REQUEST, "이미 등록된 프로젝트명입니다."),
     PROJECT_HISTORY_NOT_FOUND_EXCEPTION(2002,HttpStatus.BAD_REQUEST,"프로젝트 이력을 찾을 수 없습니다."),
     CHECKLIST_NOT_FOUND(2100, HttpStatus.BAD_REQUEST, "체크리스트가 없습니다."),
+    CHECKLIST_ALREADY_CHECKED(2101, HttpStatus.BAD_REQUEST, "이미 체크된 체크리스트입니다."),
     CHECKLIST_ALREADY_DELETED(2101, HttpStatus.BAD_REQUEST, "이미 삭제된 체크리스트입니다."),
+    CHECK_REQUEST_NOT_FOUND(2200, HttpStatus.BAD_REQUEST, "승인 요청을 찾을 수 없습니다."),
+    CHECK_REQUEST_ALREADY_HAS_RESULT(2201, HttpStatus.BAD_REQUEST, "이미 처리된 승인 요청입니다."),
 
     NOT_FOUND_PROJECT_STEP(2501, HttpStatus.NOT_FOUND, "해당 프로젝트 단게를 찾을 수 없습니다."),
     NOT_FOUND_MEMBER(2502, HttpStatus.NOT_FOUND, "해당 회원을 찾을 수 없습니다."),

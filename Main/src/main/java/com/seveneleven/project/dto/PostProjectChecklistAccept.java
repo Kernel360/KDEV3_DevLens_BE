@@ -1,7 +1,7 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.global.YesNo;
-import lombok.AllArgsConstructor;
+import com.seveneleven.entity.project.CheckResult;
+import com.seveneleven.entity.project.constant.ApprovalStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,11 +11,17 @@ public class PostProjectChecklistAccept {
      */
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
-        private Long projectId;
         private Long checklistId;
-        private YesNo checklistStatus;
-        private Double checkRate;
+        private ApprovalStatus checklistStatus;
+
+        private Response(CheckResult checkResult) {
+            checklistId = checkResult.getId();
+            checklistStatus = checkResult.getApprovalStatus();
+        }
+
+        public static Response toDto(CheckResult checkResult) {
+            return new Response(checkResult);
+        }
     }
 }

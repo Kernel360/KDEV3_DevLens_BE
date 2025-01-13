@@ -12,4 +12,5 @@ public interface ProjectChecklistService {
     );
     PutProjectChecklist.Response putProjectChecklist(PutProjectChecklist.Request putProjectChecklist);
     DeleteProjectChecklist.Response deleteProjectChecklist(Long checklistId);
+    PostProjectChecklistAccept.Response postProjectAccept(Long applicationId, Long memberId, HttpServletRequest request);
 }

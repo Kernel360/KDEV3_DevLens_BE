@@ -44,7 +44,7 @@ public class Checklist extends BaseEntity {
 
     private LocalDateTime approvalDate; // 승인 일시
 
-    public Checklist(String title, String description, ProjectStep projectStep) {
+    private Checklist(String title, String description, ProjectStep projectStep) {
         this.projectStep = projectStep;
         this.title = title;
         this.description = description;
@@ -52,6 +52,10 @@ public class Checklist extends BaseEntity {
         this.isChecked = YesNo.NO;
         this.approverId = null;
         this.approvalDate = null;
+    }
+
+    public static Checklist create(String title, String description, ProjectStep projectStep) {
+        return new Checklist(title, description, projectStep);
     }
 
     public Checklist updateChecklist(String title, String description) {
@@ -79,5 +83,12 @@ public class Checklist extends BaseEntity {
             return this;
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_DELETED);
+    }
+
+    public void acceptChecklist() {
+        if(isChecked != YesNo.NO) {
+            isChecked = YesNo.YES;
+        }
+        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
     }
 }

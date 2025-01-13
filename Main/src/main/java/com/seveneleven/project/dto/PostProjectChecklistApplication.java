@@ -24,8 +24,8 @@ public class PostProjectChecklistApplication {
         private List<File> files;
         private List<String> links;
 
-        public CheckRequest createCheckRequest(PostProjectChecklistApplication.Request request, Member requester, String requestIp) {
-            return new CheckRequest(request.getTitle(), request.getDescription(), requester, requestIp);
+        public CheckRequest createCheckRequest(Member requester, String requestIp) {
+            return CheckRequest.create(title, description, requester, requestIp);
         }
     }
 
@@ -43,7 +43,7 @@ public class PostProjectChecklistApplication {
             this.id = checkRequest.getId();
             this.checklistId = checkRequest.getChecklist().getId();
             this.title = checkRequest.getTitle();
-            this.description = checkRequest.getDescription();
+            this.description = checkRequest.getContent();
             this.requesterId = checkRequest.getRequester().getId();
             this.requesterIp = checkRequest.getRequestIp();
         }

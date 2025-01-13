@@ -84,11 +84,18 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 .body(APIResponse.success(SuccessCode.DELETED, projectChecklistFacade.deleteProjectChecklist(checklistId)));
     }
 
+    @GetMapping("/applications/{applicationId}")
+    public ResponseEntity<APIResponse<GetProjectChecklistApplication.Response>> getProjectChecklistApplication(
+            @PathVariable Long applicationId
+    ) {
+        return null;
+    }
+
     /**
      * 함수명 : postProjectChecklistApplication
      * 해당 체크리스트에 체크 승인 요청을 보내는 함수
      */
-    @PostMapping(value = "/application", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse<PostProjectChecklistApplication.Response>> postProjectChecklistApplication(
             @RequestBody PostProjectChecklistApplication.Request requestDto,
             @RequestBody List<MultipartFile> files,
@@ -105,17 +112,17 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      */
     @PostMapping("/accept/{applicationId}")
     public ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
-            @PathVariable Long applicationId
+            @PathVariable Long applicationId,
+            HttpServletRequest request
     ) {
+        // TODO - memberId 추가 필요
+        Long memberId = 1L;
 
-        PostProjectChecklistAccept.Response response = new PostProjectChecklistAccept.Response(
-                100L,         // projectId
-                200L,         // checklistId
-                YesNo.YES,         // checklistStatus (mocked as YES)
-                85.5          // checkRate (mocked as 85.5%)
-        );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(APIResponse.success(SuccessCode.CREATED, response));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(APIResponse.success(
+                        SuccessCode.CREATED,
+                        projectChecklistFacade.postProjectChecklistAccept(applicationId, memberId, request))
+                );
     }
 
     /**

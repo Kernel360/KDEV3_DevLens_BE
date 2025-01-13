@@ -35,7 +35,7 @@ public class CheckRequestHistory extends BaseEntity {
     private String title;
 
     @Column(columnDefinition = "TEXT")
-    private String description; // 요청 내용
+    private String content; // 요청 내용
 
     public CheckRequestHistory(CheckRequest checkRequest) {
         this.checklistId = checkRequest.getChecklist().getId();
@@ -44,6 +44,6 @@ public class CheckRequestHistory extends BaseEntity {
         this.requesterName = checkRequest.getRequester().getName();
         this.requestIp = checkRequest.getRequestIp();
         this.title = checkRequest.getTitle();
-        this.description = checkRequest.getDescription();
+        this.content = checkRequest.getContent();
     }
 }

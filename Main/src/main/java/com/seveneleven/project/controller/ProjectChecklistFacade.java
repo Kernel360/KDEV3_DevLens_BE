@@ -42,4 +42,12 @@ public class ProjectChecklistFacade {
     ) {
         return projectChecklistService.postProjectChecklistApplication(requestDto, request);
     }
+
+    public PostProjectChecklistAccept.Response postProjectChecklistAccept(
+            Long applicationId,
+            Long memberId,
+            HttpServletRequest request
+    ) {
+        return projectChecklistService.postProjectAccept(applicationId, memberId, request);
+    }
 }
