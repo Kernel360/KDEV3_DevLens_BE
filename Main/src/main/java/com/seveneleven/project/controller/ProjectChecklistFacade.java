@@ -24,6 +24,10 @@ public class ProjectChecklistFacade {
         return projectChecklistService.getStepChecklist(stepId);
     }
 
+    public GetProjectChecklistApplication.Response getProjectChecklistApplication(Long applicationId) {
+        return projectChecklistService.getApplicationDetail(applicationId);
+    }
+
     public PostProjectChecklist.Response postProjectChecklist(PostProjectChecklist.Request postProjectChecklist) {
         return projectChecklistService.postProjectChecklist(postProjectChecklist);
     }

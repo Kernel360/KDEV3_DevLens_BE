@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface ProjectChecklistService {
     GetStepChecklist.Response getStepChecklist(Long stepId);
+    GetProjectChecklistApplication.Response getApplicationDetail(Long applicationId);
     PostProjectChecklist.Response postProjectChecklist(PostProjectChecklist.Request postProjectChecklist);
     PostProjectChecklistApplication.Response postProjectChecklistApplication(
             PostProjectChecklistApplication.Request requestDto,

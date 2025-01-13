@@ -88,12 +88,13 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
     public ResponseEntity<APIResponse<GetProjectChecklistApplication.Response>> getProjectChecklistApplication(
             @PathVariable Long applicationId
     ) {
-        return null;
+        return ResponseEntity.status(SuccessCode.OK.getStatusCode())
+                        .body(APIResponse.success(SuccessCode.OK, projectChecklistFacade.getProjectChecklistApplication(applicationId)));
     }
 
     /**
      * 함수명 : postProjectChecklistApplication
-     * 해당 체크리스트에 체크 승인 요청을 보내는 함수
+     * 해당 체크리스트에 체크 승인 요청을 보내는 함수 v
      */
     @PostMapping(value = "/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse<PostProjectChecklistApplication.Response>> postProjectChecklistApplication(

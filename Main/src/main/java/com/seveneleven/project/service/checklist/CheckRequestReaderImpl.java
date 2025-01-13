@@ -22,4 +22,6 @@ public class CheckRequestReaderImpl implements CheckRequestReader {
         return checkRequestRepository.findByIdAndIsActive(applicationId, YesNo.YES)
                 .orElseThrow(() -> new BusinessException(CHECK_REQUEST_NOT_FOUND));
     }
+
+
 }
