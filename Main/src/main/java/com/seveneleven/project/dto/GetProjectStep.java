@@ -1,10 +1,10 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.global.YesNo;
+import com.seveneleven.entity.project.ProjectStep;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,13 +26,22 @@ public class GetProjectStep {
     }
 
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class ProjectStepInfo {
         private Long stepId;
         private String stepName;
-        @Setter
+        private Integer stepOrder;
         private List<ProjectChecklist> projectChecklist;
+
+        private ProjectStepInfo(ProjectStep projectStep, List<ProjectChecklist> projectChecklist) {
+            stepId = projectStep.getId();
+            stepName = projectStep.getStepName();
+            stepOrder = projectStep.getStepOrder();
+            this.projectChecklist = projectChecklist;
+        }
+
+        public static ProjectStepInfo toDto(ProjectStep projectStep, List<ProjectChecklist> projectChecklist) {
+            return new ProjectStepInfo(projectStep, projectChecklist);
+        }
     }
 
     @Getter

@@ -27,8 +27,11 @@ public class ProjectController implements ProjectDocs {
     public ResponseEntity<APIResponse<GetProjectDetail.Response>> getProjectDetail(
             @PathVariable Long projectId
     ) {
+        // TODO - 정렬 조건 추가 필요
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(APIResponse.success(SuccessCode.OK, projectService.getProjectDetail(projectId)));
     }
+
+    // TODO - 검색 api 추가 필요
 }

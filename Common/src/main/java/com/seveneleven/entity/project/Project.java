@@ -157,6 +157,7 @@ public class Project extends BaseEntity {
         IN_PROGRESS,
         COMPLETED,
         CLOSED,
-        CANCELLED
+        CANCELLED,
+        DELETED
     }
 }

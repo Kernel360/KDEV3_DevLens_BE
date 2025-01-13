@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.File;
-import java.util.List;
-
 public class PostProjectChecklist {
     /**
      * AllArgsContructor는 개발 시 삭제 예정
@@ -21,8 +18,6 @@ public class PostProjectChecklist {
         private Long ProjectStepId;
         private String title;
         private String description;
-        private List<File> files;
-        private List<String> links;
 
         public Checklist toEntity(ProjectStep projectStep) {
             return Checklist.create(title, description, projectStep);

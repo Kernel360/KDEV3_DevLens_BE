@@ -31,11 +31,6 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     private final GetIpUtil getIpUtil;
 
     @Override
-    public GetStepChecklist.Response getStepChecklist(Long stepId) {
-        return checklistReader.getStepChecklist(stepId);
-    }
-
-    @Override
     public PostProjectChecklist.Response postProjectChecklist(PostProjectChecklist.Request postProjectChecklist) {
         return PostProjectChecklist.Response.toDto(checklistStore.storeChecklist(postProjectChecklist));
     }

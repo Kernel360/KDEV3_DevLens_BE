@@ -4,7 +4,6 @@ import com.seveneleven.project.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface ProjectChecklistService {
-    GetStepChecklist.Response getStepChecklist(Long stepId);
     GetProjectChecklistApplication.Response getApplicationDetail(Long applicationId);
     PostProjectChecklist.Response postProjectChecklist(PostProjectChecklist.Request postProjectChecklist);
 
