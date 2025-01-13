@@ -48,6 +48,13 @@ public class ProjectStep extends BaseEntity {
         return new ProjectStep(project, stepName, description, stepOrder);
     }
 
+    public ProjectStep edit(String stepName, String description, Integer stepOrder) {
+        this.stepName = stepName;
+        this.stepDescription = description;
+        this.stepOrder = stepOrder;
+        return this;
+    }
+
     public void delete() {
         if(isActive != YesNo.NO) {
             isActive = YesNo.NO;

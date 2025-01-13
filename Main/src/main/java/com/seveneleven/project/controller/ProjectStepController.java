@@ -59,7 +59,8 @@ public class ProjectStepController implements ProjectStepDocs{
     public ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
             @RequestBody PutProjectStep.Request requestDto
     ) {
-        return null;
+        return ResponseEntity.status(SuccessCode.OK.getStatusCode())
+                .body(APIResponse.success(SuccessCode.OK, projectStepFacade.putProjectStep(requestDto)));
     }
 
     @DeleteMapping("/steps")

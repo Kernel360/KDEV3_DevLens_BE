@@ -14,7 +14,7 @@ public interface StepStore {
 
     PutProjectStep.Response edit(
             PutProjectStep.Request requestDto,
-            Project project
+            ProjectStep projectStep
     );
 
     void delete(

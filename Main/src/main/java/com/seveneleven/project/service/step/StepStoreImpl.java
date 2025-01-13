@@ -36,9 +36,11 @@ public class StepStoreImpl implements StepStore {
     @Override
     public PutProjectStep.Response edit(
             PutProjectStep.Request requestDto,
-            Project project
+            ProjectStep projectStep
     ) {
-        return null;
+        projectStep.edit(requestDto.getStepName(), requestDto.getStepDescription(), requestDto.getStepOrder());
+
+        return PutProjectStep.Response.toDto(projectStep);
     }
 
     @Override

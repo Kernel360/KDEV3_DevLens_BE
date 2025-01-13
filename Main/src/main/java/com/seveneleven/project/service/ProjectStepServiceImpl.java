@@ -45,7 +45,8 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     @Override
     @Transactional
     public PutProjectStep.Response putProjectStep(PutProjectStep.Request requestDto) {
-        return null;
+        ProjectStep projectStep = stepReader.read(requestDto.getStepId());
+        return stepStore.edit(requestDto, projectStep);
     }
 
     @Override
