@@ -43,6 +43,7 @@ public enum ErrorCode {
     CHECKLIST_ALREADY_DELETED(2101, HttpStatus.BAD_REQUEST, "이미 삭제된 체크리스트입니다."),
     CHECK_REQUEST_NOT_FOUND(2200, HttpStatus.BAD_REQUEST, "승인 요청을 찾을 수 없습니다."),
     CHECK_REQUEST_ALREADY_HAS_RESULT(2201, HttpStatus.BAD_REQUEST, "이미 처리된 승인 요청입니다."),
+    PROJECT_STEP_ALREADY_DELETED(2301, HttpStatus.BAD_REQUEST, "이미 삭제된 단계입니다."),
 
     NOT_FOUND_PROJECT_STEP(2501, HttpStatus.NOT_FOUND, "해당 프로젝트 단계를 찾을 수 없습니다."),
     NOT_FOUND_MEMBER(2502, HttpStatus.NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
