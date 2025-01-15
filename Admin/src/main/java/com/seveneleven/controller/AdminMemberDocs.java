@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/admin")
-@Tag(name = "관리자 회원 관리 API", description = "관리자 회원 관리 관련 API")
+@Tag(name = "Administrator Member Management API", description = "관리자 회원 관리 관련 API")
 public interface AdminMemberDocs {
     @Operation(
             summary = "회원 목록 조회",

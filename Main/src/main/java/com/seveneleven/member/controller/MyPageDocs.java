@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/members")
-@Tag(name = "마이페이지 API", description = "마이페이지 관련 API")
+@Tag(name = "My Page API", description = "APIs Related to My Page")
 public interface MyPageDocs {
     @Operation(
             summary = "회원 상세 정보 조회",
