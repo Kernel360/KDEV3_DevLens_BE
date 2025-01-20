@@ -34,11 +34,15 @@ public class ProjectStep extends BaseEntity {
     @Convert(converter = YesNoConverter.class)
     private YesNo isActive; // 사용 유무
 
-    public ProjectStep(Project project, String stepName, String stepDescription, Integer stepOrder) {
+    private ProjectStep(Project project, String stepName, String stepDescription, Integer stepOrder) {
         this.project = project;
         this.stepName = stepName;
         this.stepDescription = stepDescription;
         this.stepOrder = stepOrder;
         isActive = YesNo.YES;
+    }
+
+    public static ProjectStep create(Project project, String stepName, String description, Integer stepOrder) {
+        return new ProjectStep(project, stepName, description, stepOrder);
     }
 }

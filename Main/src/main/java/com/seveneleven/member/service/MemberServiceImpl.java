@@ -1,16 +1,19 @@
 package com.seveneleven.member.service;
 
 import com.seveneleven.config.TokenProvider;
+import com.seveneleven.entity.file.FileMetadata;
+import com.seveneleven.entity.file.constant.FileCategory;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.member.Token;
 import com.seveneleven.entity.member.constant.MemberStatus;
 import com.seveneleven.entity.member.constant.YN;
 import com.seveneleven.exception.BusinessException;
-import com.seveneleven.member.dto.CompanyResponse;
+import com.seveneleven.member.dto.LoginResponse;
 import com.seveneleven.member.dto.LoginPost;
 import com.seveneleven.member.dto.MemberPatch;
 import com.seveneleven.member.repository.CompanyRepository;
 import com.seveneleven.member.repository.MemberRepository;
+import com.seveneleven.util.file.repository.FileMetadataRepository;
 import com.seveneleven.util.security.CustomUserDetails;
 import com.seveneleven.util.security.TokenRepository;
 import com.seveneleven.response.ErrorCode;
@@ -35,6 +38,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final TokenRepository tokenRepository;
+    private final FileMetadataRepository fileMetadataRepository;
     private final AuthenticationManagerBuilder authenticationMngrBuilder;
 
     /**
@@ -54,24 +58,14 @@ public class MemberServiceImpl implements MemberService{
             throw new BusinessException(ErrorCode.INCORRECT_PASSWORD);
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getPassword());
-
-        // authenticate 메소드가 실행이 될 때 CustomUserDetailsService class의 loadUserByUsername 메소드가 실행
-        Authentication authentication = authenticationMngrBuilder.getObject().authenticate(authenticationToken);
-
-        // authentication 객체를 createToken 메소드를 통해서 JWT Token을 생성 후 반환
-        String token = tokenProvider.createToken(authentication);
-
-        // JWT 만료 시간 계산
-        LocalDateTime expiresAt = tokenProvider.getExpirationFromToken(token);
-
-        // Token 엔티티 생성 및 저장
-        Token newToken = Token.create(token, expiresAt);
-        tokenRepository.save(newToken);
+        // 토큰 생성
+        String token = getToken(request.getLoginId(), request.getPassword());
 
         Long companyId      = member.getCompany().getId();
         String companyName  = companyRepository.findNameByIdAndIsActive(companyId, YN.Y);
-        CompanyResponse company = new CompanyResponse(companyId, companyName, member.getDepartment(), member.getPosition());
+
+        LoginResponse company = new LoginResponse(member.getLoginId(),member.getName(),member.getEmail(),
+                member.getRole(), getProfileImageUrl(member.getId()), companyId, companyName, member.getDepartment(), member.getPosition());
 
         return new LoginPost.Response(token, company);
     }
@@ -98,7 +92,6 @@ public class MemberServiceImpl implements MemberService{
         tokenRepository.save(existingToken);
     }
 
-
     /**
      * 함수명 : resetPassword
      * 회원 비밀번호를 초기화합니다.
@@ -118,15 +111,64 @@ public class MemberServiceImpl implements MemberService{
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         // 2. 현재 비밀번호 확인
-        if(!passwordEncoder.matches(request.getNewPassword(), member.getPassword())) {
+        if(!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new BusinessException(ErrorCode.INCORRECT_PASSWORD);
         }
 
         // 3. 비밀번호 암호화 후 저장
-        member.resetPassword(request.getNewPassword());
+        member.resetPassword(passwordEncoder.encode(request.getNewPassword()));
 
         // 4. 생성된 비밀번호 반환
         return new MemberPatch.Response(userDetails.getLoginId());
+    }
+
+
+    /**
+     * 함수명 getProfileImageUrl
+     * 파일 조회(단일)
+     *
+     * @param memberId 회원 id(pk)
+     * @return String 프로필 이미지 url 반환
+     */
+    @Transactional
+    public String getProfileImageUrl(Long memberId) {
+        // 해당 파일 카테고리와 참조 id(회원 id)로 entity를 가져온다.
+        // 파일이 존재하지 않아도 예외를 던지면 안됨.
+        FileMetadata fileMetadataEntity = fileMetadataRepository.findByCategoryAndReferenceId(FileCategory.USER_PROFILE_IMAGE, memberId)
+                .orElse(null);
+
+        // 프로필 이미지 url 반환
+        return Objects.nonNull(fileMetadataEntity)?fileMetadataEntity.getFilePath():null;
+    }
+
+
+    /**
+     * 함수명 : getToken
+     * 사용자 인증 정보를 확인하고, JWT 토큰을 생성하여 반환합니다.
+     *
+     * @param loginId 로그인에 사용할 사용자 ID
+     * @param pwd     로그인에 사용할 사용자 비밀번호
+     * @return 생성된 JWT 토큰
+     */
+    public String getToken(String loginId, String pwd) {
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, pwd);
+
+        // authenticate 메소드가 실행이 될 때 CustomUserDetailsService class의 loadUserByUsername 메소드가 실행
+        Authentication authentication = authenticationMngrBuilder.getObject().authenticate(authenticationToken);
+
+        // authentication 객체를 createToken 메소드를 통해서 JWT Token을 생성 후 반환
+        String token = tokenProvider.createToken(authentication);
+
+        // JWT 만료 시간 계산
+        LocalDateTime expiresAt = tokenProvider.getExpirationFromToken(token);
+
+        // Token 엔티티 생성 및 저장
+        Token newToken = Token.create(token, expiresAt);
+
+        tokenRepository.save(newToken);
+
+        return token;
     }
 
 

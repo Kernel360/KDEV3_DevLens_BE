@@ -240,7 +240,8 @@ public class PostServiceImpl implements PostService {
      */
     private boolean matchesProjectStepParentAndChild(Long childProjectStepId, Long childParentPostId) throws Exception {
         // 부모게시글의 프로젝트 단계 값 받기
-        Post post = postRepository.findById(childParentPostId).orElseThrow(() -> new BusinessException(NOT_FOUND_POST));
+        Post post = postRepository.findById(childParentPostId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_POST));
         return post.getProjectStep().getId().equals(childProjectStepId);
 //        return Objects.equals(childProjectStepId, (postRepository.findById(childParentPostId).get()).getProjectStep().getId());
     }

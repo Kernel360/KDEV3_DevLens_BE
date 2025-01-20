@@ -2,7 +2,6 @@ package com.seveneleven.project.controller;
 
 import com.seveneleven.project.dto.*;
 import com.seveneleven.project.service.ProjectChecklistService;
-import com.seveneleven.project.service.ProjectStepService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,15 +12,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProjectChecklistFacade {
 
-    private final ProjectStepService projectStepService;
     private final ProjectChecklistService projectChecklistService;
 
-    public GetProjectStep.Response getProjectStepAndChecklist(Long projectId) {
-        return projectStepService.getProjectStep(projectId);
-    }
-
-    public GetStepChecklist.Response getStepChecklist(Long stepId) {
-        return projectChecklistService.getStepChecklist(stepId);
+    public GetProjectChecklistApplication.Response getProjectChecklistApplication(Long applicationId) {
+        return projectChecklistService.getApplicationDetail(applicationId);
     }
 
     public PostProjectChecklist.Response postProjectChecklist(PostProjectChecklist.Request postProjectChecklist) {
@@ -41,5 +35,21 @@ public class ProjectChecklistFacade {
             HttpServletRequest request
     ) {
         return projectChecklistService.postProjectChecklistApplication(requestDto, request);
+    }
+
+    public PostProjectChecklistAccept.Response postProjectChecklistAccept(
+            Long applicationId,
+            Long memberId,
+            HttpServletRequest request
+    ) {
+        return projectChecklistService.postProjectAccept(applicationId, memberId, request);
+    }
+
+    public PostProjectChecklistReject.Response postProjectChecklistReject(
+            PostProjectChecklistReject.Request requestDto,
+            Long memberId,
+            HttpServletRequest request
+    ) {
+        return projectChecklistService.postProjectReject(requestDto, memberId, request);
     }
 }

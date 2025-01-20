@@ -18,22 +18,14 @@ public interface ProjectStepRepository extends JpaRepository<ProjectStep, Long> 
     Optional<ProjectStep> findByIdAndIsActive(Long id, YesNo isActive);
 
     // TODO - 한번의 쿼리문으로 합칠 수 있을까?
-    @Query("""
-    SELECT
-        p_s.id,
-        p_s.stepName,
-        null
-    FROM
-        ProjectStep p_s
-    WHERE
-        p_s.project.id = :projectId
-    """)
-    List<GetProjectStep.ProjectStepInfo> findProjectStepInfo(@Param("projectId") Long projectId);
+    List<ProjectStep> findByProjectIdAndIsActive(Long projectId, YesNo isActive);
+
     @Query("SELECT new com.seveneleven.project.dto.GetProjectDetail$ProjectStepInfo(p_s.id, p_s.stepName, COUNT(CASE WHEN c.isChecked = 'Y' THEN 1 END) * 100.0 / COUNT(*)) " +
             "FROM ProjectStep p_s " +
             "JOIN Checklist c ON p_s.id = c.projectStep.id " +
             "WHERE p_s.project.id = :projectId " +
-            "GROUP BY p_s.id")
+            "GROUP BY p_s.id " +
+            "ORDER BY p_s.stepOrder")
     List<GetProjectDetail.ProjectStepInfo> findStepProcessRate(@Param("projectId") Long projectId);
 
     @Query("""

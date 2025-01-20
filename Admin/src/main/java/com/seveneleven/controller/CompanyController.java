@@ -7,7 +7,6 @@ import com.seveneleven.service.AdminCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +15,8 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/companies")
-public class CompanyController {
+@RequestMapping("/api/admin/companies")
+public class CompanyController implements CompanyDocs{
     private final AdminCompanyService adminCompanyService;
 
     /*
@@ -99,6 +98,10 @@ public class CompanyController {
                 .body(APIResponse.success(SuccessCode.DELETED));
     }
 
+    /*
+        함수명 : readAllCompany
+        목적 : 회사 전체 정보 전달
+     */
     @GetMapping("/all")
     public ResponseEntity<APIResponse<List<GetAllCompanies>>> readAllCompany() {
         return ResponseEntity

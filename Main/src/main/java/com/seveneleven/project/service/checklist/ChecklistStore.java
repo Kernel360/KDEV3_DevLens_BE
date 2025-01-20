@@ -7,4 +7,5 @@ import com.seveneleven.project.dto.PutProjectChecklist;
 public interface ChecklistStore {
     Checklist storeChecklist(PostProjectChecklist.Request checklist);
     Checklist updateChecklist(PutProjectChecklist.Request request);
+    void accept(Checklist checklist);
 }

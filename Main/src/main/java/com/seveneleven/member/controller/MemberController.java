@@ -36,7 +36,7 @@ public class MemberController implements MemberDocs{
      *         Authorization 헤더에 Bearer 토큰 형식으로 JWT 토큰을 추가하여 반환합니다.
      */
     @PostMapping("/login")
-    public ResponseEntity<APIResponse<CompanyResponse>> login(@RequestBody LoginPost.Request request) {
+    public ResponseEntity<APIResponse<LoginResponse>> login(@RequestBody LoginPost.Request request) {
 
         // 로그인 처리 및 JWT 토큰 발급
         LoginPost.Response response = memberService.login(request);

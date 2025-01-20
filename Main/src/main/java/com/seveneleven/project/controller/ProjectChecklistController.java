@@ -1,6 +1,5 @@
 package com.seveneleven.project.controller;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
@@ -12,45 +11,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
+import java.io.File;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/projects/checklists")
+@RequestMapping("/api/projects")
 public class ProjectChecklistController implements ProjectChecklistDocs {
 
     private final ProjectChecklistFacade projectChecklistFacade;
 
     /**
-     * 함수명 : getProjectStepAndChecklist
-     * 해당 프로젝트의 모든 단계와 체크리스트 목록을 반환하는 함수
-     */
-    @GetMapping("/{projectId}")
-    public ResponseEntity<APIResponse<GetProjectStep.Response>> getProjectStepAndChecklist(
-            @PathVariable Long projectId
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(APIResponse.success(SuccessCode.OK, projectChecklistFacade.getProjectStepAndChecklist(projectId)));
-    }
-
-    /**
-     * 함수명 : getStepChecklist
-     * 해당 단계의 체크리스트 목록을 반환하는 함수
-     */
-    @GetMapping("/{stepId}")
-    public ResponseEntity<APIResponse<GetStepChecklist.Response>> getProjectChecklist(
-            @PathVariable Long stepId
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(APIResponse.success(SuccessCode.OK, projectChecklistFacade.getStepChecklist(stepId)));
-    }
-
-    /**
      * 함수명 : postProjectChecklist
-     * 해당 프로젝트 단계에 체크리스트를 추가하는 함수
+     * 해당 프로젝트 단계에 단일 체크리스트를 추가하는 함수
      */
     @PostMapping("")
     public ResponseEntity<APIResponse<PostProjectChecklist.Response>> postProjectChecklist(
@@ -84,11 +57,19 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 .body(APIResponse.success(SuccessCode.DELETED, projectChecklistFacade.deleteProjectChecklist(checklistId)));
     }
 
+    @GetMapping("/applications/{applicationId}")
+    public ResponseEntity<APIResponse<GetProjectChecklistApplication.Response>> getProjectChecklistApplication(
+            @PathVariable Long applicationId
+    ) {
+        return ResponseEntity.status(SuccessCode.OK.getStatusCode())
+                        .body(APIResponse.success(SuccessCode.OK, projectChecklistFacade.getProjectChecklistApplication(applicationId)));
+    }
+
     /**
      * 함수명 : postProjectChecklistApplication
-     * 해당 체크리스트에 체크 승인 요청을 보내는 함수
+     * 해당 체크리스트에 체크 승인 요청을 보내는 함수 v
      */
-    @PostMapping(value = "/application", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse<PostProjectChecklistApplication.Response>> postProjectChecklistApplication(
             @RequestBody PostProjectChecklistApplication.Request requestDto,
             @RequestBody List<MultipartFile> files,
@@ -96,7 +77,8 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
     ) {
         // TODO - 파일 관련 처리 필요.
 
-        return ResponseEntity.status(HttpStatus.OK).body(APIResponse.success(SuccessCode.CREATED, projectChecklistFacade.postProjectChecklistApplication(requestDto, request)));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(APIResponse.success(SuccessCode.CREATED, projectChecklistFacade.postProjectChecklistApplication(requestDto, request)));
     }
 
     /**
@@ -105,17 +87,17 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      */
     @PostMapping("/accept/{applicationId}")
     public ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
-            @PathVariable Long applicationId
+            @PathVariable Long applicationId,
+            HttpServletRequest request
     ) {
+        // TODO - memberId 추가 필요
+        Long memberId = 1L;
 
-        PostProjectChecklistAccept.Response response = new PostProjectChecklistAccept.Response(
-                100L,         // projectId
-                200L,         // checklistId
-                YesNo.YES,         // checklistStatus (mocked as YES)
-                85.5          // checkRate (mocked as 85.5%)
-        );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(APIResponse.success(SuccessCode.CREATED, response));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(APIResponse.success(
+                        SuccessCode.CREATED,
+                        projectChecklistFacade.postProjectChecklistAccept(applicationId, memberId, request))
+                );
     }
 
     /**
@@ -124,19 +106,21 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      */
     @PostMapping("/reject/{applicationId}")
     public ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
-            @PathVariable Long applicationId
+            @RequestPart PostProjectChecklistReject.Request requestDto,
+            @RequestPart List<File> files,
+            HttpServletRequest request
     ) {
-        PostProjectChecklistReject.Response response = new PostProjectChecklistReject.Response(
-                applicationId,                 // applicationId
-                YesNo.NO,                          // approvalStatus (mocked as NO)
-                123L,                          // processorId (mocked ID)
-                "192.168.1.100",               // processorIp
-                LocalDateTime.now(),           // processDate (current date and time)
-                "Invalid data submitted",      // rejectReason (mocked reason)
-                YesNo.YES,                          // hasFile (mocked as YES)
-                YesNo.NO                           // hasLink (mocked as NO)
+        // TODO - CustomUserDetails - UserId 찾기 코드 필요
+        Long memberId = 1L;
+        PostProjectChecklistReject.Response response = projectChecklistFacade.postProjectChecklistReject(
+                requestDto,
+                memberId,
+                request
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(APIResponse.success(SuccessCode.CREATED, response));
+        // TODO - 파일 등록 필요.
+
+        return ResponseEntity.status(SuccessCode.CREATED.getStatusCode())
+                .body(APIResponse.success(SuccessCode.CREATED, response));
     }
 }

@@ -38,4 +38,9 @@ public class ChecklistStoreImpl implements ChecklistStore {
                 .orElseThrow(() -> new BusinessException(ErrorCode.CHECKLIST_NOT_FOUND))
                 .updateChecklist(request.getTitle(), request.getDescription());
     }
+
+    @Override
+    public void accept(Checklist checklist) {
+        checklist.acceptChecklist();
+    }
 }

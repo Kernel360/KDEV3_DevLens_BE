@@ -7,13 +7,12 @@ import com.seveneleven.service.AdminProjectHistoryService;
 import com.seveneleven.service.AdminProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin-project")
-public class AdminProjectController {
+@RequestMapping("/api/admin/projects")
+public class AdminProjectController implements AdminProjectDocs{
     private final AdminProjectService adminProjectService;
     private final AdminProjectHistoryService adminProjectHistoryService;
 
@@ -69,12 +68,13 @@ public class AdminProjectController {
         함수명 : getProjectHistory
         함수 목적 : 프로젝트 이력 조회
      */
-    @GetMapping("/histories/{id}")
+    @GetMapping("/{id}/histories")
     public ResponseEntity<APIResponse<ReadProjectHistory.Response>> getProjectHistory(@PathVariable Long id) {
         return ResponseEntity
                 .status(SuccessCode.OK.getStatus())
                 .body(APIResponse.success(SuccessCode.OK, adminProjectHistoryService.getProjectHistory(id)));
     }
+
     /*
         함수명 : updateProject
         함수 목적 : 프로젝트 이력 조회
@@ -89,6 +89,10 @@ public class AdminProjectController {
                 .body(APIResponse.success(SuccessCode.OK, adminProjectService.updateProject(id, request)));
     }
 
+    /*
+        함수명 : searchHistories
+        함수 목적 : 특정 프로젝트 이력 목록 검색
+     */
     @GetMapping("/histories/search")
     public ResponseEntity<APIResponse<PaginatedResponse<ReadProjectHistory.Response>>> searchHistories(
             @RequestParam String searchTerm,

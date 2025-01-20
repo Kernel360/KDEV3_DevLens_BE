@@ -1,10 +1,13 @@
 package com.seveneleven.project.service.dashboard;
 
+import com.seveneleven.entity.project.Project;
+import com.seveneleven.exception.BusinessException;
 import com.seveneleven.project.dto.GetProjectDetail;
 import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.project.repository.CheckRequestRepository;
 import com.seveneleven.project.repository.ProjectRepository;
 import com.seveneleven.project.repository.ProjectStepRepository;
+import com.seveneleven.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,15 @@ public class ProjectReaderImpl implements ProjectReader {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
     private final CheckRequestRepository checkRequestRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Project read(Long projectId) {
+        return projectRepository.findById(projectId)
+                .orElseThrow(
+                        () -> new BusinessException(ErrorCode.PROJECT_NOT_FOUND)
+                );
+    }
 
     @Override
     @Transactional(readOnly = true)

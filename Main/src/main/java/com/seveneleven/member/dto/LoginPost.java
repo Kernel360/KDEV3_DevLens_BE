@@ -19,6 +19,6 @@ public class LoginPost {
     @AllArgsConstructor
     public static class Response{
         private String token;
-        private CompanyResponse companyInfo;
+        private LoginResponse companyInfo;
     }
 }

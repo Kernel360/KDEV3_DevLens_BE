@@ -26,7 +26,7 @@ public interface MemberDocs {
                             description = "로그인 성공 및 JWT 토큰 발급",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = CompanyResponse.class)
+                                    schema = @Schema(implementation = LoginResponse.class)
                             )
                     )
             },
@@ -40,7 +40,7 @@ public interface MemberDocs {
             )
     )
     @PostMapping("/login")
-    ResponseEntity<APIResponse<CompanyResponse>> login(@RequestBody LoginPost.Request request);
+    ResponseEntity<APIResponse<LoginResponse>> login(@RequestBody LoginPost.Request request);
 
     @Operation(
             summary = "회원 로그아웃",

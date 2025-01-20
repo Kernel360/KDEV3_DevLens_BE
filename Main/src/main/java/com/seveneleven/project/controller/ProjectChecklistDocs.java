@@ -14,65 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Tag(name = "프로젝트 체크리스트 API", description = "프로젝트 체크리스트 관련 API")
-@RequestMapping("/api/projects/checklists")
+@RequestMapping("/api/projects")
 public interface ProjectChecklistDocs {
-
-    @GetMapping("/{projectId}")
-    @Operation(
-            summary = "프로젝트 내 모든 단계 및 체크리스트 조회",
-            description = "해당 프로젝트의 모든 단계와 체크리스트를 조회합니다.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "성공적으로 단계와 체크리스트를 반환했습니다.",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = GetProjectStep.Response.class)
-                            )
-                    )
-            },
-            parameters = {
-                    @Parameter(
-                            name = "projectId",
-                            description = "프로젝트 단계를 조회할 단계의 ID",
-                            required = true,
-                            example = "1"
-                    )
-            }
-    )
-    ResponseEntity<APIResponse<GetProjectStep.Response>> getProjectStepAndChecklist(
-            @PathVariable Long projectId
-    );
-
-    @GetMapping("/{stepId}")
-    @Operation(
-            summary = "체크리스트 조회",
-            description = "특정 단계의 체크리스트를 조회합니다.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "성공적으로 체크리스트를 반환했습니다.",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = GetStepChecklist.Response.class)
-                            )
-                    )
-            },
-            parameters = {
-                    @Parameter(
-                            name = "stepId",
-                            description = "체크리스트를 조회할 단계의 ID",
-                            required = true,
-                            example = "1"
-                    )
-            }
-    )
-    ResponseEntity<APIResponse<GetStepChecklist.Response>> getProjectChecklist(
-            @PathVariable Long stepId
-    );
 
     @PostMapping("")
     @Operation(
@@ -139,7 +86,7 @@ public interface ProjectChecklistDocs {
             @PathVariable Long checklistId
     );
 
-    @PostMapping(value = "/application", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(
             summary = "체크리스트 신청 생성",
             description = "체크리스트에 새로운 신청을 생성합니다.",
@@ -184,7 +131,8 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
-            @PathVariable Long applicationId
+            @PathVariable Long applicationId,
+            HttpServletRequest request
     );
 
     @PostMapping("/reject/{applicationId}")
@@ -211,6 +159,8 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
-            @PathVariable Long applicationId
+            @RequestPart PostProjectChecklistReject.Request requestDto,
+            @RequestPart List<File> files,
+            HttpServletRequest request
     );
 }
