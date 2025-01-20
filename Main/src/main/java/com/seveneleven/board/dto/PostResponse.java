@@ -5,9 +5,11 @@ import com.seveneleven.entity.board.constant.PostStatus;
 import com.seveneleven.entity.global.YesNo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +29,8 @@ public class PostResponse {
     private LocalDateTime updateDate;   // 최근수정일자
 
     // todo: 댓글 리스트 추가 예정
-    // private List<comment> comments;
+    @Setter
+    private List<GetCommentResponse> comments;
 
 
     private PostResponse(
@@ -42,7 +45,8 @@ public class PostResponse {
             LocalDate deadline,
             String writer,
             LocalDateTime createDate,
-            LocalDateTime updateDate
+            LocalDateTime updateDate,
+            List<GetCommentResponse> comments
     ) {
         this.postId = postId;
         this.projectStepId = projectStepId;
@@ -56,9 +60,10 @@ public class PostResponse {
         this.writer = writer;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.comments = comments;
     }
 
-    public static PostResponse getPostResponse(Post post, Long parentPostId, String memberName) {
+    public static PostResponse getPostResponse(Post post, Long parentPostId, String memberName, List<GetCommentResponse> comments) {
         return new PostResponse(
                 post.getId(),
                 post.getProjectStep().getId(),
@@ -71,7 +76,8 @@ public class PostResponse {
                 post.getDeadline(),
                 memberName,             // memberId가 아닌 name
                 post.getCreatedAt(),
-                post.getUpdatedAt()
+                post.getUpdatedAt(),
+                comments
         );
     }
 

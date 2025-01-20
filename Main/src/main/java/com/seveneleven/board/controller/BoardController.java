@@ -1,6 +1,7 @@
 package com.seveneleven.board.controller;
 
 import com.seveneleven.board.dto.*;
+import com.seveneleven.board.service.CommentService;
 import com.seveneleven.board.service.PostServiceImpl;
 import com.seveneleven.entity.board.constant.PostFilter;
 import com.seveneleven.response.APIResponse;
@@ -20,6 +21,7 @@ import java.util.List;
 public class BoardController implements BoardDocs {
 
     private final PostServiceImpl postService;
+    private final CommentService commentService;
 
     /**
      * 함수명 : selectList()
@@ -32,7 +34,7 @@ public class BoardController implements BoardDocs {
                                                                                    @RequestParam(required = false) PostFilter filter
                                                                                    // todo: 정렬기준 추후 추가 예정
     ) throws Exception {
-        PageResponse<PostListResponse> postList = postService.selectList(projectStepId, page, keyword, filter);
+        PageResponse<PostListResponse> postList = postService.selectPostList(projectStepId, page, keyword, filter);
 
         return ResponseEntity.status(SuccessCode.OK.getStatus())
                 .body(APIResponse.success(SuccessCode.OK, postList));

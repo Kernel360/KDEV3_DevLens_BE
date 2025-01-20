@@ -63,4 +63,74 @@ public class Comment extends BaseEntity {
     @Column(name = "modifier_ip", length = 50)
     private String modifierIp;
 
+    private Comment (Long id,
+                    Post post,
+                    Comment parentComment,
+                    Long ref,
+                    Integer refOrder,
+                    Integer childCommentNum,
+                    YesNo isActive,
+                    String content,
+                    String registerIp,
+                    String modifierIp) {
+        this.id = id;
+        this.postId = post;
+        this.parentCommentId = parentComment;
+        this.ref = ref;
+        this.refOrder = refOrder;
+        this.childCommentNum = childCommentNum;
+        this.isActive = isActive;
+        this.content = content;
+        this.registerIp = registerIp;
+        this.modifierIp = modifierIp;
+    }
+
+    // 생성 메서드
+    public static Comment createComment(
+            Post post,
+            Comment parentComment,
+            Long ref,
+            Integer refOrder,
+            Integer childCommentNum,
+            String content,
+            String registerIp
+    ) {
+        Comment comment = new Comment();
+        comment.postId = post;
+        comment.parentCommentId = parentComment;
+        comment.ref = ref;
+        comment.refOrder = refOrder;
+        comment.childCommentNum = childCommentNum;
+        comment.isActive = YesNo.YES;
+        comment.content = content;
+        comment.registerIp = registerIp;
+    return comment;
+    }
+
+    // 수정 메서드
+    public void updateComment(
+        String content,
+        String modifierIp
+    ) {
+        this.content = content;
+        this.modifierIp = modifierIp;
+    }
+
+    // 삭제 메서드
+    public void deleteComment(
+            String modifierIp
+    ) {
+        this.isActive = YesNo.NO;
+        this.modifierIp = modifierIp;
+    }
+
+    // 대댓글 생성 시 child_comment_num 증가
+    public void increaseChildCommentNum() {
+        this.childCommentNum++;
+    }
+
+    // 대댓글 삭제 시 child_comment_num 삭제
+    public void decreaseChildCommentNum() {
+        this.childCommentNum--;
+    }
 }

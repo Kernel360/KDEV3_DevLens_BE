@@ -21,7 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.util.List;
 
 import static com.seveneleven.board.dto.PostResponse.getPostResponse;
 import static com.seveneleven.response.ErrorCode.*;
@@ -35,6 +35,8 @@ public class PostServiceImpl implements PostService {
     private final ProjectStepRepository projectStepRepository;
     private final MemberRepository memberRepository;
 
+    private final CommentService commentService;
+
     private final int PAGE_SIZE = 10;
 
     /**
@@ -44,7 +46,7 @@ public class PostServiceImpl implements PostService {
      */
     @Transactional(readOnly = true)
     @Override
-    public PageResponse<PostListResponse> selectList(Long projectStepId, Integer page, String keyword, PostFilter filter) {
+    public PageResponse<PostListResponse> selectPostList(Long projectStepId, Integer page, String keyword, PostFilter filter) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Order.desc("ref"), Sort.Order.asc("refOrder")));
 
         // todo : 필터 검색 기능 추가 예정
@@ -77,7 +79,10 @@ public class PostServiceImpl implements PostService {
             parentPostId = post.getParentPost().getId();
         }
 
-        return getPostResponse(post, parentPostId, memberName);
+        // 댓글 목록 조회
+        List<GetCommentResponse> comments = commentService.selectCommentList(postId);
+
+        return getPostResponse(post, parentPostId, memberName, comments);
     }
 
     /**
@@ -91,7 +96,7 @@ public class PostServiceImpl implements PostService {
 
         // 원글인 경우
         if (postCreateRequest.getParentPostId() == null) {
-            Post post = getCreatePost(postCreateRequest, postRepository.findFirstRefByOrderByRefDesc() + 1, 0);
+            Post post = getCreatePost(postCreateRequest, postRepository.findMaxRef() + 1, 0);
             postRepository.save(post);
             postHistoryRepository.save(PostHistory.createPostHistory(post, PostAction.CREATE));
 
@@ -193,7 +198,7 @@ public class PostServiceImpl implements PostService {
      */
     private void matchPostWriter(Long createdBy, Long modifierId) throws Exception {
         if(!createdBy.equals(modifierId)) {
-            throw new BusinessException(NOT_AUTHORIZED_TO_POST);
+            throw new BusinessException(NOT_MATCH_WRITER);
         }
     }
 
@@ -234,7 +239,10 @@ public class PostServiceImpl implements PostService {
      * 함수 목적 : (답글) 부모게시글과 자식게시글의 프로젝트 단계 일치 여부 확인 메서드
      */
     private boolean matchesProjectStepParentAndChild(Long childProjectStepId, Long childParentPostId) throws Exception {
-        return Objects.equals(childProjectStepId, (postRepository.findById(childParentPostId).get()).getProjectStep().getId());
+        // 부모게시글의 프로젝트 단계 값 받기
+        Post post = postRepository.findById(childParentPostId).orElseThrow(() -> new BusinessException(NOT_FOUND_POST));
+        return post.getProjectStep().getId().equals(childProjectStepId);
+//        return Objects.equals(childProjectStepId, (postRepository.findById(childParentPostId).get()).getProjectStep().getId());
     }
 
     /**
