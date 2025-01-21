@@ -1,5 +1,6 @@
 package com.seveneleven.service;
 
+import com.seveneleven.entity.file.FileMetadata;
 import com.seveneleven.entity.file.constant.FileCategory;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.exception.BusinessException;
@@ -60,9 +61,10 @@ public class CompanyFileService {
         }
 
         //카테고리와 참조 id 로 FileMetadata 탐색
-        FileMetadataDto fileDto = fileService.getFile(FileCategory.COMPANY_LOGO_IMAGE, companyId);
+        FileMetadata fileEntity = fileService.getFile(FileCategory.COMPANY_LOGO_IMAGE, companyId);
 
-        return fileDto;
+        //dto 변환 후 반환
+        return FileMetadataDto.toDto(fileEntity);
     }
 
     /**

@@ -1,8 +1,6 @@
 package com.seveneleven.project.controller;
 
-import com.seveneleven.project.dto.GetProjectStep;
-import com.seveneleven.project.dto.GetStepChecklist;
-import com.seveneleven.project.dto.PostProjectStep;
+import com.seveneleven.project.dto.*;
 import com.seveneleven.project.service.ProjectStepService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +23,13 @@ public class ProjectStepFacade {
 
     public PostProjectStep.Response postProjectStep(PostProjectStep.Request requestDto) {
         return projectStepService.postProjectStep(requestDto);
+    }
+
+    public PutProjectStep.Response putProjectStep(PutProjectStep.Request requestDto) {
+        return projectStepService.putProjectStep(requestDto);
+    }
+
+    public DeleteProjectStep.Response deleteProjectStep(DeleteProjectStep.Request request) {
+        return projectStepService.deleteProjectStep(request.getProjectId(), request.getStepId());
     }
 }

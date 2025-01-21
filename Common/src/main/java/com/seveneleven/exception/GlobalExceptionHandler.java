@@ -23,7 +23,6 @@ public class GlobalExceptionHandler {
         // ErrorCode를 사용하여 에러 응답 생성
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR; // 공통 에러 코드 정의 필요
         String detailedMessage = e.getMessage() != null ? e.getMessage() : "An unexpected error occurred";
-
         APIResponse<?> response = APIResponse.fail(errorCode, detailedMessage);
 
         return ResponseEntity

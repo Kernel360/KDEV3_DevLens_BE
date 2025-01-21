@@ -1,5 +1,6 @@
 package com.seveneleven.member.service;
 
+import com.seveneleven.entity.file.FileMetadata;
 import com.seveneleven.entity.file.constant.FileCategory;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.exception.BusinessException;
@@ -59,9 +60,9 @@ public class MemberFileService {
         }
 
         //카테고리와 참조id로 filemetadata 검색
-        FileMetadataDto fileDto = fileService.getFile(FileCategory.USER_PROFILE_IMAGE, memberId);
+        FileMetadata fileEntity = fileService.getFile(FileCategory.USER_PROFILE_IMAGE, memberId);
 
-        return fileDto;
+        return FileMetadataDto.toDto(fileEntity);
     }
 
     /**

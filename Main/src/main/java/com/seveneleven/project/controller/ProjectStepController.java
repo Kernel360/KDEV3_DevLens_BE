@@ -1,8 +1,6 @@
 package com.seveneleven.project.controller;
 
-import com.seveneleven.project.dto.GetProjectStep;
-import com.seveneleven.project.dto.GetStepChecklist;
-import com.seveneleven.project.dto.PostProjectStep;
+import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +53,21 @@ public class ProjectStepController implements ProjectStepDocs{
     ) {
         return ResponseEntity.status(SuccessCode.CREATED.getStatusCode())
                 .body(APIResponse.success(SuccessCode.CREATED, projectStepFacade.postProjectStep(requestDto)));
+    }
+
+    @PutMapping("/steps")
+    public ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
+            @RequestBody PutProjectStep.Request requestDto
+    ) {
+        return ResponseEntity.status(SuccessCode.OK.getStatusCode())
+                .body(APIResponse.success(SuccessCode.OK, projectStepFacade.putProjectStep(requestDto)));
+    }
+
+    @DeleteMapping("/steps")
+    public ResponseEntity<APIResponse<DeleteProjectStep.Response>> deleteProjectStep(
+            @RequestBody DeleteProjectStep.Request requestDto
+    ) {
+        return ResponseEntity.status(SuccessCode.OK.getStatusCode())
+                .body(APIResponse.success(SuccessCode.OK, projectStepFacade.deleteProjectStep(requestDto)));
     }
 }

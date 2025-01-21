@@ -13,4 +13,6 @@ public interface FileMetadataRepository extends JpaRepository<FileMetadata, Long
     List<FileMetadata> findAllByCategoryAndReferenceId(FileCategory category, Long referenceId);
 
     Boolean existsByCategoryAndReferenceId(FileCategory category, Long referenceId);
+
+    Integer countByCategoryAndReferenceId(FileCategory category, Long referenceId);
 }

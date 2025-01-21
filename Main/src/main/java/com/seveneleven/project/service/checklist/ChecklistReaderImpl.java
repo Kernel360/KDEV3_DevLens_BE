@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -26,5 +28,10 @@ public class ChecklistReaderImpl implements ChecklistReader {
     @Override
     public GetStepChecklist.Response getStepChecklist(Long stepId) {
         return new GetStepChecklist.Response(stepId, checklistRepository.findStepChecklist(stepId));
+    }
+
+    @Override
+    public List<Checklist> read(Long stepId) {
+        return checklistRepository.findByProjectStepIdAndIsActive(stepId, YesNo.YES);
     }
 }

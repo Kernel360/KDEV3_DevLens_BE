@@ -29,4 +29,6 @@ public interface ChecklistRepository extends JpaRepository<Checklist, Long> {
     List<GetStepChecklist.projectChecklist> findStepChecklist(@Param("stepId") Long stepId);
 
     Optional<Checklist> findByIdAndIsActive(@Param("id") Long checklistId, @Param("isActive") YesNo isActive);
+
+    List<Checklist> findByProjectStepIdAndIsActive(@Param("projectStepId") Long projectStepId, YesNo isActive);
 }

@@ -18,7 +18,11 @@ public class CheckResultStoreImpl implements CheckResultStore {
     private final CheckResultRepository checkResultRepository;
 
     @Override
-    public PostProjectChecklistAccept.Response postApplicationAccept(CheckRequest checkRequest, Member member, String processorIp) {
+    public PostProjectChecklistAccept.Response postApplicationAccept(
+            CheckRequest checkRequest,
+            Member member,
+            String processorIp
+    ) {
         CheckResult checkResult = CheckResult.accept(checkRequest, member, processorIp);
         checkResultRepository.save(checkResult);
         return PostProjectChecklistAccept.Response.toDto(checkResult);

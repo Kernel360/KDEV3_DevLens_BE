@@ -1,13 +1,19 @@
 package com.seveneleven.project.service;
 
+import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.project.dto.*;
 import com.seveneleven.project.service.checklist.ChecklistReader;
+import com.seveneleven.project.service.checklist.ChecklistStore;
 import com.seveneleven.project.service.dashboard.ProjectReader;
 import com.seveneleven.project.service.step.StepReader;
 import com.seveneleven.project.service.step.StepStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +23,7 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     private final StepStore stepStore;
     private final ProjectReader projectReader;
     private final ChecklistReader checklistReader;
+    private final ChecklistStore checklistStore;
 
     @Override
     public GetStepChecklist.Response getStepChecklist(Long stepId) {
@@ -29,18 +36,26 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     }
 
     @Override
+    @Transactional
     public PostProjectStep.Response postProjectStep(PostProjectStep.Request requestDto) {
         Project project = projectReader.read(requestDto.getProjectId());
         return stepStore.store(requestDto, project);
     }
 
     @Override
+    @Transactional
     public PutProjectStep.Response putProjectStep(PutProjectStep.Request requestDto) {
-        return null;
+        ProjectStep projectStep = stepReader.read(requestDto.getStepId());
+        return stepStore.edit(requestDto, projectStep);
     }
 
     @Override
+    @Transactional
     public DeleteProjectStep.Response deleteProjectStep(Long projectId, Long stepId) {
-        return null;
+        List<Checklist> checklists = checklistReader.read(stepId);
+        ProjectStep projectStep = stepReader.read(stepId);
+        checklistStore.deleteAll(checklists);
+        stepStore.delete(projectStep);
+        return DeleteProjectStep.Response.toDto(projectId, stepId);
     }
 }
