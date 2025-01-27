@@ -90,6 +90,7 @@ public class LinkService {
      * @param referenceId 링크 참조 ID
      * @return 링크 갯수 반환
      */
+    @Transactional(readOnly = true)
     public Integer countLinks(LinkCategory linkCategory, Long referenceId){
         Integer currentLinkCnt = linkRepository.countByCategoryAndReferenceId(linkCategory, referenceId);
         return currentLinkCnt;

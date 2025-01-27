@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,14 +29,14 @@ public class PostFileService {
 
     /**
      * 1. 게시물 파일 업로드
-     * 함수명 : uploadPostFile
+     * 함수명 : uploadPostFiles
      * @auth admin, 게시물 작성자
      * @param files 업로드할 로고 이미지 파일들
      * @param postId 해당 게시물 id
      * @param uploaderId 업로드 수행자 id
      */
     @Transactional
-    public void uploadPostFile(List<MultipartFile> files, Long postId, Long uploaderId){
+    public void uploadPostFiles(List<MultipartFile> files, Long postId, Long uploaderId){
         //1. 게시물 id로 존재여부 판별
         Post postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
@@ -44,7 +45,7 @@ public class PostFileService {
 
         //3. 저장할 파일 갯수 + 현재 저장 갯수 >= 11인지 판별
         //현재 저장된 파일 갯수 확인
-        Integer currentFileCnt = fileMetadataRepository.countByCategoryAndReferenceId(FileCategory.POST_ATTACHMENT, postId);
+        Integer currentFileCnt = fileMetadataRepository.countByCategoryAndReferenceId(FileCategory.POST_ATTACHMENT, postEntity.getId());
         if(currentFileCnt + files.size() > MAX_FILE_COUNT){
             throw new BusinessException(ErrorCode.FILE_QUANTITY_EXCEED_ERROR);
         }
@@ -85,13 +86,38 @@ public class PostFileService {
     }
 
     /**
-     * 3. 게시물 파일 일괄 삭제
+     * 3-1. 게시물 파일 단일 삭제(수정시)
+     * 함수명 : deletePostFile
+     * @param
+     */
+    @Transactional
+    public void deletePostFile(Long postId, Long fileId, Long deleterId){
+        //1. 게시물 유효성 검사
+        Post postEntity = postRepository.findById(postId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
+
+        //TODO) 2. 삭제 수행자 권한 판별
+
+        //3. 해당 게시물 파일 목록에 해당 파일이 존재하는지 확인
+        List<FileMetadata> fileEntities = fileService.getFiles(FileCategory.POST_ATTACHMENT, postEntity.getId());
+        List<Long> fileIds = fileEntities.stream().map(FileMetadata::getId).collect(Collectors.toList());
+
+        if(!fileIds.contains(fileId)){
+            throw new BusinessException(ErrorCode.FILE_NOT_FOUND_ERROR);
+        }
+
+        //4. 해당 파일을 삭제한다.
+        fileService.deleteFileById(fileId);
+    }
+
+    /**
+     * 3-2. 게시물 파일 일괄 삭제(삭제시)
      * 함수명 : deleteAllPostFiles
      * @auth admin, 해당 게시물 작성자
      * @param postId 해당 게시물 id
      */
     @Transactional
-    public void deleteAllPostFiles(Long postId, Long executorId){
+    public void deleteAllPostFiles(Long postId, Long deleterId){
         //1. 게시물 유효성 검사
         Post postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
@@ -104,22 +130,4 @@ public class PostFileService {
         }
     }
 
-
-    /**
-     * 4. 게시물 파일 수정
-     * 함수명 : updatePostFiles
-     * @auth admin, 해당 게시물 작성자
-     * @param files 업데이트할 파일 목록
-     */
-    @Transactional
-    public void updatePostFiles(Long postId, List<MultipartFile> files){
-        //1. 게시물 유효성 검사
-        Post postEntity = postRepository.findById(postId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
-
-        //TODO) 2. 수행자 권한 판별
-
-        //3. 게시물 파일 수정
-        fileService.updateFilesWithHashComparison(FileCategory.POST_ATTACHMENT, postEntity.getId(), files);
-    }
 }

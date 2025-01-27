@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileValidator {
 
-    private static final long MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB 제한
+    private static final long MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB 제한
 
     /**
      * 파일 전체 검증 메서드
@@ -29,22 +29,10 @@ public class FileValidator {
             throw new BusinessException(ErrorCode.INVALID_FILE_NAME_ERROR);
         }
 
-//        FileCategory fileCategory = validateFileCategory(fileCategoryName); // 파일 카테고리 검증
         validateFileExtension(fileName, fileCategory); // 파일 확장자 검증
         validateMimeType(file.getContentType(), fileCategory); // MIME 타입 검증
         validateFileSize(file.getSize()); // 파일 크기 검증
     }
-
-    /**
-     * 파일 카테고리 검증
-     */
-//    private static FileCategory validateFileCategory(String fileCategoryName) {
-//        try{
-//            return FileCategory.valueOf(fileCategoryName);
-//        } catch (IllegalArgumentException e){
-//            throw new BusinessException(ErrorCode.INVALID_FILE_CATEGORY_ERROR);
-//        }
-//    }
 
     /**
      * 파일 확장자 검증

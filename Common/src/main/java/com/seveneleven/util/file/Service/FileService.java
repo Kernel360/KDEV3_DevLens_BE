@@ -12,9 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
-import java.security.MessageDigest;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -105,7 +103,7 @@ public class FileService {
     }
 
     /**
-     * 3. 파일 삭제(카테고리, 참조ID)
+     * 3-1. 파일 삭제(카테고리, 참조ID)
      * 함수명 : deleteFile
      * @param fileCategory 파일 카테고리
      * @param referenceId 참조 ID
@@ -122,7 +120,7 @@ public class FileService {
     }
 
     /**
-     * 3-1. 파일 삭제(파일메타데이터 id)
+     * 3-2. 파일 삭제(파일메타데이터 id)
      * 함수명 : deleteFileById
      * @param fileId 파일메타데이터 id
      */
@@ -136,91 +134,4 @@ public class FileService {
 
         //TODO) 삭제 이력 남기기
     }
-
-
-    /**
-     * 4. 파일 수정 (FileMetadata 테이블에서만 해시값 비교)
-     * 함수명 : updateFilesWithHashComparison
-     * @param fileCategory 파일 카테고리
-     * @param referenceId 참조 ID
-     * @param updatedFiles 클라이언트에서 전달받은 파일 목록
-     */
-    @Transactional
-    public void updateFilesWithHashComparison(FileCategory fileCategory, Long referenceId, List<MultipartFile> updatedFiles) {
-        // 1. 기존 파일 메타데이터 가져오기
-        List<FileMetadata> existingFiles = fileMetadataRepository.findAllByCategoryAndReferenceId(fileCategory, referenceId);
-
-        // 2. 기존 메타데이터가 없으면 모든 파일 업로드 처리
-        if (existingFiles.isEmpty()) {
-            for (MultipartFile file : updatedFiles) {
-                uploadFile(file, fileCategory, referenceId);
-            }
-            return;
-        }
-
-        // 3. 기존 파일의 해시값 계산 (테이블 정보로만 비교) - key : 파일의 해시값, value : 파일
-        Map<String, FileMetadata> existingFileHashMap = existingFiles.stream()
-                .collect(Collectors.toMap(file -> calculateFileHashFromMetadata(file), file -> file));
-
-        // 4. 클라이언트에서 전달된 파일의 해시값 계산 - key : 파일의 해시값, value : 파일
-        Map<String, MultipartFile> updatedFileHashMap = updatedFiles.stream()
-                .collect(Collectors.toMap(this::calculateFileHash, file -> file));
-
-        // 5. 삭제 대상 파일 추출 (기존 파일 중, 클라이언트에 없는 해시값)
-        List<FileMetadata> filesToDelete = existingFiles.stream()
-                .filter(file -> !updatedFileHashMap.containsKey(calculateFileHashFromMetadata(file)))
-                .collect(Collectors.toList());
-
-        // 6. 추가 대상 파일 추출 (클라이언트 파일 중, 기존에 없는 해시값)
-        List<MultipartFile> filesToAdd = updatedFiles.stream()
-                .filter(file -> !existingFileHashMap.containsKey(calculateFileHash(file)))
-                .collect(Collectors.toList());
-
-        // 7. 삭제 대상 파일 처리
-        for (FileMetadata fileToDelete : filesToDelete) {
-            // 메타데이터 삭제
-            fileMetadataRepository.delete(fileToDelete);
-        }
-
-        // 8. 추가 대상 파일 처리
-        for (MultipartFile fileToAdd : filesToAdd) {
-            // 업로드 로직 재활용
-            uploadFile(fileToAdd, fileCategory, referenceId);
-        }
-
-        //TODO) 수정 이력 남기기
-    }
-
-    /**
-     * FileMetadata 테이블 정보 기반 해시값 계산
-     * @param file FileMetadata
-     * @return SHA-256 해시값 (Base64 인코딩)
-     */
-    private String calculateFileHashFromMetadata(FileMetadata file) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String data = file.getDisplayTitle() + file.getContentType() + file.getFileFormat() + file.getFileSize();
-            byte[] hash = digest.digest(data.getBytes());
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (Exception e) {
-            throw new BusinessException(e.getMessage(), ErrorCode.FILE_METADATA_HASHING_FAILURE);
-        }
-    }
-
-    /**
-     * 클라이언트 파일에서 해시값 계산
-     * @param file MultipartFile
-     * @return SHA-256 해시값 (Base64 인코딩)
-     */
-    private String calculateFileHash(MultipartFile file) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(file.getBytes());
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (Exception e) {
-            throw new BusinessException(e.getMessage(), ErrorCode.CLIENT_FILE_HASHING_FAILURE);
-        }
-    }
-
-
 }

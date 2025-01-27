@@ -28,7 +28,7 @@ public class S3ClientService {
      */
     public String generateUniqueFileName(String originalFileName) {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        return UUID.randomUUID().toString() + fileExtension;
+        return UUID.randomUUID() + fileExtension;
     }
 
     /**
