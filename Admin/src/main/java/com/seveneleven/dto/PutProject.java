@@ -3,6 +3,7 @@ package com.seveneleven.dto;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectType;
+import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class PutProject {
         private Long developerId; // 개발사 ID (Company 엔티티의 ID)
         private String projectDescription; // 프로젝트 설명
         private Long projectTypeId; // 프로젝트 유형 ID
-        private Project.ProjectStatusCode projectStatusCode; //
+        private ProjectStatusCode projectStatusCode; //
         private String bnsManager; // BNS 담당자 ID (Member 엔티티의 ID)
         private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
@@ -60,7 +61,7 @@ public class PutProject {
         private String developerId; // 개발사 ID (Company 엔티티의 ID)
         private String projectDescription; // 프로젝트 설명
         private String projectType; // 프로젝트 유형 ID
-        private Project.ProjectStatusCode projectStatusCode; //
+        private ProjectStatusCode projectStatusCode; //
         private String bnsManager; // BNS 담당자 ID (Member 엔티티의 ID)
         private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일

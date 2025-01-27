@@ -11,7 +11,6 @@ public class PutProjectStep {
     @Setter
     @NoArgsConstructor
     public static class Request {
-        private Long stepId;
         private String stepName;
         private String stepDescription;
         private Integer stepOrder;

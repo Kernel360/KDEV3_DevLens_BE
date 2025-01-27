@@ -23,17 +23,11 @@ public class GetStepChecklist {
 
     @Getter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class projectChecklist {
         private Long checklistId;
         private String checklistName;
-        private Boolean checklistStatus;
+        private YesNo checklistStatus;
         private LocalDateTime checkAcceptTime;
-
-        public projectChecklist(Long checklistId, String checklistName, YesNo checklistStatus, LocalDateTime checkAcceptTime) {
-            this.checklistId = checklistId;
-            this.checklistName = checklistName;
-            this.checklistStatus = checklistStatus == YesNo.YES;
-            this.checkAcceptTime = checkAcceptTime;
-        }
     }
 }

@@ -45,14 +45,6 @@ public class Checklist extends BaseEntity {
     private LocalDateTime approvalDate; // 승인 일시
 
     private Checklist(String title, String description, ProjectStep projectStep) {
-        if(title == null || title.trim().isEmpty()) {
-            throw new BusinessException(ErrorCode.STEP_MUST_HAVE_TITLE);
-        }
-
-        if(description == null || description.trim().isEmpty()) {
-            throw new BusinessException(ErrorCode.STEP_MUST_HAVE_DESCRIPTION);
-        }
-
         this.projectStep = projectStep;
         this.title = title;
         this.description = description;

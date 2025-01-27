@@ -2,6 +2,7 @@ package com.seveneleven.entity.project;
 
 import com.seveneleven.entity.global.BaseEntity;
 import com.seveneleven.entity.member.Company;
+import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -147,14 +148,5 @@ public class Project extends BaseEntity {
     public Project delete(){
         this.projectStatusCode = ProjectStatusCode.DELETED;
         return this;
-    }
-
-    public enum ProjectStatusCode {
-        PREPARED,
-        IN_PROGRESS,
-        COMPLETED,
-        CLOSED,
-        CANCELLED,
-        DELETED
     }
 }

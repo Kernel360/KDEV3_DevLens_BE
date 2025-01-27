@@ -16,7 +16,6 @@ public class PostProjectStep {
     @Setter
     @NoArgsConstructor
     public static class Request {
-        Long projectId;
         String stepName;
         String stepDescription;
         Integer stepOrderNumber;

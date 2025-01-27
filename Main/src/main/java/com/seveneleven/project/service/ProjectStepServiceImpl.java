@@ -42,15 +42,13 @@ public class ProjectStepServiceImpl implements ProjectStepService {
 
     @Override
     @Transactional
-    public PostProjectStep.Response postProjectStep(PostProjectStep.Request requestDto) {
-        Project project = projectReader.read(requestDto.getProjectId());
+    public PostProjectStep.Response postProjectStep(Project project, PostProjectStep.Request requestDto) {
         return stepStore.store(requestDto, project);
     }
 
     @Override
     @Transactional
-    public PutProjectStep.Response putProjectStep(PutProjectStep.Request requestDto) {
-        ProjectStep projectStep = stepReader.read(requestDto.getStepId());
+    public PutProjectStep.Response putProjectStep(ProjectStep projectStep, PutProjectStep.Request requestDto) {
         return stepStore.edit(requestDto, projectStep);
     }
 

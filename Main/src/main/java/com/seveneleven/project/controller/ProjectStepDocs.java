@@ -33,7 +33,7 @@ public interface ProjectStepDocs {
             @PathVariable Long projectId
     );
 
-    @PostMapping("/steps")
+    @PostMapping("/{projectId}/steps")
     @Operation(
             summary = "프로젝트 단계 추가",
             description = "특정 프로젝트의 단계를 추가합니다.",
@@ -49,10 +49,11 @@ public interface ProjectStepDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectStep.Response>> postProjectStep(
+            @PathVariable Long projectId,
             @RequestBody PostProjectStep.Request requestDto
     );
 
-    @PutMapping("/steps")
+    @PutMapping("/steps/{stepId}")
     @Operation(
             summary = "프로젝트 단계 수정",
             description = "특정 프로젝트의 단계를 수정합니다.",
@@ -68,6 +69,7 @@ public interface ProjectStepDocs {
             }
     )
     ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
+            @PathVariable Long stepId,
             @RequestBody PutProjectStep.Request requestDto
     );
 

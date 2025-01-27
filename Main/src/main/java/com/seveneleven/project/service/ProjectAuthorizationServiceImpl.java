@@ -22,12 +22,20 @@ public class ProjectAuthorizationServiceImpl implements ProjectAuthorizationServ
     private final AuthorizationReader authorizationReader;
     private final AuthorizationStore authorizationStore;
 
+    /**
+     * 함수명 : getProjectAuthorization
+     * 해당 프로젝트 단계에 접근할 수 있는 인원을 반환하는 함수
+     */
     @Override
     public GetProjectAuthorization.Response getProjectAuthorization(Long stepId) {
         List<ProjectAuthorization> authorizations = authorizationReader.readByStepId(stepId);
         return GetProjectAuthorization.Response.toDto(stepId, authorizations);
     }
 
+    /**
+     * 함수명 : createProjectAuthorization
+     * 해당 프로젝트 단계의 접근 권한을 편집하는 함수
+     */
     @Override
     public PostProjectAuthorization.Response createProjectAuthorization(
             Long stepId,

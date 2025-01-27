@@ -1,6 +1,7 @@
 package com.seveneleven.project.repository;
 
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import com.seveneleven.project.dto.GetProjectDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
+
+    Optional<Project> findByIdAndProjectStatusCodeNot(Long id, ProjectStatusCode projectStatusCode);
 
     @Query("""
         SELECT p

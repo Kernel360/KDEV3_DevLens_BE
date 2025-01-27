@@ -50,9 +50,7 @@ public enum ErrorCode {
     CHECK_REQUEST_ALREADY_HAS_RESULT(2201, HttpStatus.BAD_REQUEST, "이미 처리된 승인 요청입니다."),
     PROJECT_STEP_ALREADY_DELETED(2301, HttpStatus.BAD_REQUEST, "이미 삭제된 단계입니다."),
 
-    NOT_FOUND_PROJECT_STEP(2401, HttpStatus.NOT_FOUND, "해당 프로젝트 단계를 찾을 수 없습니다."),
-    STEP_MUST_HAVE_TITLE(2402, HttpStatus.BAD_REQUEST, "단계명을 입력해주세요."),
-    STEP_MUST_HAVE_DESCRIPTION(2403, HttpStatus.BAD_REQUEST, "단계 설명을 입력해주세요."),
+    NOT_FOUND_PROJECT_STEP(2501, HttpStatus.NOT_FOUND, "해당 프로젝트 단계를 찾을 수 없습니다."),
     NOT_FOUND_MEMBER(2502, HttpStatus.NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
     NOT_FOUND_POST(2503, HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
     NOT_MATCH_WRITER(2504, HttpStatus.FORBIDDEN, "작성자만 수정 및 삭제할 수 있습니다."),

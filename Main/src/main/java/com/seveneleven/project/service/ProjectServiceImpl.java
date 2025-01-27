@@ -1,5 +1,6 @@
 package com.seveneleven.project.service;
 
+import com.seveneleven.entity.project.Project;
 import com.seveneleven.member.service.MemberService;
 import com.seveneleven.project.dto.GetProjectDetail;
 import com.seveneleven.project.dto.GetProjectList;
@@ -22,5 +23,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public GetProjectDetail.Response getProjectDetail(Long projectId) {
         return projectReader.getProjectDetail(projectId);
+    }
+
+    @Override
+    public Project getProject(Long projectId) {
+        return projectReader.read(projectId);
     }
 }

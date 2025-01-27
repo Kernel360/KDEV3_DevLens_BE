@@ -36,7 +36,7 @@ public class GetProjectDetail {
         private String projectTypeName;
         private String projectName;
         private String projectDescription;
-        private String bnsManager;
+        private String bnsManagerName;
 
         public ProjectDetail(
                 Long projectId,
@@ -49,7 +49,7 @@ public class GetProjectDetail {
             this.projectTypeName = projectTypeName;
             this.projectName = projectName;
             this.projectDescription = projectDescription;
-            this.bnsManager = name;
+            this.bnsManagerName = name;
         }
     }
 
@@ -70,7 +70,7 @@ public class GetProjectDetail {
     @ToString
     public static class ChecklistApplicationList {
         private Long checklistApplicationId;
-        private String stepName;
+        private String StepName;
         private String checklistName;
         private String applicationTitle;
         private String applicationUserName;

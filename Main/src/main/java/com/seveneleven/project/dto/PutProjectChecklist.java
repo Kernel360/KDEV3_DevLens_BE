@@ -25,14 +25,7 @@ public class PutProjectChecklist {
         private Long id;
         private String title;
         private String description;
-        private Boolean isChecked;
-
-        public Response(Long id, String title, String description, YesNo isChecked) {
-            this.id = id;
-            this.title = title;
-            this.description = description;
-            this.isChecked = isChecked == YesNo.YES;
-        }
+        private YesNo isChecked;
 
         public static PutProjectChecklist.Response toDto(Checklist checklist) {
             return new PutProjectChecklist.Response(
