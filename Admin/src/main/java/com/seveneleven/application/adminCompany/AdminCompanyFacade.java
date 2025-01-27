@@ -6,6 +6,8 @@ import com.seveneleven.service.AdminCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AdminCompanyFacade {
@@ -37,5 +39,9 @@ public class AdminCompanyFacade {
 
     public void deleteCompany(Long id) {
         adminCompanyService.deleteCompany(id);
+    }
+
+    public List<GetAllCompanies> getAllCompanies() {
+        return adminCompanyService.getAllCompanies();
     }
 }

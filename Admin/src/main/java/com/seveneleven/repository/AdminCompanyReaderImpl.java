@@ -1,5 +1,6 @@
 package com.seveneleven.repository;
 
+import com.seveneleven.dto.GetAllCompanies;
 import com.seveneleven.dto.GetCompanies;
 import com.seveneleven.dto.GetProject;
 import com.seveneleven.entity.member.Company;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -42,5 +45,11 @@ public class AdminCompanyReaderImpl implements AdminCompanyReader {
     public Page<GetCompanies.Response> getCompaniesBySearchTerm(String searchTerm, Pageable pageable) {
         return companyRepository.findByIsActiveAndCompanyNameContainingIgnoreCase(YN.Y, searchTerm, pageable)
                 .map(GetCompanies.Response::getCompaniesResponse);
+    }
+
+    @Override
+    public List<GetAllCompanies> getAllCompanies() {
+        return companyRepository.findAllByIsActiveOrderByCompanyNameAsc(YN.Y).stream()
+                .map(GetAllCompanies::of).toList();
     }
 }

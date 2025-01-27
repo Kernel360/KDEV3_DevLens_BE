@@ -5,7 +5,6 @@ import com.seveneleven.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.PaginatedResponse;
 import com.seveneleven.response.SuccessCode;
-import com.seveneleven.service.AdminCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/companies")
 public class CompanyController implements CompanyDocs {
-    private final AdminCompanyService adminCompanyService;
     private final AdminCompanyFacade adminCompanyFacade;
 
     /*
@@ -126,6 +124,6 @@ public class CompanyController implements CompanyDocs {
     public ResponseEntity<APIResponse<List<GetAllCompanies>>> readAllCompany() {
         return ResponseEntity
                 .status(SuccessCode.OK.getStatus())
-                .body(APIResponse.success(SuccessCode.OK, adminCompanyService.getAllCompanies()));
+                .body(APIResponse.success(SuccessCode.OK, adminCompanyFacade.getAllCompanies()));
     }
 }

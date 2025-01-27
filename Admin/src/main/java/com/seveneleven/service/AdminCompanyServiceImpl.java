@@ -6,7 +6,6 @@ import com.seveneleven.entity.member.constant.YN;
 import com.seveneleven.exception.CompanyDuplicatedException;
 import com.seveneleven.exception.CompanyNotFoundException;
 import com.seveneleven.repository.CompanyRepository;
-import com.seveneleven.repository.GetAllCompaniesConverter;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,6 @@ import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
 @RequiredArgsConstructor
 public class AdminCompanyServiceImpl implements AdminCompanyService{
     private final CompanyRepository companyRepository;
-    private final GetAllCompaniesConverter getAllCompaniesConverter;
     private final AdminCompanyStore adminCompanyStore;
     private final AdminCompanyReader adminCompanyReader;
 
@@ -97,6 +95,10 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         return PaginatedResponse.createPaginatedResponse(companyPage);
     }
 
+    /*
+            함수명 : updateCompany
+            함수 목적 : 회사 수정
+     */
     @Transactional
     @Override
     public PutCompany.Response updateCompany(
@@ -113,6 +115,10 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         return PutCompany.Response.of(adminCompanyStore.store(company));
     }
 
+    /*
+            함수명 : deleteCompany
+            함수 목적 : 회사 삭제
+     */
     @Transactional
     @Override
     public void deleteCompany(Long id) {
@@ -122,13 +128,14 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         company.deleteCompany();
     }
 
+    /*
+            함수명 : getAllCompanies
+            함수 목적 : 회사 id 이름 프론트 전달
+     */
     @Transactional(readOnly = true)
     @Override
     public List<GetAllCompanies> getAllCompanies() {
-        return companyRepository.findAllByIsActiveOrderByCompanyNameAsc(YN.Y)
-                .stream()
-                .map(getAllCompaniesConverter::toDTO)
-                .toList();
+        return adminCompanyReader.getAllCompanies();
     }
 
     /*
