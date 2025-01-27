@@ -25,6 +25,7 @@ public class GetProjectStep {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class ProjectStepInfo {
         private Long stepId;
         private String stepName;
@@ -44,6 +45,7 @@ public class GetProjectStep {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class ProjectChecklist {
         private Long checklistId;
         private String checklistName;

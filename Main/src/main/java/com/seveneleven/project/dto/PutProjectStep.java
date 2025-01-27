@@ -2,10 +2,14 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.ProjectStep;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class PutProjectStep {
 
     @Getter
+    @Setter
+    @NoArgsConstructor
     public static class Request {
         private Long stepId;
         private String stepName;
@@ -14,6 +18,7 @@ public class PutProjectStep {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class Response {
         private Long stepId;
         private String stepName;

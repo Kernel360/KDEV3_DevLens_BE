@@ -1,20 +1,26 @@
 package com.seveneleven.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectStep;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 public class PostProjectStep {
 
     @Getter
+    @Setter
+    @NoArgsConstructor
     public static class Request {
         Long projectId;
         String stepName;
         String stepDescription;
         Integer stepOrderNumber;
+        @JsonProperty
         List<PostChecklist> checklists;
 
         public ProjectStep toEntity(Project project) {
@@ -22,6 +28,9 @@ public class PostProjectStep {
         }
     }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
     public static class PostChecklist {
         String checklistTitle;
         String checklistDescription;
@@ -40,6 +49,8 @@ public class PostProjectStep {
         }
     }
 
+    @Getter
+    @NoArgsConstructor
     public static class Response {
         Long projectId;
         String stepName;

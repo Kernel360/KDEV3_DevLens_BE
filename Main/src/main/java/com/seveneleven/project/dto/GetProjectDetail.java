@@ -6,11 +6,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class GetProjectDetail {
-    /**
-     * AllArgsContructor는 개발 시 삭제 예정
-     */
+
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class Response {
         private ProjectDetail projectDetail;
         private List<ProjectStepInfo> projectStep;
@@ -31,6 +30,7 @@ public class GetProjectDetail {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class ProjectDetail {
         private Long id;
         private String projectTypeName;

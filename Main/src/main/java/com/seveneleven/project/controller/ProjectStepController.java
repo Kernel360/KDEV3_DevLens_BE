@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/projects/")
+@RequestMapping("/api/projects")
 public class ProjectStepController implements ProjectStepDocs{
 
     private final ProjectStepFacade projectStepFacade;

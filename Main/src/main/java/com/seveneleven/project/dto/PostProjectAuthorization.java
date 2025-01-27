@@ -5,6 +5,7 @@ import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ import java.util.List;
 public class PostProjectAuthorization {
 
     @Getter
+    @NoArgsConstructor
     public static class Request {
         List<MemberAuthorization> authorizations;
     }
 
     @Getter
+    @NoArgsConstructor
     public static class MemberAuthorization {
         private Long memberId;
         private String projectAuthorization;
@@ -29,6 +32,7 @@ public class PostProjectAuthorization {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class Response {
         private Long stepId;
         private List<FailList> failList;
@@ -44,6 +48,7 @@ public class PostProjectAuthorization {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class FailList {
         private Long memberId;
         private MemberType memberDivision;

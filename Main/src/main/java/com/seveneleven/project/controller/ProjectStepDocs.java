@@ -3,7 +3,6 @@ package com.seveneleven.project.controller;
 import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,14 +27,6 @@ public interface ProjectStepDocs {
                                     schema = @Schema(implementation = GetProjectStep.Response.class)
                             )
                     )
-            },
-            parameters = {
-                    @Parameter(
-                            name = "projectId",
-                            description = "프로젝트 단계를 조회할 단계의 ID",
-                            required = true,
-                            example = "1"
-                    )
             }
     )
     ResponseEntity<APIResponse<GetProjectStep.Response>> getProjectStepAndChecklist(
@@ -54,14 +45,6 @@ public interface ProjectStepDocs {
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = PostProjectStep.Response.class)
                             )
-                    )
-            },
-            parameters = {
-                    @Parameter(
-                            name = "requestDto",
-                            description = "프로젝트 단계 추가 요청 데이터",
-                            required = true,
-                            schema = @Schema(implementation = PostProjectStep.Request.class)
                     )
             }
     )
@@ -82,15 +65,7 @@ public interface ProjectStepDocs {
                                     schema = @Schema(implementation = PutProjectStep.Response.class)
                             )
                     )
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "수정할 프로젝트 단계의 요청 데이터",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = PutProjectStep.Request.class)
-                    )
-            )
+            }
     )
     ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
             @RequestBody PutProjectStep.Request requestDto
@@ -109,15 +84,7 @@ public interface ProjectStepDocs {
                                     schema = @Schema(implementation = DeleteProjectStep.Response.class)
                             )
                     )
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "삭제할 프로젝트 단계의 요청 데이터",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = DeleteProjectStep.Request.class)
-                    )
-            )
+            }
     )
     ResponseEntity<APIResponse<DeleteProjectStep.Response>> deleteProjectStep(
             @RequestBody DeleteProjectStep.Request requestDto
@@ -145,15 +112,7 @@ public interface ProjectStepDocs {
                                     schema = @Schema(implementation = PostProjectAuthorization.Response.class)
                             )
                     )
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "생성할 프로젝트 권한의 요청 데이터",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = PostProjectAuthorization.Request.class)
-                    )
-            )
+            }
     )
     ResponseEntity<APIResponse<PostProjectAuthorization.Response>> postProjectAuthorization(
             @PathVariable Long stepId,
@@ -178,5 +137,4 @@ public interface ProjectStepDocs {
     ResponseEntity<APIResponse<GetProjectAuthorization.Response>> getProjectAuthorization(
             @PathVariable Long stepId
     );
-
 }

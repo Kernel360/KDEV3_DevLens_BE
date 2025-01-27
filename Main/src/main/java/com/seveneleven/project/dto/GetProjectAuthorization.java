@@ -3,12 +3,14 @@ package com.seveneleven.project.dto;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 public class GetProjectAuthorization {
 
     @Getter
+    @NoArgsConstructor
     public static class Response {
         private Long stepId;
         private List<MemberAuthorization> memberAuthorization;

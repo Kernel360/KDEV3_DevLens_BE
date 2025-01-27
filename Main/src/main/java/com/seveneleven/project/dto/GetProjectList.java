@@ -13,6 +13,7 @@ public class GetProjectList {
      * AllArgsContructor는 개발 시 삭제 예정
      */
     @Getter
+    @NoArgsConstructor
     public static class Response {
         List<GetMyProjectResponseInfo> myProjects;
         List<GetCompanyProjectResponseInfo> companyProjects;

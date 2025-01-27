@@ -12,6 +12,7 @@ import java.util.List;
 public class PostProjectChecklistReject {
 
     @Getter
+    @NoArgsConstructor
     public static class Request {
         private String rejectReason;
         private List<String> links;
