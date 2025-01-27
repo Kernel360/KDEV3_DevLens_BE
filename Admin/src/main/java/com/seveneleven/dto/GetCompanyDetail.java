@@ -22,14 +22,14 @@ public class GetCompanyDetail {
         private Response(
                 Company company
         ) {
-            this.id = company.getId();
-            this.companyName = company.getCompanyName();
-            this.representativeName = company.getRepresentativeName();
-            this.representativeContact = company.getRepresentativeContact();
-            this.representativeEmail = company.getRepresentativeEmail();
-            this.address = company.getAddress();
-            this.businessType = company.getBusinessType();
-            this.businessRegistrationNumber = company.getBusinessRegistrationNumber();
+            id = company.getId();
+            companyName = company.getCompanyName();
+            representativeName = company.getRepresentativeName();
+            representativeContact = company.getRepresentativeContact();
+            representativeEmail = company.getRepresentativeEmail();
+            address = company.getAddress();
+            businessType = company.getBusinessType();
+            businessRegistrationNumber = company.getBusinessRegistrationNumber();
         }
 
         public static Response of(

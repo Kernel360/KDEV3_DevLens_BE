@@ -6,7 +6,10 @@ import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.member.constant.YN;
 import com.seveneleven.exception.CompanyDuplicatedException;
 import com.seveneleven.exception.CompanyNotFoundException;
-import com.seveneleven.repository.*;
+import com.seveneleven.repository.CompanyRepository;
+import com.seveneleven.repository.GetAllCompaniesConverter;
+import com.seveneleven.repository.PutCompanyRequestConverter;
+import com.seveneleven.repository.PutCompanyResponseConverter;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,7 +28,6 @@ import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
 public class AdminCompanyServiceImpl implements AdminCompanyService{
     private final CompanyRepository companyRepository;
     private final PutCompanyResponseConverter putCompanyResponseConverter;
-    private final GetCompaniesResponseConverter getCompaniesResponseConverter;
     private final PutCompanyRequestConverter putCompanyRequestConverter;
     private final CheckCompanyValidity checkCompanyValidity;
     private final GetAllCompaniesConverter getAllCompaniesConverter;
@@ -94,11 +96,11 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
             String name, Integer page
     ) {
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE.getPageSize(), Sort.by("companyName").ascending());
-        Page<Company> companyPage = companyRepository.findByIsActiveAndCompanyNameContainingIgnoreCase(YN.Y, name, pageable);
+        Page<GetCompanies.Response> companyPage = adminCompanyReader.getCompaniesBySearchTerm(name, pageable);
         if (companyPage.getContent().isEmpty()) {
             throw new CompanyNotFoundException();
         }
-        return PaginatedResponse.createPaginatedResponse(companyPage.map(getCompaniesResponseConverter::toDTO));
+        return PaginatedResponse.createPaginatedResponse(companyPage);
     }
 
     @Transactional
@@ -107,14 +109,14 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
             Long id, PutCompany.Request request
     ) {
         //비활성화 및 존재 여부 확인
-        Company oldCompany = checkCompanyValidity.checkCompanyExistsOrDeactivated(id);
+        Company oldCompany = adminCompanyReader.getCompany(id);
         //회사 isActive N으로 변경
         oldCompany.deleteCompany();
         //중복 회사 등록 번호 확인
-        checkCompanyValidity.checkDuplicatedCompanyBusinessRegistrationNumber(request.getBusinessRegistrationNumber());
+        checkDuplicatedCompanyBusinessRegistrationNumber(request.getBusinessRegistrationNumber());
         //신규 데이터로 회사 생성
-        Company company = putCompanyRequestConverter.toEntity(request);
-        return putCompanyResponseConverter.toDTO(companyRepository.save(company));
+        Company company = request.toEntity();
+        return PutCompany.Response.of(companyRepository.save(company));
     }
 
     @Transactional
@@ -139,7 +141,8 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         함수명 : checkDuplicatedCompany
         함수 목적 : 중복 회사 조회
      */
-    public void checkDuplicatedCompanyBusinessRegistrationNumber(
+    @Transactional(readOnly = true)
+    protected void checkDuplicatedCompanyBusinessRegistrationNumber(
             String businessRegistrationNumber
     ) {
         companyRepository.findByBusinessRegistrationNumberAndIsActive(businessRegistrationNumber, YN.Y)

@@ -50,8 +50,8 @@ public class GetProjectHistory {
             endDate = projectHistory.getEndDate();
             createdAt = projectHistory.getCreatedAt();
             updatedAt = projectHistory.getUpdatedAt();
-            createdBy = createdBy;
-            updatedBy = updatedBy;
+            this.createdBy = createdBy;
+            this.updatedBy = updatedBy;
         }
 
         public Response(

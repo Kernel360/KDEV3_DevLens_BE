@@ -17,13 +17,13 @@ public class PostCompany {
 
         public Company toEntity(){
             return Company.createCompany(
-                    this.companyName,
-                    this.representativeName,
-                    this.representativeContact,
-                    this.representativeEmail,
-                    this.address,
-                    this.businessType,
-                    this.businessRegistrationNumber
+                    companyName,
+                    representativeName,
+                    representativeContact,
+                    representativeEmail,
+                    address,
+                    businessType,
+                    businessRegistrationNumber
             );
         }
     }
@@ -40,14 +40,14 @@ public class PostCompany {
         private String businessRegistrationNumber;
 
         private Response(Company company) {
-            this.id = company.getId();
-            this.companyName = company.getCompanyName();
-            this.representativeName = company.getRepresentativeName();
-            this.representativeContact = company.getRepresentativeContact();
-            this.representativeEmail = company.getRepresentativeEmail();
-            this.address = company.getAddress();
-            this.businessType = company.getBusinessType();
-            this.businessRegistrationNumber = company.getBusinessRegistrationNumber();
+            id = company.getId();
+            companyName = company.getCompanyName();
+            representativeName = company.getRepresentativeName();
+            representativeContact = company.getRepresentativeContact();
+            representativeEmail = company.getRepresentativeEmail();
+            address = company.getAddress();
+            businessType = company.getBusinessType();
+            businessRegistrationNumber = company.getBusinessRegistrationNumber();
         }
 
         public static Response of (Company company) {

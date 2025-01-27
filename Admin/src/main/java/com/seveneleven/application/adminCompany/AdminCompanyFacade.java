@@ -1,9 +1,6 @@
 package com.seveneleven.application.adminCompany;
 
-import com.seveneleven.dto.GetCompanies;
-import com.seveneleven.dto.GetCompanyDetail;
-import com.seveneleven.dto.GetProject;
-import com.seveneleven.dto.PostCompany;
+import com.seveneleven.dto.*;
 import com.seveneleven.response.PaginatedResponse;
 import com.seveneleven.service.AdminCompanyService;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +24,9 @@ public class AdminCompanyFacade {
 
     public PaginatedResponse<GetCompanies.Response> getCompanyList(Integer page){
         return adminCompanyService.getListOfCompanies(page);
+    }
+
+    public PutCompany.Response updateCompany(Long id, PutCompany.Request request) {
+        return adminCompanyService.updateCompany(id, request);
     }
 }

@@ -24,16 +24,16 @@ public class GetCompanies {
         private Response(
                 Company company
         ) {
-            this.id = company.getId();
-            this.companyName = company.getCompanyName();
-            this.representativeName = company.getRepresentativeName();
-            this.representativeContact = company.getRepresentativeContact();
-            this.representativeEmail = company.getRepresentativeEmail();
-            this.address = company.getAddress();
-            this.businessType = company.getBusinessType();
-            this.businessRegistrationNumber = company.getBusinessRegistrationNumber();
-            this.isActive = company.getIsActive();
-            this.createdAt = company.getCreatedAt();
+            id = company.getId();
+            companyName = company.getCompanyName();
+            representativeName = company.getRepresentativeName();
+            representativeContact = company.getRepresentativeContact();
+            representativeEmail = company.getRepresentativeEmail();
+            address = company.getAddress();
+            businessType = company.getBusinessType();
+            businessRegistrationNumber = company.getBusinessRegistrationNumber();
+            isActive = company.getIsActive();
+            createdAt = company.getCreatedAt();
         }
 
         public static Response getCompaniesResponse(

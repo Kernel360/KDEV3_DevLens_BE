@@ -99,7 +99,7 @@ public class CompanyController implements CompanyDocs{
     ) {
         return ResponseEntity
                 .status(SuccessCode.UPDATED.getStatus())
-                .body(APIResponse.success(SuccessCode.UPDATED, adminCompanyService.updateCompany(id, request)));
+                .body(APIResponse.success(SuccessCode.UPDATED, adminCompanyFacade.updateCompany(id, request)));
     }
 
     /*

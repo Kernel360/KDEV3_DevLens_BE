@@ -37,4 +37,10 @@ public class AdminCompanyReaderImpl implements AdminCompanyReader {
     public Page<GetCompanies.Response> getCompanies(Pageable pageable) {
         return companyRepository.findByIsActive(pageable,YN.Y).map(GetCompanies.Response::getCompaniesResponse);
     }
+
+    @Override
+    public Page<GetCompanies.Response> getCompaniesBySearchTerm(String searchTerm, Pageable pageable) {
+        return companyRepository.findByIsActiveAndCompanyNameContainingIgnoreCase(YN.Y, searchTerm, pageable)
+                .map(GetCompanies.Response::getCompaniesResponse);
+    }
 }
