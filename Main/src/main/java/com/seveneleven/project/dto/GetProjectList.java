@@ -13,30 +13,38 @@ public class GetProjectList {
      * AllArgsContructor는 개발 시 삭제 예정
      */
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
         List<GetMyProjectResponseInfo> myProjects;
         List<GetCompanyProjectResponseInfo> companyProjects;
+
+        private Response(List<GetMyProjectResponseInfo> myProjects, List<GetCompanyProjectResponseInfo> companyProjects) {
+            this.myProjects = myProjects;
+            this.companyProjects = companyProjects;
+        }
+
+        public static GetProjectList.Response toDto(List<GetMyProjectResponseInfo> myProjects,
+                                                    List<GetCompanyProjectResponseInfo> companyProjects) {
+            return new GetProjectList.Response(myProjects, companyProjects);
+        }
     }
 
     @Getter
     @NoArgsConstructor
     public static class GetMyProjectResponseInfo {
-        private Long projectId;
-        private String name;
+        private Long id;
+        private String projectName;
         private LocalDate startDate;
         private LocalDate endDate;
-        private Long customerCompanyId;
-        private String customerCompanyName;
+        private Long customerId;
+        private String customerName;
 
         private GetMyProjectResponseInfo(Project project) {
-            this.projectId = project.getId();
-            this.name = project.getProjectName();
+            this.id = project.getId();
+            this.projectName = project.getProjectName();
             this.startDate = project.getStartDate();
             this.endDate = project.getEndDate();
-            this.customerCompanyId = project.getCustomer().getId();
-            this.customerCompanyName = project.getCustomer().getCompanyName();
+            this.customerId = project.getCustomer().getId();
+            this.customerName = project.getCustomer().getCompanyName();
         }
 
         public static List<GetMyProjectResponseInfo> toDto(List<Project> project) {
@@ -50,20 +58,20 @@ public class GetProjectList {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetCompanyProjectResponseInfo {
-        private Long projectId;
-        private String name;
+        private Long id;
+        private String projectName;
         private LocalDate startDate;
         private LocalDate endDate;
-        private Long customerCompanyId;
-        private String customerCompanyName;
+        private Long customerId;
+        private String customerName;
 
         private GetCompanyProjectResponseInfo(Project project) {
-            this.projectId = project.getId();
-            this.name = project.getProjectName();
+            this.id = project.getId();
+            this.projectName = project.getProjectName();
             this.startDate = project.getStartDate();
             this.endDate = project.getEndDate();
-            this.customerCompanyId = project.getCustomer().getId();
-            this.customerCompanyName = project.getCustomer().getCompanyName();
+            this.customerId = project.getCustomer().getId();
+            this.customerName = project.getCustomer().getCompanyName();
         }
 
         public static List<GetCompanyProjectResponseInfo> toDto(List<Project> project) {

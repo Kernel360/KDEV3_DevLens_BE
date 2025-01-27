@@ -14,7 +14,6 @@ public class PutProjectChecklist {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
-        private Long checklistId;
         private String title;
         private String description;
     }

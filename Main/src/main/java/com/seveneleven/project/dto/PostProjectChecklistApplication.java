@@ -2,6 +2,7 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.CheckRequest;
+import com.seveneleven.entity.project.Checklist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,14 @@ public class PostProjectChecklistApplication {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
-        private Long checklistId;
         private String title;
         private String description;
         private Long requesterId;
         private List<File> files;
         private List<String> links;
 
-        public CheckRequest createCheckRequest(Member requester, String requestIp) {
-            return CheckRequest.create(title, description, requester, requestIp);
+        public CheckRequest createCheckRequest(Checklist checklist, Member requester, String requestIp) {
+            return CheckRequest.create(checklist, title, description, requester, requestIp);
         }
     }
 

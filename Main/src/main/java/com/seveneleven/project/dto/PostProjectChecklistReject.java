@@ -13,7 +13,6 @@ public class PostProjectChecklistReject {
 
     @Getter
     public static class Request {
-        private Long applicationId;
         private String rejectReason;
         private List<String> links;
     }

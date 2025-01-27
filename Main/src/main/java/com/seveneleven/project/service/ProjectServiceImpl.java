@@ -1,6 +1,6 @@
 package com.seveneleven.project.service;
 
-import com.seveneleven.member.service.MemberServiceImpl;
+import com.seveneleven.member.service.MemberService;
 import com.seveneleven.project.dto.GetProjectDetail;
 import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.project.service.dashboard.ProjectReader;
@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectReader projectReader;
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     @Override
     public GetProjectList.Response getProjectList(Long memberId) {
-        // TODO - securityUtils 사용 확인
-        // TODO - MemberRepository -> Reader로 변경 필요
+        // TODO - memberService -> Reader로 변경 필요
         return projectReader.getProjectList(memberId, memberService.getCompanyIdById(memberId));
     }
 

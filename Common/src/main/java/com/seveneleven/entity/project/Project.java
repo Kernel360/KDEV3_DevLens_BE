@@ -41,7 +41,7 @@ public class Project extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProjectStatusCode projectStatusCode; // 프로젝트 상태 코드 (준비, 진행, 완료, 보류, 취소)
 
-    private String bnsManager; // BNS 담당자 ID
+    private String bnsManager; // BNS 담당자
 
     private String contractNumber; // 계약서 번호
 

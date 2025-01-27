@@ -18,7 +18,6 @@ public class CustomUserDetails implements UserDetails {
 
     private final MemberDto member;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -51,9 +50,6 @@ public class CustomUserDetails implements UserDetails {
     public String getPassword() {
         return member.getPassword();
     }
-
-
-
 
     @Override
     public boolean isAccountNonExpired() {

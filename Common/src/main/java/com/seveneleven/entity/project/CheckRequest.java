@@ -49,7 +49,8 @@ public class CheckRequest extends BaseEntity {
     @Convert(converter = YesNoConverter.class)
     private YesNo isActive; // 사용 유무
 
-    private CheckRequest(String title, String content, Member requester, String requestIp) {
+    private CheckRequest(Checklist checklist, String title, String content, Member requester, String requestIp) {
+        this.checklist = checklist;
         this.requester = requester;
         this.requestIp = requestIp;
         this.title = title;
@@ -57,24 +58,26 @@ public class CheckRequest extends BaseEntity {
         this.isActive = YesNo.YES;
     }
 
-    public static CheckRequest create(String title, String content, Member requester, String requestIp) {
-        return new CheckRequest(title, content, requester, requestIp);
+    public static CheckRequest create(Checklist checklist, String title, String content, Member requester, String requestIp) {
+        return new CheckRequest(checklist, title, content, requester, requestIp);
     }
 
     public CheckRequestHistory createCheckRequestHistory() {
         return new CheckRequestHistory(this);
     }
 
-    public void accept() {
+    public CheckRequest accept() {
         if(approvalStatus.equals(ApprovalStatus.WAITING)) {
             approvalStatus = ApprovalStatus.APPROVED;
+            return this;
         }
         throw new BusinessException(ErrorCode.CHECK_REQUEST_ALREADY_HAS_RESULT);
     }
 
-    public void reject() {
+    public CheckRequest reject() {
         if(approvalStatus.equals(ApprovalStatus.WAITING)) {
             approvalStatus = ApprovalStatus.REJECTED;
+            return this;
         }
         throw new BusinessException(ErrorCode.CHECK_REQUEST_ALREADY_HAS_RESULT);
     }

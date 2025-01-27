@@ -171,9 +171,15 @@ public class MemberServiceImpl implements MemberService{
         return token;
     }
 
-
+    @Override
     public Long getCompanyIdById(Long memberId) {
         return memberRepository.findCompanyIdByIdAndStatus(memberId, MemberStatus.ACTIVE)
                 .orElseThrow(() -> new BusinessException(ErrorCode.COMPANY_IS_NOT_FOUND));
+    }
+
+    @Override
+    public Member getMember(Long memberId) {
+        return memberRepository.findByIdAndStatus(memberId, MemberStatus.ACTIVE)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 }

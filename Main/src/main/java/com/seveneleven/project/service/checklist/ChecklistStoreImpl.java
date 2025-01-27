@@ -1,13 +1,11 @@
 package com.seveneleven.project.service.checklist;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Checklist;
-import com.seveneleven.exception.BusinessException;
+import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.project.dto.PostProjectChecklist;
 import com.seveneleven.project.dto.PutProjectChecklist;
 import com.seveneleven.project.repository.ChecklistRepository;
 import com.seveneleven.project.repository.ProjectStepRepository;
-import com.seveneleven.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,20 +22,14 @@ public class ChecklistStoreImpl implements ChecklistStore {
     private final ProjectStepRepository projectStepRepository;
 
     @Override
-    public Checklist storeChecklist(PostProjectChecklist.Request request) {
-        return checklistRepository.save(request.toEntity(
-                projectStepRepository.findByIdAndIsActive(
-                        request.getProjectStepId(),
-                        YesNo.YES
-                ).orElseThrow(() -> new BusinessException(ErrorCode.CHECKLIST_NOT_FOUND))));
+    public Checklist storeChecklist(ProjectStep projectStep, PostProjectChecklist.Request request) {
+        return checklistRepository.save(request.toEntity(projectStep));
     }
 
     @Override
     @Transactional
-    public Checklist updateChecklist(PutProjectChecklist.Request request) {
-        return checklistRepository.findById(request.getChecklistId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.CHECKLIST_NOT_FOUND))
-                .updateChecklist(request.getTitle(), request.getDescription());
+    public Checklist updateChecklist(Checklist checklist, PutProjectChecklist.Request request) {
+        return checklist.updateChecklist(request.getTitle(), request.getDescription());
     }
 
     @Override
@@ -47,7 +39,7 @@ public class ChecklistStoreImpl implements ChecklistStore {
 
     @Override
     public void delete(Checklist checklist) {
-        checklist.deleteChecklist();
+        checklistRepository.save(checklist.deleteChecklist());
     }
 
     @Override

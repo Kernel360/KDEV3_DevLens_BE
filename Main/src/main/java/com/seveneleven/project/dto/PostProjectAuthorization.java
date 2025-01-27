@@ -62,7 +62,5 @@ public class PostProjectAuthorization {
         public static FailList toDto(MemberAuthorization member, HttpStatus status, String message) {
             return new FailList(member, status, message);
         }
-
-
     }
 }

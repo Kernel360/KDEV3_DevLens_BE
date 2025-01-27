@@ -44,7 +44,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 p.id,
                 p_t.projectTypeName,
                 p.projectName,
-                p.projectDescription
+                p.projectDescription,
+                p.bnsManager
         )
         FROM
             Project p

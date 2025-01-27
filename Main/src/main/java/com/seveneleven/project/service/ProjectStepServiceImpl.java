@@ -26,6 +26,11 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     private final ChecklistStore checklistStore;
 
     @Override
+    public ProjectStep getProjectStepById(Long stepId) {
+        return stepReader.read(stepId);
+    }
+
+    @Override
     public GetStepChecklist.Response getStepChecklist(Long stepId) {
         return checklistReader.getStepChecklist(stepId);
     }

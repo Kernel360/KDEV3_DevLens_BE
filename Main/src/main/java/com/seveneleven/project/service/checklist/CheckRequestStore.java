@@ -3,19 +3,20 @@ package com.seveneleven.project.service.checklist;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.CheckRequest;
 import com.seveneleven.entity.project.CheckRequestHistory;
+import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.project.dto.PostProjectChecklistApplication;
-import jakarta.servlet.http.HttpServletRequest;
 
 public interface CheckRequestStore {
 
     CheckRequest checkRequestStore(
+            Checklist checklist,
             PostProjectChecklistApplication.Request requestDto,
             Member member,
-            HttpServletRequest request
+            String ipAddress
     );
 
     CheckRequestHistory checkRequestHistoryStore(CheckRequest checkRequest);
 
-    void acceptCheckRequest(CheckRequest checkRequest);
-    void rejectCheckRequest(CheckRequest checkRequest);
+    CheckRequest acceptCheckRequest(CheckRequest checkRequest);
+    CheckRequest rejectCheckRequest(CheckRequest checkRequest);
 }

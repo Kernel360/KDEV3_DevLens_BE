@@ -2,6 +2,7 @@ package com.seveneleven.project.controller;
 
 import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
+import com.seveneleven.util.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +12,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Tag(name = "Project Checklist API", description = "프로젝트 체크리스트 관련 API")
@@ -48,7 +49,7 @@ public interface ProjectChecklistDocs {
             @PathVariable Long stepId
     );
 
-    @PostMapping("")
+    @PostMapping("/steps/{stepId}/checklists")
     @Operation(
             summary = "체크리스트 생성",
             description = "새로운 체크리스트를 생성합니다.",
@@ -64,10 +65,11 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklist.Response>> postProjectChecklist(
+            @PathVariable Long stepId,
             @RequestBody PostProjectChecklist.Request request
     );
 
-    @PutMapping("")
+    @PutMapping("/checklists/{checklistId}")
     @Operation(
             summary = "체크리스트 수정",
             description = "기존 체크리스트를 수정합니다.",
@@ -83,6 +85,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PutProjectChecklist.Response>> putProjectChecklist(
+            @PathVariable Long checklistId,
             @RequestBody PutProjectChecklist.Request request
     );
 
@@ -113,7 +116,7 @@ public interface ProjectChecklistDocs {
             @PathVariable Long checklistId
     );
 
-    @PostMapping(value = "/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/checklists/{checklistId}/applications", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(
             summary = "체크리스트 신청 생성",
             description = "체크리스트에 새로운 신청을 생성합니다.",
@@ -129,12 +132,13 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistApplication.Response>> postProjectChecklistApplication(
+            @PathVariable Long checklistId,
             @RequestBody PostProjectChecklistApplication.Request requestDto,
             @RequestBody List<MultipartFile> files,
             HttpServletRequest request
     );
 
-    @PostMapping("/accept/{applicationId}")
+    @PostMapping("/applications/{applicationId}/accept")
     @Operation(
             summary = "체크리스트 신청 승인",
             description = "특정 체크리스트 신청을 승인합니다.",
@@ -159,10 +163,11 @@ public interface ProjectChecklistDocs {
     )
     ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
             @PathVariable Long applicationId,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             HttpServletRequest request
     );
 
-    @PostMapping("/reject/{applicationId}")
+    @PostMapping("/applications/{applicationId}/reject")
     @Operation(
             summary = "체크리스트 신청 거절",
             description = "특정 체크리스트 신청을 거절합니다.",
@@ -186,8 +191,9 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
+            @PathVariable Long applicationId,
             @RequestPart PostProjectChecklistReject.Request requestDto,
-            @RequestPart List<File> files,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             HttpServletRequest request
     );
 }

@@ -3,10 +3,10 @@ package com.seveneleven.project.service.checklist;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.CheckRequest;
 import com.seveneleven.entity.project.CheckRequestHistory;
+import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.project.dto.PostProjectChecklistApplication;
 import com.seveneleven.project.repository.CheckRequestRepository;
 import com.seveneleven.util.GetIpUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +23,12 @@ public class CheckRequestStoreImpl implements CheckRequestStore {
     @Override
     @Transactional
     public CheckRequest checkRequestStore(
+            Checklist checklist,
             PostProjectChecklistApplication.Request requestDto,
             Member member,
-            HttpServletRequest request
+            String ipAddress
     ) {
-        // TODO - 파일, 링크 처리 필요.
-        // TODO - 회원 파트 서비스 호출로 변경
-        String ipAddress = getIpUtil.getIpAddress(request);
-
-        CheckRequest checkRequest = requestDto.createCheckRequest(member, ipAddress);
+        CheckRequest checkRequest = requestDto.createCheckRequest(checklist, member, ipAddress);
         return checkRequestRepository.save(checkRequest);
     }
 
@@ -41,12 +38,12 @@ public class CheckRequestStoreImpl implements CheckRequestStore {
     }
 
     @Override
-    public void acceptCheckRequest(CheckRequest checkRequest) {
-        checkRequest.accept();
+    public CheckRequest acceptCheckRequest(CheckRequest checkRequest) {
+        return checkRequestRepository.save(checkRequest.accept());
     }
 
     @Override
-    public void rejectCheckRequest(CheckRequest checkRequest) {
-        checkRequest.reject();
+    public CheckRequest rejectCheckRequest(CheckRequest checkRequest) {
+        return checkRequestRepository.save(checkRequest.reject());
     }
 }

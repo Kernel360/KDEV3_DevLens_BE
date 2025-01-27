@@ -22,7 +22,8 @@ public class StepReaderImpl implements StepReader {
 
     @Override
     public ProjectStep read(Long stepId) {
-        return projectStepRepository.findById(stepId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PROJECT_STEP));
+        return projectStepRepository.findByIdAndIsActive(stepId, YesNo.YES)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PROJECT_STEP));
     }
 
     @Override

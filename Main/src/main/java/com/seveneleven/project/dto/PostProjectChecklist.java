@@ -15,12 +15,11 @@ public class PostProjectChecklist {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
-        private Long ProjectStepId;
-        private String title;
-        private String description;
+        private String checklistTitle;
+        private String checklistDescription;
 
         public Checklist toEntity(ProjectStep projectStep) {
-            return Checklist.create(title, description, projectStep);
+            return Checklist.create(checklistTitle, checklistDescription, projectStep);
         }
     }
 
