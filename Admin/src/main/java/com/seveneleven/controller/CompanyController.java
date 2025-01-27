@@ -69,7 +69,7 @@ public class CompanyController implements CompanyDocs{
     public ResponseEntity<APIResponse<PaginatedResponse<GetCompanies.Response>>> readCompanyList(@RequestParam(value = "page") Integer page) {
         return ResponseEntity
                 .status(SuccessCode.OK.getStatus())
-                .body(APIResponse.success(SuccessCode.OK, adminCompanyService.getListOfCompanies(page)));
+                .body(APIResponse.success(SuccessCode.OK, adminCompanyFacade.getCompanyList(page)));
     }
 
     /*

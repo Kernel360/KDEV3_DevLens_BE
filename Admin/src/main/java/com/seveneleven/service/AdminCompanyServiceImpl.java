@@ -76,13 +76,13 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
     */
     @Transactional(readOnly = true)
     @Override
-    public PaginatedResponse<GetCompanies.Response> getListOfCompanies(Integer page) {
-        Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE.getPageSize(), Sort.by("companyName").ascending());
-        Page<Company> companyPage = companyRepository.findByIsActive(pageable, YN.Y);
+    public PaginatedResponse<GetCompanies.Response> getListOfCompanies(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE.getPageSize(), Sort.by("companyName").ascending());
+        Page<GetCompanies.Response> companyPage = adminCompanyReader.getCompanies(pageable);
         if (companyPage.getContent().isEmpty()) {
             throw new CompanyNotFoundException();
         }
-        return PaginatedResponse.createPaginatedResponse(companyPage.map(getCompaniesResponseConverter::toDTO));
+        return PaginatedResponse.createPaginatedResponse(companyPage);
     }
     /*
             함수명 : searchCompaniesByName

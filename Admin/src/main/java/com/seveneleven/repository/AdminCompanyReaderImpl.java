@@ -1,5 +1,6 @@
 package com.seveneleven.repository;
 
+import com.seveneleven.dto.GetCompanies;
 import com.seveneleven.dto.GetProject;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.member.constant.YN;
@@ -30,5 +31,10 @@ public class AdminCompanyReaderImpl implements AdminCompanyReader {
     public Page<GetProject.Response> getCompanyProject(Pageable pageable, Long id) {
         Company company = companyRepository.findByIdAndIsActive(id, YN.Y).orElseThrow(CompanyNotFoundException::new);
         return adminProjectRepository.findByCustomerOrDeveloper(pageable, company, company).map(GetProject.Response::of);
+    }
+
+    @Override
+    public Page<GetCompanies.Response> getCompanies(Pageable pageable) {
+        return companyRepository.findByIsActive(pageable,YN.Y).map(GetCompanies.Response::getCompaniesResponse);
     }
 }
