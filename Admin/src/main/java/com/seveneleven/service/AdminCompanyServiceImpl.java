@@ -112,7 +112,7 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         checkDuplicatedCompanyBusinessRegistrationNumber(request.getBusinessRegistrationNumber());
         //신규 데이터로 회사 생성
         Company company = request.toEntity();
-        return PutCompany.Response.of(companyRepository.save(company));
+        return PutCompany.Response.of(adminCompanyStore.store(company));
     }
 
     @Transactional
