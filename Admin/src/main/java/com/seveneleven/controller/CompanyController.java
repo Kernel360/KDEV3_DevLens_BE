@@ -47,6 +47,10 @@ public class CompanyController implements CompanyDocs {
                 .body(APIResponse.success(SuccessCode.OK, company));
     }
 
+    /*
+            함수명 : readCompanyProject
+            목적 : 회사 참여 프로젝트 조회
+     */
     @GetMapping("/{id}/projects")
     @Override
     public ResponseEntity<APIResponse<PaginatedResponse<GetProject.Response>>> readCompanyProject(
@@ -61,7 +65,7 @@ public class CompanyController implements CompanyDocs {
     /*
             함수명 : readCompanyList
             목적 : 회사 목록 조회
-         */
+     */
     @GetMapping("")
     @Override
     public ResponseEntity<APIResponse<PaginatedResponse<GetCompanies.Response>>> readCompanyList(@RequestParam(value = "page") Integer page) {
