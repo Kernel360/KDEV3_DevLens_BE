@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/companies")
-public class CompanyController implements CompanyDocs{
+public class CompanyController implements CompanyDocs {
     private final AdminCompanyService adminCompanyService;
     private final AdminCompanyFacade adminCompanyFacade;
 
@@ -84,7 +84,7 @@ public class CompanyController implements CompanyDocs{
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(APIResponse.success(SuccessCode.OK, adminCompanyService.searchCompaniesByName(name,page)));
+                .body(APIResponse.success(SuccessCode.OK, adminCompanyFacade.getCompanyBySearchTerm(name, page)));
     }
 
     /*

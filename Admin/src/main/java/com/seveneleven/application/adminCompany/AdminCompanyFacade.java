@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminCompanyFacade {
     private final AdminCompanyService adminCompanyService;
+
     public PostCompany.Response registerCompany(PostCompany.Request request) {
         return adminCompanyService.createCompany(request);
     }
@@ -22,8 +23,12 @@ public class AdminCompanyFacade {
         return adminCompanyService.getCompanyProject(page, id);
     }
 
-    public PaginatedResponse<GetCompanies.Response> getCompanyList(Integer page){
+    public PaginatedResponse<GetCompanies.Response> getCompanyList(Integer page) {
         return adminCompanyService.getListOfCompanies(page);
+    }
+
+    public PaginatedResponse<GetCompanies.Response> getCompanyBySearchTerm(String term, Integer page) {
+        return adminCompanyService.searchCompaniesByName(term, page);
     }
 
     public PutCompany.Response updateCompany(Long id, PutCompany.Request request) {
