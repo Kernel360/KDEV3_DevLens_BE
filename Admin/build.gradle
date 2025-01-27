@@ -29,6 +29,12 @@ repositories {
 
 dependencies {
     implementation project(':Common')
+
+    //모니터링
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'// actuator
+    implementation 'io.micrometer:micrometer-core'//마이크로미터
+    implementation 'io.micrometer:micrometer-registry-prometheus'//프로메테우스
+
 }
 
 test {
