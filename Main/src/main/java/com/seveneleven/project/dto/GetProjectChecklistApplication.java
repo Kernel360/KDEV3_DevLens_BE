@@ -8,17 +8,17 @@ public class GetProjectChecklistApplication {
     @NoArgsConstructor
     public static class Response {
         Long id;
-        String title;
-        String content;
+        String checkRequestTitle;
+        String checkRequestContent;
 
-        private Response(Long id, String title, String content) {
-            this.id = id;
-            this.title = title;
-            this.content = content;
+        private Response(CheckRequest checkRequest) {
+            this.id = checkRequest.getId();
+            this.checkRequestTitle = checkRequest.getTitle();
+            this.checkRequestContent = checkRequest.getContent();
         }
 
         public static Response toDto(CheckRequest checkRequest) {
-            return new Response(checkRequest.getId(), checkRequest.getTitle(), checkRequest.getContent());
+            return new Response(checkRequest);
         }
     }
 }

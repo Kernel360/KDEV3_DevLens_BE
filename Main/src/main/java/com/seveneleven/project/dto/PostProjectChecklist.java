@@ -25,22 +25,23 @@ public class PostProjectChecklist {
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
         private Long projectChecklistId;
         private String checklistTitle;
         private String checklistDescription;
-        private YesNo isActive;
-        private YesNo isChecked;
+        private Boolean isActive;
+        private Boolean isChecked;
+
+        private Response(Checklist checklist) {
+            this.projectChecklistId = checklist.getId();
+            this.checklistTitle = checklist.getTitle();
+            this.checklistDescription = checklist.getDescription();
+            this.isActive = checklist.getIsActive() == YesNo.YES;
+            this.isChecked = checklist.getIsChecked() == YesNo.YES;
+        }
 
         public static Response toDto(Checklist checklist) {
-            return new Response(
-                    checklist.getId(),
-                    checklist.getTitle(),
-                    checklist.getDescription(),
-                    checklist.getIsActive(),
-                    checklist.getIsChecked()
-            );
+            return new Response(checklist);
         }
     }
 }

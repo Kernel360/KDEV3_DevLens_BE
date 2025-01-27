@@ -13,11 +13,11 @@ public class DeleteProjectChecklist {
     @NoArgsConstructor
     public static class Response {
         private Long checklistId;
-        private YesNo checklistStatus;
+        private Boolean checklistStatus;
 
         private Response(Checklist checklist) {
             this.checklistId = checklist.getId();
-            this.checklistStatus = checklist.getIsActive();
+            this.checklistStatus = checklist.getIsActive() == YesNo.YES;
         }
 
         public static Response toDto(Checklist checklist) {
