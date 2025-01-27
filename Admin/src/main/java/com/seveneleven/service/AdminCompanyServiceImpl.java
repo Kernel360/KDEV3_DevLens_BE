@@ -1,6 +1,5 @@
 package com.seveneleven.service;
 
-import com.seveneleven.common.CheckCompanyValidity;
 import com.seveneleven.dto.*;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.member.constant.YN;
@@ -25,7 +24,6 @@ import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
 @RequiredArgsConstructor
 public class AdminCompanyServiceImpl implements AdminCompanyService{
     private final CompanyRepository companyRepository;
-    private final CheckCompanyValidity checkCompanyValidity;
     private final GetAllCompaniesConverter getAllCompaniesConverter;
     private final AdminCompanyStore adminCompanyStore;
     private final AdminCompanyReader adminCompanyReader;
