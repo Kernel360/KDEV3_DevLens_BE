@@ -44,4 +44,8 @@ public class AdminProjectFacade {
     public String checkProjectNameExists(String name){
         return adminProjectService.checkProjectNameExists(name);
     }
+
+    public PaginatedResponse<GetProject.Response> getCompanyProject(Long id, Integer page) {
+        return adminProjectService.getCompanyProject(page, id);
+    }
 }

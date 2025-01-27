@@ -21,10 +21,6 @@ public class AdminCompanyFacade {
         return adminCompanyService.getCompanyDetail(id);
     }
 
-    public PaginatedResponse<GetProject.Response> getCompanyProject(Long id, Integer page) {
-        return adminCompanyService.getCompanyProject(page, id);
-    }
-
     public PaginatedResponse<GetCompanies.Response> getCompanyList(Integer page) {
         return adminCompanyService.getListOfCompanies(page);
     }

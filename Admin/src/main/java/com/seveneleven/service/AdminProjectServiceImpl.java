@@ -94,4 +94,16 @@ public class AdminProjectServiceImpl implements AdminProjectService {
         else
             return "생성 가능한 프로젝트 이름입니다.";
     }
+
+    /*
+        함수명 : getCompanyProject
+        함수 목적 : 회사 참여 프로젝트
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public PaginatedResponse<GetProject.Response> getCompanyProject(Integer pageNumber, Long id) {
+        Pageable pageable = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE.getPageSize());
+        Page<GetProject.Response> page = adminCompanyReader.getCompanyProject(pageable, id);
+        return PaginatedResponse.createPaginatedResponse(page);
+    }
 }

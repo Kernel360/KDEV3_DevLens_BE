@@ -13,4 +13,5 @@ public interface AdminProjectService {
     Project updateProject(Long id, PutProject.Request request);
     Project deleteProject(Long id);
     String checkProjectNameExists(String projectName);
+    PaginatedResponse<GetProject.Response> getCompanyProject(Integer page, Long id);
 }

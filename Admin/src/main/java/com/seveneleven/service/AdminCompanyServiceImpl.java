@@ -21,7 +21,7 @@ import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
-public class AdminCompanyServiceImpl implements AdminCompanyService{
+public class AdminCompanyServiceImpl implements AdminCompanyService {
     private final CompanyRepository companyRepository;
     private final AdminCompanyStore adminCompanyStore;
     private final AdminCompanyReader adminCompanyReader;
@@ -51,19 +51,6 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         return GetCompanyDetail.Response.of(company);
     }
 
-
-    /*
-        함수명 : getCompanyProject
-        함수 목적 : 회사 참여 프로젝트
-     */
-    @Transactional(readOnly = true)
-    @Override
-    public PaginatedResponse<GetProject.Response> getCompanyProject(Integer pageNumber, Long id) {
-        Pageable pageable = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE.getPageSize());
-        Page<GetProject.Response> page = adminCompanyReader.getCompanyProject(pageable, id);
-        return PaginatedResponse.createPaginatedResponse(page);
-    }
-
     /*
         함수명 : getListOfCompanies
         함수 목적 : 회사 목록조회
@@ -78,6 +65,7 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
         }
         return PaginatedResponse.createPaginatedResponse(companyPage);
     }
+
     /*
             함수명 : searchCompaniesByName
             함수 목적 : 회사 검색
