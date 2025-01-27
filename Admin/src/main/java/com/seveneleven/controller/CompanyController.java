@@ -111,7 +111,7 @@ public class CompanyController implements CompanyDocs {
     public ResponseEntity<APIResponse<Object>> deleteCompany(
             @PathVariable Long id
     ) {
-        adminCompanyService.deleteCompany(id);
+        adminCompanyFacade.deleteCompany(id);
         return ResponseEntity
                 .status(SuccessCode.DELETED.getStatus())
                 .body(APIResponse.success(SuccessCode.DELETED));

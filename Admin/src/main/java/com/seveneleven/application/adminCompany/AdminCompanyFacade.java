@@ -34,4 +34,8 @@ public class AdminCompanyFacade {
     public PutCompany.Response updateCompany(Long id, PutCompany.Request request) {
         return adminCompanyService.updateCompany(id, request);
     }
+
+    public void deleteCompany(Long id) {
+        adminCompanyService.deleteCompany(id);
+    }
 }

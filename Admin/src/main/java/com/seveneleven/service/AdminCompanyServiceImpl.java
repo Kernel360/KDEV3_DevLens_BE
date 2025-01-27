@@ -119,7 +119,7 @@ public class AdminCompanyServiceImpl implements AdminCompanyService{
     @Override
     public void deleteCompany(Long id) {
         //비활성화 및 존재 여부 확인
-        Company company = checkCompanyValidity.checkCompanyExistsOrDeactivated(id);
+        Company company = adminCompanyReader.getActiveCompany(id);
         //회사 isActive N으로 변경
         company.deleteCompany();
     }
