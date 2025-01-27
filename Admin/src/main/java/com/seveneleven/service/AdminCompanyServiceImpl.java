@@ -8,8 +8,6 @@ import com.seveneleven.exception.CompanyDuplicatedException;
 import com.seveneleven.exception.CompanyNotFoundException;
 import com.seveneleven.repository.CompanyRepository;
 import com.seveneleven.repository.GetAllCompaniesConverter;
-import com.seveneleven.repository.PutCompanyRequestConverter;
-import com.seveneleven.repository.PutCompanyResponseConverter;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,8 +25,6 @@ import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
 @RequiredArgsConstructor
 public class AdminCompanyServiceImpl implements AdminCompanyService{
     private final CompanyRepository companyRepository;
-    private final PutCompanyResponseConverter putCompanyResponseConverter;
-    private final PutCompanyRequestConverter putCompanyRequestConverter;
     private final CheckCompanyValidity checkCompanyValidity;
     private final GetAllCompaniesConverter getAllCompaniesConverter;
     private final AdminCompanyStore adminCompanyStore;
