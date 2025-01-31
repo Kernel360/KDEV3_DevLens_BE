@@ -1,6 +1,7 @@
 package com.seveneleven.dto;
 
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class GetProject {
         private String developerName; // 개발사 ID (Company 엔티티의 ID)
         private String projectDescription; // 프로젝트 설명
         private String projectTypeName; // 프로젝트 유형 ID
-        private Project.ProjectStatusCode projectStatusCode; // 프로젝트 상태 코드
+        private ProjectStatusCode projectStatusCode; // 프로젝트 상태 코드
         private String bnsManagerName; // BNS 담당자 ID (Member 엔티티의 ID)
         private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
