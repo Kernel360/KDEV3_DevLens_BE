@@ -29,7 +29,7 @@ jobs:
       SPRING_MAIL_PORT: ${{ secrets.SPRING_MAIL_PORT }}
       SPRING_MAIL_USERNAME: ${{ secrets.SPRING_MAIL_USERNAME }}
       SPRING_MAIL_PASSWORD: ${{ secrets.SPRING_MAIL_PASSWORD }}
-      SPRING_REDIS_HOST: ${{ secrets.SPRING_REDIS_HOST }}
+      SPRING_REDIS_HOST: localhost
       SPRING_REDIS_PORT: ${{ secrets.SPRING_REDIS_PORT }}
 
     permissions:
@@ -70,5 +70,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Start Redis
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y redis-server
+          sudo systemctl start redis
+          redis-cli ping
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
