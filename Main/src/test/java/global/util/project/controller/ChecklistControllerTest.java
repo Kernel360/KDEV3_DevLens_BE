@@ -7,7 +7,6 @@ import com.seveneleven.project.dto.GetStepChecklist;
 import com.seveneleven.project.service.checklist.ChecklistReader;
 import com.seveneleven.response.ErrorCode;
 import com.seveneleven.response.SuccessCode;
-import global.util.project.util.MyEnvUtils;
 import jakarta.servlet.http.Cookie;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -36,8 +33,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Slf4j
-@ContextConfiguration(initializers = MyEnvUtils.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
+//@ContextConfiguration(initializers = MyEnvUtils.class)
+//@TestPropertySource(locations = "classpath:application-test.properties")
 public class ChecklistControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -89,9 +86,7 @@ public class ChecklistControllerTest {
                         .cookie(accessCookie, refreshCookie)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                // APIResponse 내부의 code 값이 SuccessCode.OK의 값과 일치하는지 검증합니다.
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(SuccessCode.OK.getStatusCode()))
-                // data 필드 내부에 myChecklistItems와 companyChecklistItems가 존재하는지 검증
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.checklists").exists());
     }
 
@@ -110,9 +105,7 @@ public class ChecklistControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .cookie(accessCookie, refreshCookie))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                // 예를 들어, 응답 JSON의 code 필드가 NOT_FOUND의 상태 코드와 일치한다고 가정
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(ErrorCode.NOT_FOUND_PROJECT_STEP.getStatusCode()))
-                // 예외 메시지가 응답의 message 필드에 포함되는지 검증
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(ErrorCode.NOT_FOUND_PROJECT_STEP.getMessage()));
     }
 
