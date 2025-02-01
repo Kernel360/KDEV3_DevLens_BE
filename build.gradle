@@ -82,6 +82,10 @@ subprojects {
         implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'
 
         implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+        testImplementation 'org.mockito:mockito-core'
+        testImplementation 'org.mockito:mockito-junit-jupiter'
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
     }
 
     test {
