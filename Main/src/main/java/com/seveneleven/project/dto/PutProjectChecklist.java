@@ -25,14 +25,14 @@ public class PutProjectChecklist {
         private Long id;
         private String title;
         private String description;
-        private YesNo isChecked;
+        private Boolean isChecked;
 
         public static PutProjectChecklist.Response toDto(Checklist checklist) {
             return new PutProjectChecklist.Response(
                     checklist.getId(),
                     checklist.getTitle(),
                     checklist.getDescription(),
-                    checklist.getIsChecked()
+                    checklist.getIsChecked() == YesNo.YES
             );
         }
     }

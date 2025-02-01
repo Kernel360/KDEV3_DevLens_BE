@@ -16,7 +16,7 @@ public interface ChecklistRepository extends JpaRepository<Checklist, Long> {
 
     @Query("""
         SELECT
-            new com.seveneleven.project.dto.GetStepChecklist$projectChecklist(
+            new com.seveneleven.project.dto.GetStepChecklist$ProjectChecklist(
                     c.id,
                     c.title,
                     c.isChecked,
@@ -26,7 +26,7 @@ public interface ChecklistRepository extends JpaRepository<Checklist, Long> {
         WHERE c.projectStep.id = :projectStepId AND c.isActive = 'Y'
         ORDER BY c.id
     """)
-    List<GetStepChecklist.projectChecklist> findStepChecklist(@Param("stepId") Long stepId);
+    List<GetStepChecklist.ProjectChecklist> findStepChecklist(@Param("stepId") Long stepId, @Param("isActive") YesNo isActive);
 
     Optional<Checklist> findByIdAndIsActive(@Param("id") Long checklistId, @Param("isActive") YesNo isActive);
 

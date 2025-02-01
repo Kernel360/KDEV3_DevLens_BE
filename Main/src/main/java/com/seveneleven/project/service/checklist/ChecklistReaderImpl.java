@@ -27,8 +27,7 @@ public class ChecklistReaderImpl implements ChecklistReader {
 
     @Override
     public GetStepChecklist.Response getStepChecklist(Long stepId) {
-        // TODO - 변경 필요 / read 사용하도록
-        return new GetStepChecklist.Response(stepId, checklistRepository.findStepChecklist(stepId));
+        return GetStepChecklist.Response.toDto(stepId, checklistRepository.findStepChecklist(stepId, YesNo.YES));
     }
 
     @Override

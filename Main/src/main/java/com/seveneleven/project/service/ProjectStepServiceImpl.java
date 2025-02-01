@@ -32,7 +32,8 @@ public class ProjectStepServiceImpl implements ProjectStepService {
 
     @Override
     public GetStepChecklist.Response getStepChecklist(Long stepId) {
-        return checklistReader.getStepChecklist(stepId);
+        ProjectStep projectStep = stepReader.read(stepId);
+        return checklistReader.getStepChecklist(projectStep.getId());
     }
 
     @Override

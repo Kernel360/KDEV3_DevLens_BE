@@ -1,7 +1,6 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.global.YesNo;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,20 +13,34 @@ public class GetStepChecklist {
      */
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
         private Long stepId;
         // List -> PageResponse로 변경 필요
-        private List<projectChecklist> checklists;
+        private List<ProjectChecklist> checklists;
+
+        private Response(Long stepId, List<ProjectChecklist> checklists) {
+            this.stepId = stepId;
+            this.checklists = checklists;
+        }
+
+        public static Response toDto(Long stepId, List<ProjectChecklist> checklists) {
+            return new Response(stepId, checklists);
+        }
     }
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
-    public static class projectChecklist {
+    public static class ProjectChecklist {
         private Long checklistId;
         private String checklistName;
-        private YesNo checklistStatus;
+        private Boolean checklistStatus;
         private LocalDateTime checkAcceptTime;
+
+        public ProjectChecklist(Long checklistId, String checklistName, YesNo checklistStatus, LocalDateTime checkAcceptTime) {
+            this.checklistId = checklistId;
+            this.checklistName = checklistName;
+            this.checklistStatus = checklistStatus == YesNo.YES;
+            this.checkAcceptTime = checkAcceptTime;
+        }
     }
 }

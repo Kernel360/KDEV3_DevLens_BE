@@ -49,13 +49,13 @@ public class GetProjectStep {
     public static class ProjectChecklist {
         private Long checklistId;
         private String checklistName;
-        private YesNo checklistStatus;
+        private Boolean checklistStatus;
         private LocalDateTime approvalTime;
 
         public ProjectChecklist(Long checklistId, String checklistName, YesNo checklistStatus, LocalDateTime approvalTime) {
             this.checklistId = checklistId;
             this.checklistName = checklistName;
-            this.checklistStatus = checklistStatus;
+            this.checklistStatus = checklistStatus == YesNo.YES;
             this.approvalTime = approvalTime;
         }
     }
