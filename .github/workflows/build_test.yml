@@ -46,7 +46,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
+      - name: Start Redis
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y redis-server
+          sudo systemctl start redis
+          redis-cli ping
       - name: Build and Test
         run: |
           ./gradlew clean build --no-daemon
@@ -71,11 +76,5 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Start Redis
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y redis-server
-          sudo systemctl start redis
-          redis-cli ping
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
