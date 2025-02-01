@@ -14,8 +14,8 @@ public class GetProjectHistory {
     public static class Response {
         private Long id;
         private String projectName;
-        private String customerName;
-        private String developerName;
+        private String customerCompanyName;
+        private String developerCompanyName;
         private String description;
         private String statusCode;
         private String typeName;
@@ -37,8 +37,8 @@ public class GetProjectHistory {
         ) {
             id = projectHistory.getId();
             projectName = projectHistory.getProjectName();
-            customerName = projectHistory.getCustomerName();
-            developerName = projectHistory.getDeveloperName();
+            customerCompanyName = projectHistory.getCustomerName();
+            developerCompanyName = projectHistory.getDeveloperName();
             description = projectHistory.getDescription();
             statusCode = projectHistory.getStatusCode();
             typeName = projectHistory.getTypeName();
@@ -59,8 +59,8 @@ public class GetProjectHistory {
         ) {
             id = projectHistory.getId();
             projectName = projectHistory.getProjectName();
-            customerName = projectHistory.getCustomerName();
-            developerName = projectHistory.getDeveloperName();
+            customerCompanyName = projectHistory.getCustomerName();
+            developerCompanyName = projectHistory.getDeveloperName();
             description = projectHistory.getDescription();
             statusCode = projectHistory.getStatusCode();
             typeName = projectHistory.getTypeName();

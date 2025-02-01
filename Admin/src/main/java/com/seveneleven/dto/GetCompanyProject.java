@@ -13,16 +13,16 @@ public class GetCompanyProject {
     private Long id;
     private String projectName;
     private LocalDate plannedStartDate;
-    private String developerName;
-    private String customerName;
+    private String developerCompanyName;
+    private String customerCompanyName;
     private String projectStatus;
 
     private GetCompanyProject(Project project) {
         id = project.getId();
         projectName = project.getProjectName();
         plannedStartDate = project.getPlannedStartDate();
-        developerName = project.getDeveloper().getCompanyName();
-        customerName = project.getCustomer().getCompanyName();
+        developerCompanyName = project.getDeveloper().getCompanyName();
+        customerCompanyName = project.getCustomer().getCompanyName();
         projectStatus = project.getProjectStatusCode().name();
     }
     public static GetCompanyProject of(Project project) {
