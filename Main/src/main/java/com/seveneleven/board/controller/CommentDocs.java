@@ -4,6 +4,7 @@ import com.seveneleven.board.dto.PatchCommentRequest;
 import com.seveneleven.board.dto.PostCommentRequest;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
+import com.seveneleven.util.security.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Comment API", description = "댓글 관련 API")
@@ -39,10 +41,11 @@ public interface CommentDocs {
             }
     )
     @PostMapping()
-    ResponseEntity<APIResponse<SuccessCode>> createComment(@PathVariable Long postId,
+    ResponseEntity<APIResponse<SuccessCode>> createComment(@AuthenticationPrincipal CustomUserDetails user,
+                                                           @PathVariable Long postId,
                                                            @RequestBody PostCommentRequest postCommentRequest,
                                                            HttpServletRequest request
-    ) throws Exception;
+    );
 
     @Operation(
             summary = "댓글 수정",
@@ -73,11 +76,12 @@ public interface CommentDocs {
             }
     )
     @PatchMapping("/{commentId}")
-    ResponseEntity<APIResponse<SuccessCode>> updateComment(@PathVariable Long postId,
+    ResponseEntity<APIResponse<SuccessCode>> updateComment(@AuthenticationPrincipal CustomUserDetails user,
+                                                           @PathVariable Long postId,
                                                            @PathVariable Long commentId,
                                                            @RequestBody PatchCommentRequest patchCommentRequest,
                                                            HttpServletRequest request
-    ) throws Exception;
+    );
 
     @Operation(
             summary = "댓글 삭제",
@@ -108,8 +112,9 @@ public interface CommentDocs {
             }
     )
     @DeleteMapping("{commentId}")
-    ResponseEntity<APIResponse<SuccessCode>> deleteComment(@PathVariable Long postId,
+    ResponseEntity<APIResponse<SuccessCode>> deleteComment(@AuthenticationPrincipal CustomUserDetails user,
+                                                           @PathVariable Long postId,
                                                            @PathVariable Long commentId,
                                                            HttpServletRequest request
-    ) throws Exception;
+    );
 }

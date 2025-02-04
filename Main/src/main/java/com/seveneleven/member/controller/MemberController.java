@@ -150,7 +150,7 @@ public class MemberController implements MemberDocs{
      */
     private ResponseCookie createCookie(String name, String value, Long maxAge) {
         ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from(name, value)
-                .domain(".devlens.work")
+//                .domain(".devlens.work")
                 .secure(true)
                 .httpOnly(true)
                 .sameSite("None")

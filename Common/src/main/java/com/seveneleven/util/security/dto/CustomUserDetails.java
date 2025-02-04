@@ -29,8 +29,8 @@ public class CustomUserDetails implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    public String getId() {
-        return member.getId().toString();
+    public Long getId() {
+        return member.getId();
     }
 
      public String getLoginId() {

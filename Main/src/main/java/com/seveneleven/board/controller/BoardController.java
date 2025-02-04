@@ -13,10 +13,12 @@ import com.seveneleven.response.SuccessCode;
 import com.seveneleven.util.file.dto.FileMetadataDto;
 import com.seveneleven.util.file.dto.LinkInput;
 import com.seveneleven.util.file.dto.LinkResponse;
+import com.seveneleven.util.security.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -93,13 +95,11 @@ public class BoardController implements BoardDocs {
      */
     @PostMapping()
     @Override
-    public ResponseEntity<APIResponse<SuccessCode>> createPost(@Valid @RequestBody PostCreateRequest postCreateRequest,
+    public ResponseEntity<APIResponse<SuccessCode>> createPost(@AuthenticationPrincipal CustomUserDetails user,
+                                                               @Valid @RequestBody PostCreateRequest postCreateRequest,
                                                                HttpServletRequest request
     ) {
-        // todo : 토큰값으로 작성권한 확인 추가
-        Long registerId = 1L;
-
-        postService.createPost(postCreateRequest, request, registerId);
+        postService.createPost(postCreateRequest, request, user.getMember().getId());
 
         return ResponseEntity.status(SuccessCode.CREATED.getStatus())
                 .body(APIResponse.success(SuccessCode.CREATED));
@@ -131,14 +131,12 @@ public class BoardController implements BoardDocs {
      */
     @PutMapping(value = "/{postId}")
     @Override
-    public ResponseEntity<APIResponse<SuccessCode>> updatePost(@PathVariable Long postId,
+    public ResponseEntity<APIResponse<SuccessCode>> updatePost(@AuthenticationPrincipal CustomUserDetails user,
+                                                               @PathVariable Long postId,
                                                                @Valid @RequestBody PostUpdateRequest postUpdateRequest,
                                                                HttpServletRequest request
     ) {
-        // todo : 토큰값으로 작성권한 확인 추가
-        Long modifierId = 1L;
-
-        postService.updatePost(postUpdateRequest, request, modifierId);
+        postService.updatePost(postUpdateRequest, request, user.getMember().getId());
 
         return ResponseEntity.status(SuccessCode.UPDATED.getStatus())
                 .body(APIResponse.success(SuccessCode.UPDATED));
@@ -151,13 +149,11 @@ public class BoardController implements BoardDocs {
      */
     @DeleteMapping("/{postId}")
     @Override
-    public ResponseEntity<APIResponse<SuccessCode>> deletePost(@PathVariable Long postId,
+    public ResponseEntity<APIResponse<SuccessCode>> deletePost(@AuthenticationPrincipal CustomUserDetails user,
+                                                               @PathVariable Long postId,
                                                                HttpServletRequest request
     ) {
-        // todo : 토큰값으로 작성권한 확인 추가
-        Long deleterId = 1L;
-
-        postService.deletePost(postId, request, deleterId);
+        postService.deletePost(postId, request, user.getMember().getId());
         return ResponseEntity.status(SuccessCode.DELETED.getStatus())
                 .body(APIResponse.success(SuccessCode.DELETED));
     }

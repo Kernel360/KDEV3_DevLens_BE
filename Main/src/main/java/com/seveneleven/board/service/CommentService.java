@@ -14,11 +14,11 @@ public interface CommentService {
     List<GetCommentResponse> selectCommentList(Long postId);
 
     @Transactional
-    void createComment(Long postId, PostCommentRequest postCommentRequest, HttpServletRequest request, Long registerId) throws Exception;
+    void createComment(Long postId, PostCommentRequest postCommentRequest, HttpServletRequest request, Long registerId);
 
     @Transactional
-    void updateComment(Long postId, Long commentId, PatchCommentRequest patchCommentRequest, HttpServletRequest request, Long modifierId) throws Exception;
+    void updateComment(Long postId, Long commentId, PatchCommentRequest patchCommentRequest, HttpServletRequest request, Long modifierId);
 
     @Transactional
-    void deleteComment(Long postId, Long commentId, HttpServletRequest request, Long deleterId) throws Exception;
+    void deleteComment(Long postId, Long commentId, HttpServletRequest request, Long deleterId);
 }
