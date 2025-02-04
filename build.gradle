@@ -63,7 +63,7 @@ subprojects {
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
         testCompileOnly 'org.projectlombok:lombok'
         testAnnotationProcessor 'org.projectlombok:lombok'
-        runtimeOnly 'com.mysql:mysql-connector-j'
+        runtimeOnly 'mysql:mysql-connector-java:8.0.33'
         annotationProcessor 'org.projectlombok:lombok'
 
         implementation 'org.springframework.boot:spring-boot-starter-validation'
