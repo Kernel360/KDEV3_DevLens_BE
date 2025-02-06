@@ -2,6 +2,7 @@ package com.seveneleven.company.service;
 
 import com.seveneleven.company.dto.GetAllCompanies;
 import com.seveneleven.company.dto.GetCompanies;
+import com.seveneleven.company.dto.GetCompanyMember;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.project.dto.GetProject;
 import org.springframework.data.domain.Page;

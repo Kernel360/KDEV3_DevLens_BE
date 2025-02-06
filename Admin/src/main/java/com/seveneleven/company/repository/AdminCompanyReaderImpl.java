@@ -2,6 +2,7 @@ package com.seveneleven.company.repository;
 
 import com.seveneleven.company.dto.GetAllCompanies;
 import com.seveneleven.company.dto.GetCompanies;
+import com.seveneleven.company.dto.GetCompanyMember;
 import com.seveneleven.company.exception.CompanyNotFoundException;
 import com.seveneleven.company.service.AdminCompanyReader;
 import com.seveneleven.entity.member.Company;

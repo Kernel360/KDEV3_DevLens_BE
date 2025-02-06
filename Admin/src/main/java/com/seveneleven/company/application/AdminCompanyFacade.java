@@ -2,6 +2,7 @@ package com.seveneleven.company.application;
 
 import com.seveneleven.company.dto.*;
 import com.seveneleven.company.service.AdminCompanyService;
+import com.seveneleven.entity.member.Company;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class AdminCompanyFacade {
 
     public List<GetAllCompanies> getAllCompanies() {
         return adminCompanyService.getAllCompanies();
+    }
+
+    public GetCompanyMember.Response getCompanyMember(Long companyId) {
+        Company company = adminCompanyService.getCompany(companyId);
+        return adminCompanyService.getCompanyMember(company.getId());
     }
 }

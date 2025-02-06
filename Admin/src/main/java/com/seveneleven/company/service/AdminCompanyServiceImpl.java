@@ -6,6 +6,7 @@ import com.seveneleven.company.exception.CompanyNotFoundException;
 import com.seveneleven.company.repository.CompanyRepository;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.member.constant.YN;
+import com.seveneleven.member.service.AdminMemberReader;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ public class AdminCompanyServiceImpl implements AdminCompanyService {
     private final CompanyRepository companyRepository;
     private final AdminCompanyStore adminCompanyStore;
     private final AdminCompanyReader adminCompanyReader;
+    private final AdminMemberReader adminMemberReader;
 
     /*
         함수명 : createCompany
@@ -39,10 +41,15 @@ public class AdminCompanyServiceImpl implements AdminCompanyService {
         return PostCompany.Response.of(adminCompanyStore.store(companyRequest.toEntity()));
     }
 
+    @Override
+    public Company getCompany(Long companyId) {
+        return adminCompanyReader.getCompany(companyId);
+    }
+
     /*
-        함수명 : getCompanyDto
-        함수 목적 : 회사 상세조회
-     */
+            함수명 : getCompanyDto
+            함수 목적 : 회사 상세조회
+         */
     @Transactional(readOnly = true)
     @Override
     public GetCompanyDetail.Response getCompanyDetail(Long id) {
@@ -138,5 +145,13 @@ public class AdminCompanyServiceImpl implements AdminCompanyService {
                 .ifPresent(company -> {
                     throw new CompanyDuplicatedException();
                 });
+    }
+
+    @Override
+    public GetCompanyMember.Response getCompanyMember(Long companyId) {
+        return GetCompanyMember.Response.toDto(
+                companyId,
+                adminMemberReader.getCompanyMember(companyId)
+        );
     }
 }

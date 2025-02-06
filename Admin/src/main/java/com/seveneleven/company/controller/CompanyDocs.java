@@ -221,4 +221,23 @@ public interface CompanyDocs {
             }
     )
     ResponseEntity<APIResponse<List<GetAllCompanies>>> readAllCompany();
+
+    @GetMapping("/{companyId}/members")
+    @Operation(
+            summary = "회사 소속 회원 전체 조회",
+            description = "회사에 소속된 모든 회원을 반환합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "회사의 회원들이 성공적으로 조회되었습니다.",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = GetCompanyMember.Response.class)
+                            )
+                    )
+            }
+    )
+    ResponseEntity<APIResponse<GetCompanyMember.Response>> getCompanyMembers(
+            @Parameter(description = "조회할 회사의 ID") @PathVariable Long companyId
+    );
 }

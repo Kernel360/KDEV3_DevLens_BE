@@ -133,4 +133,16 @@ public class CompanyController implements CompanyDocs {
                 .status(SuccessCode.OK.getStatus())
                 .body(APIResponse.success(SuccessCode.OK, adminCompanyFacade.getAllCompanies()));
     }
+
+    /**
+     * 함수명 : getCompanyMember
+     * 회사 소속 회원 전체 반환 api
+     */
+    @GetMapping("/{companyId}/members")
+    public ResponseEntity<APIResponse<GetCompanyMember.Response>> getCompanyMembers(
+            @PathVariable Long companyId
+    ) {
+        return ResponseEntity.status(SuccessCode.OK.getStatusCode())
+                .body(APIResponse.success(SuccessCode.OK, adminCompanyFacade.getCompanyMember(companyId)));
+    }
 }
