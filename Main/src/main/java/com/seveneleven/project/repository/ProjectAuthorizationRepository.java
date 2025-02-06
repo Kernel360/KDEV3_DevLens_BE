@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectAuthorizationRepository extends JpaRepository<ProjectAuthorization, Long> {
-    List<ProjectAuthorization> findByProjectStepIdAndIsActiveOrderById(Long projectStepId, YesNo isActive);
+    List<ProjectAuthorization> findByProjectIdAndIsActiveOrderById(Long projectId, YesNo isActive);
     List<ProjectAuthorization> findByMemberIdAndIsActiveOrderById(Long memberId, YesNo isActive);
-    Optional<ProjectAuthorization> findByProjectStepIdAndMemberIdAndIsActive(Long projectStepId, Long memberId, YesNo yesno);
+    Optional<ProjectAuthorization> findByProjectIdAndMemberIdAndIsActive(Long projectId, Long memberId, YesNo yesno);
 }

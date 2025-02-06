@@ -2,6 +2,7 @@ package com.seveneleven.project.service.authorization;
 
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.member.constant.MemberStatus;
+import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.exception.BusinessException;
@@ -30,10 +31,10 @@ public class AuthorizationStoreImpl implements AuthorizationStore {
     public PostProjectAuthorization.Response store(
             PostProjectAuthorization.Request requestDto,
             List<ProjectAuthorization> projectAuthorizations,
-            ProjectStep step
+            Project project
     ) {
-        PostProjectAuthorization.Response responseDto = PostProjectAuthorization.Response.create(step.getId());
-        forRequestDto(responseDto, requestDto, projectAuthorizations, step);
+        PostProjectAuthorization.Response responseDto = PostProjectAuthorization.Response.create(project.getId());
+        forRequestDto(responseDto, requestDto, projectAuthorizations, project);
         delete(projectAuthorizations);
         return responseDto;
     }
@@ -41,12 +42,12 @@ public class AuthorizationStoreImpl implements AuthorizationStore {
     private void forRequestDto(PostProjectAuthorization.Response responseDto,
                                PostProjectAuthorization.Request requestDto,
                                List<ProjectAuthorization> projectAuthorizations,
-                               ProjectStep step
+                               Project project
     ) {
         for (PostProjectAuthorization.MemberAuthorization request : requestDto.getAuthorizations()) {
             try {
                 log.warn("request.getMember.getId : {}", request.getMemberId());
-                forProjectAuthorizationDto(request, projectAuthorizations, step);
+                forProjectAuthorizationDto(request, projectAuthorizations, project);
             } catch (BusinessException e) {
                 responseDto.getFailList().add(
                         PostProjectAuthorization.FailList.toDto(
@@ -60,7 +61,7 @@ public class AuthorizationStoreImpl implements AuthorizationStore {
 
     private void forProjectAuthorizationDto(PostProjectAuthorization.MemberAuthorization request,
                                             List<ProjectAuthorization> projectAuthorizationList,
-                                            ProjectStep step
+                                            Project project
     ) {
         Member member = memberRepository.findByIdAndStatus(request.getMemberId(), MemberStatus.ACTIVE)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -74,17 +75,15 @@ public class AuthorizationStoreImpl implements AuthorizationStore {
                 return;
             }
         }
-        projectAuthorizationRepository.save(request.toEntity(step, member));
+        projectAuthorizationRepository.save(request.toEntity(project, member));
     }
 
     private void businessLogic(
             PostProjectAuthorization.MemberAuthorization request,
             ProjectAuthorization projectAuthorization
     ) {
-        log.info("businessLogic start : {}", request.getMemberId());
         if(request.getProjectAuthorization().equals(projectAuthorization.getAuthorizationCode())) {
             log.info("businessLogic end : {}", request.getMemberId());
-
             return;
         }
 

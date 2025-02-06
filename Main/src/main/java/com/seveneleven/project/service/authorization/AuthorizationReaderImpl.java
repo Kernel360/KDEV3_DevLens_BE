@@ -19,8 +19,8 @@ public class AuthorizationReaderImpl implements AuthorizationReader {
     private final ProjectAuthorizationRepository projectAuthorizationRepository;
 
     @Override
-    public List<ProjectAuthorization> readByStepId(Long projectStepId) {
-        return projectAuthorizationRepository.findByProjectStepIdAndIsActiveOrderById(projectStepId, YesNo.YES);
+    public List<ProjectAuthorization> readByProjectId(Long projectId) {
+        return projectAuthorizationRepository.findByProjectIdAndIsActiveOrderById(projectId, YesNo.YES);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class AuthorizationReaderImpl implements AuthorizationReader {
     }
 
     @Override
-    public ProjectAuthorization readByStepIdAndUserId(Long projectStepId, Long userId) {
-        return projectAuthorizationRepository.findByProjectStepIdAndMemberIdAndIsActive(projectStepId, userId, YesNo.YES)
+    public ProjectAuthorization readByStepIdAndUserId(Long projectId, Long userId) {
+        return projectAuthorizationRepository.findByProjectIdAndMemberIdAndIsActive(projectId, userId, YesNo.YES)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 }

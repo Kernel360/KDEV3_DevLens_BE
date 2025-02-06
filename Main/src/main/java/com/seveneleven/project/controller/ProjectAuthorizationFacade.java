@@ -1,8 +1,10 @@
 package com.seveneleven.project.controller;
 
+import com.seveneleven.entity.project.Project;
 import com.seveneleven.project.dto.GetProjectAuthorization;
 import com.seveneleven.project.dto.PostProjectAuthorization;
 import com.seveneleven.project.service.ProjectAuthorizationService;
+import com.seveneleven.project.service.dashboard.ProjectReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProjectAuthorizationFacade {
 
+    private final ProjectReader projectReader;
     private final ProjectAuthorizationService projectAuthorizationService;
 
     /**
@@ -20,16 +23,18 @@ public class ProjectAuthorizationFacade {
      */
     public PostProjectAuthorization.Response postProjectAuthorization(
             PostProjectAuthorization.Request requestDto,
-            Long stepId
+            Long projectId
     ) {
-        return projectAuthorizationService.createProjectAuthorization(stepId, requestDto);
+        Project project = projectReader.read(projectId);
+        return projectAuthorizationService.createProjectAuthorization(project, requestDto);
     }
 
     /**
      * 함수명 : getProjectAuthorization
      * 해당 단계에 접근할 수 있는 인원을 반환하는 함수
      */
-    public GetProjectAuthorization.Response getProjectAuthorization(Long stepId) {
-        return projectAuthorizationService.getProjectAuthorization(stepId);
+    public GetProjectAuthorization.Response getProjectAuthorization(Long projectId) {
+        Project project = projectReader.read(projectId);
+        return projectAuthorizationService.getProjectAuthorization(project);
     }
 }

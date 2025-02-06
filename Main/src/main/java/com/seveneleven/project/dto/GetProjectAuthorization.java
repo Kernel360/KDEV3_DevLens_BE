@@ -12,16 +12,16 @@ public class GetProjectAuthorization {
     @Getter
     @NoArgsConstructor
     public static class Response {
-        private Long stepId;
+        private Long projectId;
         private List<MemberAuthorization> memberAuthorization;
 
-        private Response(Long stepId, List<ProjectAuthorization> projectAuthorizations) {
-            this.stepId = stepId;
+        private Response(Long projectId, List<ProjectAuthorization> projectAuthorizations) {
+            this.projectId = projectId;
             memberAuthorization = projectAuthorizations.stream().map(MemberAuthorization::toDto).toList();
         }
 
-        public static Response toDto(Long stepId, List<ProjectAuthorization> projectAuthorizations) {
-            return new Response(stepId, projectAuthorizations);
+        public static Response toDto(Long projectId, List<ProjectAuthorization> projectAuthorizations) {
+            return new Response(projectId, projectAuthorizations);
         }
     }
 

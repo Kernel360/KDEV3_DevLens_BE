@@ -25,9 +25,9 @@ public class ProjectAuthorization extends BaseEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("projectStepId") // 복합 키의 projectStepId와 매핑
-    @JoinColumn(name = "project_step_id", nullable = false)
-    private ProjectStep projectStep;
+    @MapsId("projectId") // 복합 키의 projectStepId와 매핑
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType; // 회원 구분 (client, developer)
@@ -38,17 +38,17 @@ public class ProjectAuthorization extends BaseEntity {
     @Convert(converter = YesNoConverter.class)
     private YesNo isActive; // 삭제 여부
 
-    private ProjectAuthorization(Member member, ProjectStep projectStep, MemberType memberType, String authorizationCode) {
-        this.id = new MemberProjectStepId(member.getId(), projectStep.getId());
+    private ProjectAuthorization(Member member, Project project, MemberType memberType, String authorizationCode) {
+        this.id = new MemberProjectStepId(member.getId(), project.getId());
         this.member = member;
-        this.projectStep = projectStep;
+        this.project = project;
         this.memberType = memberType;
         this.authorizationCode = authorizationCode;
         this.isActive = YesNo.YES;
     }
 
-    public static ProjectAuthorization create(Member member, ProjectStep projectStep, MemberType memberType, String authorizationCode) {
-        return new ProjectAuthorization(member, projectStep, memberType, authorizationCode);
+    public static ProjectAuthorization create(Member member, Project project, MemberType memberType, String authorizationCode) {
+        return new ProjectAuthorization(member, project, memberType, authorizationCode);
     }
 
     public void edit(MemberType memberType, String authorizationCode) {

@@ -22,7 +22,7 @@ public class ProjectAuthorizationHistory extends BaseEntity {
     private String memberName; // 회원 이름
 
     @Column(nullable = false)
-    private String projectStepName; // 프로젝트 단계 이름
+    private String projectName; // 프로젝트 단계 이름
 
     @Column(nullable = false)
     private String memberType; // 회원 구분 (client, developer)
@@ -36,7 +36,7 @@ public class ProjectAuthorizationHistory extends BaseEntity {
 
     private ProjectAuthorizationHistory(ProjectAuthorization authorization) {
         this.memberName = authorization.getMember().getName();
-        this.projectStepName = authorization.getProjectStep().getStepName();
+        this.projectName = authorization.getProject().getProjectName();
         this.memberType = authorization.getMemberType().name();
         this.authorizationCode = authorization.getAuthorizationCode();
         this.isActive = authorization.getIsActive();

@@ -1,8 +1,8 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.member.Member;
+import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
-import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +29,8 @@ public class PostProjectAuthorization {
         private String projectAuthorization;
         private MemberType memberDivision;
 
-        public ProjectAuthorization toEntity(ProjectStep projectStep, Member member) {
-            return ProjectAuthorization.create(member, projectStep, memberDivision, projectAuthorization);
+        public ProjectAuthorization toEntity(Project project, Member member) {
+            return ProjectAuthorization.create(member, project, memberDivision, projectAuthorization);
         }
     }
 

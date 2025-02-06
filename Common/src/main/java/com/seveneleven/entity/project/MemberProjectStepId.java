@@ -15,18 +15,18 @@ import java.util.Objects;
 public class MemberProjectStepId implements Serializable {
 
     private Long memberId; // 회원 ID
-    private Long projectStepId; // 프로젝트 단계 ID
+    private Long projectId; // 프로젝트 ID
 
-    public MemberProjectStepId(Long memberId, Long projectStepId) {
+    public MemberProjectStepId(Long memberId, Long projectId) {
         if(memberId == null) {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
-        if(projectStepId == null) {
+        if(projectId == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_PROJECT_STEP);
         }
 
         this.memberId = memberId;
-        this.projectStepId = projectStepId;
+        this.projectId = projectId;
     }
 
     @Override
@@ -34,11 +34,11 @@ public class MemberProjectStepId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberProjectStepId that = (MemberProjectStepId) o;
-        return Objects.equals(memberId, that.memberId) && Objects.equals(projectStepId, that.projectStepId);
+        return Objects.equals(memberId, that.memberId) && Objects.equals(projectId, that.projectId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(memberId, projectStepId);
+        return Objects.hash(memberId, projectId);
     }
 }
