@@ -1,4 +1,4 @@
-package com.seveneleven.entity.project;
+package com.seveneleven.entity.project.duplkey;
 
 import com.seveneleven.exception.BusinessException;
 import com.seveneleven.response.ErrorCode;

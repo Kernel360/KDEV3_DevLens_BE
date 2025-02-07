@@ -1,7 +1,7 @@
 package com.seveneleven.project.controller;
 
 import com.seveneleven.project.dto.GetCompanyProject;
-import com.seveneleven.project.dto.GetProjectList;
+import com.seveneleven.project.dto.GetMyProjectList;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,14 +30,14 @@ public interface MyProjectDocs {
                             description = "성공적으로 프로젝트 목록을 반환했습니다.",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = GetProjectList.Response.class)
+                                    schema = @Schema(implementation = GetMyProjectList.Response.class)
                             )
                     )
             }
     )
-    ResponseEntity<APIResponse<GetProjectList.Response>> getMyProject(
+    ResponseEntity<APIResponse<GetMyProjectList.Response>> getMyProject(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestParam("step") String step
+            @RequestParam(value = "filter", required = false) String filter
             );
 
     @GetMapping("/companies/{companyId}/projects")
@@ -56,6 +56,7 @@ public interface MyProjectDocs {
             }
     )
     ResponseEntity<APIResponse<GetCompanyProject.Response>> getMyCompanyProject(
-            @PathVariable Long companyId
+            @PathVariable Long companyId,
+            @RequestParam(value = "filter", required = false) String filter
     );
 }

@@ -1,13 +1,13 @@
 package com.seveneleven.project.service.project;
 
 import com.seveneleven.entity.project.Project;
-import com.seveneleven.project.dto.GetCompanyProject;
 import com.seveneleven.project.dto.GetProjectDetail;
-import com.seveneleven.project.dto.GetProjectList;
+
+import java.util.List;
 
 public interface ProjectReader {
     Project read(Long projectId);
-    GetProjectList.Response getMyProjectList(Long memberId, String projectStatusCode);
-    GetCompanyProject.Response getCompanyProject(Long companyId);
+    List<Project> getMyProjectList(Long memberId, String filter);
+    List<Project> getCompanyProject(Long companyId, String filter);
     GetProjectDetail.Response getProjectDetail(Long projectId);
 }

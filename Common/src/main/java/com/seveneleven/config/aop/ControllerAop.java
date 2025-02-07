@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @Aspect
@@ -35,8 +36,16 @@ public class ControllerAop {
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
             userDetails = (CustomUserDetails) authentication.getPrincipal();
         }
+        Object[] args = joinPoint.getArgs();
+        String params;
+        try {
+            params = objectMapper.writeValueAsString(args);
+        } catch (Exception e) {
+            // 변환 실패 시 Arrays.toString() 사용
+            params = Arrays.toString(args);
+        }
 
-        log.info("Controller Called - Request : {} {} | RequesterId : {} | Requester Ip : {}", request.getMethod(), request.getRequestURI(), userDetails != null ? userDetails.getId() : "", getIpUtil.getIpAddress(request));
+        log.info("Controller Called - Request : {} {} | Parameters : {} | RequesterId : {} | Requester Ip : {}", request.getMethod(), request.getRequestURI(), params, userDetails != null ? userDetails.getId() : "", getIpUtil.getIpAddress(request));
 
         try {
             Object result = joinPoint.proceed();

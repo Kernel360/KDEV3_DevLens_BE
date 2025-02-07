@@ -5,6 +5,7 @@ import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.global.converter.YesNoConverter;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.constant.MemberType;
+import com.seveneleven.entity.project.duplkey.MemberProjectStepId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
