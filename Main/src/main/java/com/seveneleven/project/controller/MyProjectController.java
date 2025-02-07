@@ -1,8 +1,7 @@
 package com.seveneleven.project.controller;
 
 import com.seveneleven.project.dto.GetCompanyProject;
-import com.seveneleven.project.dto.GetProjectList;
-import com.seveneleven.project.service.ProjectService;
+import com.seveneleven.project.dto.GetMyProjectList;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
 import com.seveneleven.util.security.dto.CustomUserDetails;
@@ -16,24 +15,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class MyProjectController implements MyProjectDocs {
 
-    private final ProjectService projectService;
+    private final MyControllerFacade myControllerFacade;
 
     /**
      * 함수명 : getMyProject()
      * 현재 진행중인 내 프로젝트와 우리 회사의 프로젝트를 반환하는 함수
      */
     @GetMapping("/projects")
-    public ResponseEntity<APIResponse<GetProjectList.Response>> getMyProject(
+    public ResponseEntity<APIResponse<GetMyProjectList.Response>> getMyProject(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestParam(value = "status", required = false) String projectStatusCode
+            @RequestParam(value = "filter", required = false) String filter
     ) {
         return ResponseEntity
                 .status(SuccessCode.OK.getStatusCode())
                 .body(APIResponse.success(
                         SuccessCode.OK,
-                        projectService.getMyProjectList(
+                        myControllerFacade.getMyProjectList(
                                 userDetails.getMember().getId(),
-                                projectStatusCode
+                                filter
                         )));
     }
 
@@ -44,9 +43,10 @@ public class MyProjectController implements MyProjectDocs {
     @Override
     @GetMapping("/companies/{companyId}/projects")
     public ResponseEntity<APIResponse<GetCompanyProject.Response>> getMyCompanyProject(
-            @PathVariable Long companyId
+            @PathVariable Long companyId,
+            @RequestParam(value = "filter", required = false) String filter
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
-                .body(APIResponse.success(SuccessCode.OK, projectService.getCompanyProject(companyId)));
+                .body(APIResponse.success(SuccessCode.OK, myControllerFacade.getCompanyProject(companyId, filter)));
     }
 }

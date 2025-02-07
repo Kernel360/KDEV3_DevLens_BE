@@ -32,13 +32,13 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         SELECT p
         FROM Project p
         WHERE
-            p.projectStatusCode = 'IN_PROGRESS' AND
             (
                 p.customer.id = :companyId OR
                 p.developer.id = :companyId
-            )
+            ) AND 
+            (:step IS NULL OR p.projectStatusCode = :projectStatusCode)
     """)
-    List<Project> findAllCompanyProgressingProjects(Long companyId);
+    List<Project> findAllCompanyProgressingProjects(Long companyId, String projectStatusCode);
 
     @Query(value = """
         SELECT
@@ -51,7 +51,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         )
         FROM
             Project p
-        JOIN
+        LEFT JOIN
             ProjectType p_t ON p_t.id = p.projectType.id
         WHERE
              p.id = :projectId

@@ -1,11 +1,11 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.util.CustomDateFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class GetCompanyProject {
@@ -39,26 +39,30 @@ public class GetCompanyProject {
     public static class CompanyProject {
         private Long id;
         private String projectName;
-        private LocalDate startDate;
-        private LocalDate endDate;
+        private String startDate;
+        private String endDate;
         private Long customerId;
         private String customerCompanyName;
+        private Long developerId;
+        private String developerCompanyName;
         private String currentStepName;
+        private List<String> projectTags;
 
-        private CompanyProject(Project project) {
+        private CompanyProject(Project project, List<String> projectTags) {
             this.id = project.getId();
             this.projectName = project.getProjectName();
-            this.startDate = project.getStartDate();
-            this.endDate = project.getEndDate();
+            this.startDate = CustomDateFormatter.formatDate(project.getStartDate());
+            this.endDate = CustomDateFormatter.formatDate(project.getEndDate());
             this.customerId = project.getCustomer().getId();
             this.customerCompanyName = project.getCustomer().getCompanyName();
+            this.developerId = project.getDeveloper().getId();
+            this.developerCompanyName = project.getDeveloper().getCompanyName();
             this.currentStepName = project.getCurrentProjectStep();
+            this.projectTags = projectTags;
         }
 
-        public static List<CompanyProject> toDto(List<Project> project) {
-            return project.stream()
-                    .map(CompanyProject::new)
-                    .toList();
+        public static CompanyProject toDto(Project project, List<String> projectTags) {
+            return new CompanyProject(project, projectTags);
         }
     }
 }
