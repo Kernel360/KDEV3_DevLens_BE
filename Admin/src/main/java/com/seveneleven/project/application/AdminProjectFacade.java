@@ -1,15 +1,19 @@
 package com.seveneleven.project.application;
 
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.project.dto.GetProject;
 import com.seveneleven.project.dto.PostProject;
 import com.seveneleven.project.dto.PutProject;
 import com.seveneleven.project.service.AdminProjectHistoryService;
 import com.seveneleven.project.service.AdminProjectService;
 import com.seveneleven.project.service.AdminProjectStepService;
+import com.seveneleven.project.service.AdminProjectTagService;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,20 +21,23 @@ public class AdminProjectFacade {
     private final AdminProjectService adminProjectService;
     private final AdminProjectHistoryService adminProjectHistoryService;
     private final AdminProjectStepService adminProjectStepService;
+    private final AdminProjectTagService adminProjectTagService;
 
     public PostProject.Response registerProject(PostProject.Request request){
         // TODO - Project 권한 설정 로직 추가 - LSY
         Project project = adminProjectService.createProject(request);
         adminProjectStepService.createBasicStep(project);
         adminProjectHistoryService.saveProjectHistory(project);
-        return PostProject.Response.of(project);
+        List<ProjectTag> projectTags = adminProjectTagService.storeProjectTags(project, request.getProjectTags());
+        return PostProject.Response.of(project, projectTags);
     }
 
     public PutProject.Response updateProject(Long id,PutProject.Request request){
         // TODO - Project 권한 설정 로직 추가 고민 중 - LSY
         Project project = adminProjectService.updateProject(id, request);
         adminProjectHistoryService.saveProjectHistory(project);
-        return PutProject.Response.of(project);
+        List<ProjectTag> projectTags = adminProjectTagService.storeProjectTags(project, request.getProjectTags());
+        return PutProject.Response.of(project, projectTags);
     }
 
     public GetProject.Response getProject(Long id){

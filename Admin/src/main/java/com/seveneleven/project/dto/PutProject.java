@@ -2,6 +2,7 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.entity.project.ProjectType;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import jakarta.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PutProject {
@@ -30,6 +32,7 @@ public class PutProject {
         private LocalDate startDate; // 시작일
         private LocalDate endDate; // 종료일
         private LocalDateTime finalApprovalDate; // 최종 결재일시
+        private List<String> projectTags;
 
         @Override
         public String toString() {
@@ -78,6 +81,7 @@ public class PutProject {
         private LocalDate startDate; // 시작일
         private LocalDate endDate; // 종료일
         private LocalDateTime finalApprovalDate; // 최종 결재일시
+        private List<String> projectTags;
 
         @Override
         public String toString() {
@@ -86,7 +90,7 @@ public class PutProject {
                     '}';
         }
 
-        private Response(Project project) {
+        private Response(Project project, List<ProjectTag> tags) {
             id = project.getId();
             projectName = project.getProjectName();
             customerId = project.getCustomer().getCompanyName();
@@ -100,10 +104,11 @@ public class PutProject {
             startDate = project.getStartDate(); // 시작일
             endDate = project.getEndDate(); //종료일
             finalApprovalDate = project.getFinalApprovalDate(); // 최종 결재일시
+            projectTags = tags.stream().map(ProjectTag::getTag).toList();
         }
 
-        public static Response of(Project project) {
-            return new Response(project);
+        public static Response of(Project project, List<ProjectTag> projectTags) {
+            return new Response(project, projectTags);
         }
     }
 }

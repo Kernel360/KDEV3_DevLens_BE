@@ -25,4 +25,14 @@ public class ProjectTag extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private YesNo IsActive;
+
+    public ProjectTag(Project project, String tag) {
+        this.project = project;
+        this.tag = tag;
+        IsActive = YesNo.YES;
+    }
+
+    public static ProjectTag create(Project project, String tag) {
+        return new ProjectTag(project, tag);
+    }
 }

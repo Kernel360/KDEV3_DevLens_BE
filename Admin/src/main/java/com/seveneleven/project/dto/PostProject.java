@@ -2,6 +2,7 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.entity.project.ProjectType;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostProject {
@@ -25,6 +27,7 @@ public class PostProject {
         private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
+        private List<String> projectTags;
 
         @Override
         public String toString() {
@@ -66,6 +69,7 @@ public class PostProject {
         private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
+        private List<String> projectTags;
 
         @Override
         public String toString() {
@@ -75,7 +79,8 @@ public class PostProject {
         }
 
         private Response(
-                Project project
+                Project project,
+                List<ProjectTag> tags
         ) {
             id = project.getId();
             projectName = project.getProjectName();
@@ -88,10 +93,11 @@ public class PostProject {
             contractNumber = project.getContractNumber();
             plannedStartDate = project.getPlannedStartDate();
             plannedEndDate = project.getPlannedEndDate();
+            projectTags = tags.stream().map(ProjectTag::getTag).toList();
         }
 
-        public static Response of(Project project) {
-            return new Response(project);
+        public static Response of(Project project, List<ProjectTag> tags) {
+            return new Response(project, tags);
         }
     }
 }
