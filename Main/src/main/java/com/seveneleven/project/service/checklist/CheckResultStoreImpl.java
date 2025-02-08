@@ -1,5 +1,6 @@
 package com.seveneleven.project.service.checklist;
 
+import com.seveneleven.entity.file.Link;
 import com.seveneleven.entity.file.constant.LinkCategory;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.CheckRequest;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class CheckResultStoreImpl implements CheckResultStore {
 
     private final CheckResultRepository checkResultRepository;
+    private final CheckRequestLinkHistoryStore checkRequestLinkHistoryStore;
     private final LinkHandler linkHandler;
 
     @Override
@@ -64,7 +66,10 @@ public class CheckResultStoreImpl implements CheckResultStore {
 
         //링크 리스트 업로드
         for(LinkPayload linkPayload : linkPayloads) {
-            linkHandler.uploadLink(linkPayload);
+            Link uploadedLink = linkHandler.uploadLink(linkPayload);
+
+            //이력 등록
+            checkRequestLinkHistoryStore.saveRejectionLinkUploadHistory(uploadedLink, member);
         }
 
         return PostProjectChecklistReject.Response.toDto(checkResult);

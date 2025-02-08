@@ -41,6 +41,7 @@ public class LinkHistory {
     @Column(name = "reference_id", nullable = false)
     private Long referenceId; //참조 ID
 
+    // 게시물 - 게시물 제목, 체크승인요청 - 요청제목, 체크 승인요청 거절 - 요청제목
     @Column(name = "reference_identifier", length = MAX_REFERENCE_IDENTIFIER_LENGTH, nullable = false)
     private String referenceIdentifier; // 참조 구분자
 
@@ -66,7 +67,16 @@ public class LinkHistory {
     //시스템 컬럼
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
-    private Long createdBy; // 이력 작성자 ID
+    private Long createdBy; // 이력 등록자 ID
+
+    @Column(name = "history_registrant_name", nullable = false, updatable = false)
+    private String historyRegistrantName; // 이력 등록자 이름
+
+    @Column(name = "history_registrant_email", nullable = false, updatable = false)
+    private String historyRegistrantEmail; // 이력 등록자 이메일
+
+    @Column(name = "history_registrant_Authority", nullable = false, updatable = false)
+    private Role historyRegistrantAuthority; // 이력 등록자 권한
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -82,7 +92,10 @@ public class LinkHistory {
                                              Role writerAuthority,
                                              LocalDateTime writtenAt,
                                              String linkTitle,
-                                             String link){
+                                             String link,
+                                             String historyRegistrantName,
+                                             String historyRegistrantEmail,
+                                             Role historyRegistrantAuthority){
 
         LinkHistory history = new LinkHistory();
         history.type = type;
@@ -95,40 +108,51 @@ public class LinkHistory {
         history.writtenAt = writtenAt;
         history.linkTitle = linkTitle;
         history.link = link;
+        history.historyRegistrantName = historyRegistrantName;
+        history.historyRegistrantEmail = historyRegistrantEmail;
+        history.historyRegistrantAuthority = historyRegistrantAuthority;
 
         return history;
     }
 
     //파일 등록 이력 생성
     public static LinkHistory createRegisterHistory(LinkCategory linkCategory,
-                                                Long referenceId,
-                                                String referenceIdentifier,
-                                                String writerEmail,
-                                                String writerName,
-                                                Role writerAuthority,
-                                                LocalDateTime writtenAt,
-                                                String linkTitle,
-                                                String link){
+                                                    Long referenceId,
+                                                    String referenceIdentifier,
+                                                    String writerEmail,
+                                                    String writerName,
+                                                    Role writerAuthority,
+                                                    LocalDateTime writtenAt,
+                                                    String linkTitle,
+                                                    String link,
+                                                    String historyRegistrantName,
+                                                    String historyRegistrantEmail,
+                                                    Role historyRegistrantAuthority
+    ) {
 
         return createHistory(LinkHistoryType.REGISTER,
                 linkCategory, referenceId, referenceIdentifier,
-                writerEmail, writerName, writerAuthority, writtenAt, linkTitle, link);
+                writerEmail, writerName, writerAuthority, writtenAt, linkTitle, link,
+                historyRegistrantName, historyRegistrantEmail, historyRegistrantAuthority);
     }
 
     //파일 삭제 이력 생성
     public static LinkHistory createDeleteHistory(LinkCategory linkCategory,
-                                                Long referenceId,
-                                                String referenceIdentifier,
-                                                String writerEmail,
-                                                String writerName,
-                                                Role writerAuthority,
-                                                LocalDateTime writtenAt,
-                                                String linkTitle,
-                                                String link){
-
+                                                  Long referenceId,
+                                                  String referenceIdentifier,
+                                                  String writerEmail,
+                                                  String writerName,
+                                                  Role writerAuthority,
+                                                  LocalDateTime writtenAt,
+                                                  String linkTitle,
+                                                  String link,
+                                                  String historyRegistrantName,
+                                                  String historyRegistrantEmail,
+                                                  Role historyRegistrantAuthority
+    ){
         return createHistory(LinkHistoryType.DELETE,
                 linkCategory, referenceId, referenceIdentifier,
-                writerEmail, writerName, writerAuthority, writtenAt, linkTitle, link);
+                writerEmail, writerName, writerAuthority, writtenAt, linkTitle, link,
+                historyRegistrantName, historyRegistrantEmail, historyRegistrantAuthority);
     }
-
 }

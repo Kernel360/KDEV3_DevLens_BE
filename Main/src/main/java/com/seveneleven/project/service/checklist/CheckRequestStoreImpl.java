@@ -1,5 +1,6 @@
 package com.seveneleven.project.service.checklist;
 
+import com.seveneleven.entity.file.Link;
 import com.seveneleven.entity.file.constant.LinkCategory;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.CheckRequest;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class CheckRequestStoreImpl implements CheckRequestStore {
 
     private final CheckRequestRepository checkRequestRepository;
+    private final CheckRequestLinkHistoryStore checkRequestLinkHistoryStore;
     private final GetIpUtil getIpUtil;
     private final LinkHandler linkHandler;
 
@@ -57,7 +59,10 @@ public class CheckRequestStoreImpl implements CheckRequestStore {
 
         //링크 리스트 업로드
         for(LinkPayload linkPayload : linkPayloads) {
-            linkHandler.uploadLink(linkPayload);
+            Link uploadedLink = linkHandler.uploadLink(linkPayload);
+
+            //이력 등록
+            checkRequestLinkHistoryStore.saveRequestLinkUploadHistory(uploadedLink, member);
         }
 
         return checkRequest;
