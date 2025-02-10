@@ -2,6 +2,7 @@ package com.seveneleven.entity.project;
 
 import com.seveneleven.entity.global.BaseEntity;
 import com.seveneleven.entity.global.YesNo;
+import com.seveneleven.entity.global.converter.YesNoConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,13 +24,13 @@ public class ProjectTag extends BaseEntity {
 
     private String tag;
 
-    @Enumerated(EnumType.STRING)
-    private YesNo IsActive;
+    @Convert(converter = YesNoConverter.class)
+    private YesNo isActive;
 
     public ProjectTag(Project project, String tag) {
         this.project = project;
         this.tag = tag;
-        IsActive = YesNo.YES;
+        isActive = YesNo.YES;
     }
 
     public static ProjectTag create(Project project, String tag) {

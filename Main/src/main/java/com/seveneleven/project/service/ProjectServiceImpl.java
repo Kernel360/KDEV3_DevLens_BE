@@ -44,7 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public PatchProjectCurrentStep.Response patchProjectCurrentStep(Long projectId, Long stepId) {
-        Project project = getProject(projectId);
+        Project project = projectReader.read(projectId);
         ProjectStep projectStep = stepReader.read(stepId);
 
         return PatchProjectCurrentStep.Response.toDto(
