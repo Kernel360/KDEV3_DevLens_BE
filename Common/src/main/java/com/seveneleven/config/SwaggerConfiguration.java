@@ -4,14 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.core.jackson.TypeNameResolver;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.servers.Server;
 import jakarta.annotation.PostConstruct;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class SwaggerConfiguration {
@@ -41,20 +35,6 @@ public class SwaggerConfiguration {
         ModelConverters.getInstance()
                 .addConverter(new ModelResolver(objectMapper, innerClassAwareTypeNameResolver));
     }
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .components(new Components())
-                .servers(List.of(
-                        new Server().url("https://api.devlens.work/admin").description("관리자 서버 스웨거"),
-                        new Server().url("https://api.devlens.work/main").description("메인 서버 스웨거"),
-                        new Server().url("http://localhost/admin").description("관리자 로컬 스웨거"),
-                        new Server().url("http://localhost/main").description("메인 로컬 스웨거")
-                ));
-    }
-
-
 //    @Bean
 //    public OpenAPI accessApi() {
 //        // Access Token (Authorization 헤더)
