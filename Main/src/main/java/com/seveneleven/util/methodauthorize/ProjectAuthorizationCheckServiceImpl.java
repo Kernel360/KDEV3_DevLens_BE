@@ -4,11 +4,13 @@ import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.project.repository.ProjectAuthorizationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizationCheckService {
 
@@ -19,8 +21,11 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
         Optional<ProjectAuthorization> authorization =
                 projectAuthorizationRepository
                         .findByProjectIdAndMemberIdAndIsActive(projectId, memberId, YesNo.YES);
-
-        return authorization.isPresent();
+        if(authorization.isPresent()) {
+            return true;
+        }
+        log.error("memberId : {} not have authorization in project : {}", memberId, projectId);
+        return false;
     }
 
     @Override
@@ -29,6 +34,10 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
                 projectAuthorizationRepository
                         .findByProjectIdAndMemberIdAndIsActive(projectId, memberId, YesNo.YES);
 
-        return authorization.isPresent() && "APPROVER".equals(authorization.get().getAuthorizationCode());
+        if(authorization.isPresent() && "APPROVER".equals(authorization.get().getAuthorizationCode())) {
+            return true;
+        }
+        log.error("memberId : {} not have authorization in project : {}", memberId, projectId);
+        return false;
     }
 }

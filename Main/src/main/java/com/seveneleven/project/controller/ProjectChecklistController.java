@@ -160,7 +160,6 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 ));
     }
 
-
     /**
      * 함수명 : postProjectChecklistAccept
      * 해당 체크리스트 승인 요청을 승인 처리하는 함수
