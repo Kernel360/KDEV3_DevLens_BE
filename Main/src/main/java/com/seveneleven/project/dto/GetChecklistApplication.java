@@ -2,10 +2,10 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.CheckRequest;
 import com.seveneleven.entity.project.CheckResult;
-import com.seveneleven.util.CustomDateFormatter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class GetChecklistApplication {
@@ -33,7 +33,7 @@ public class GetChecklistApplication {
         private String applicationContent;
         private String processStatus;
         private String proposer;
-        private String applicationDate;
+        private LocalDateTime applicationDate;
         private ApplicationResult applicationResult;
 
         private ChecklistApplication(CheckRequest checkRequest, CheckResult checkResult) {
@@ -41,9 +41,9 @@ public class GetChecklistApplication {
             this.checklistTitle = checkRequest.getChecklist().getTitle();
             this.applicationTitle = checkRequest.getTitle();
             this.applicationContent = checkRequest.getContent();
-            this.processStatus = checkRequest.getApprovalStatus().name();
+            this.processStatus = checkRequest.getApprovalStatus().getDescription();
             this.proposer = checkRequest.getRequester().getName();
-            this.applicationDate = CustomDateFormatter.formatDate(checkRequest.getCreatedAt().toLocalDate());
+            this.applicationDate = checkRequest.getCreatedAt();
             this.applicationResult = ApplicationResult.toDto(checkResult);
         }
 
@@ -52,9 +52,9 @@ public class GetChecklistApplication {
             this.checklistTitle = checkRequest.getChecklist().getTitle();
             this.applicationTitle = checkRequest.getTitle();
             this.applicationContent = checkRequest.getContent();
-            this.processStatus = checkRequest.getApprovalStatus().name();
+            this.processStatus = checkRequest.getApprovalStatus().getDescription();
             this.proposer = checkRequest.getRequester().getName();
-            this.applicationDate = CustomDateFormatter.formatDate(checkRequest.getCreatedAt().toLocalDate());
+            this.applicationDate = checkRequest.getCreatedAt();
         }
 
         public static ChecklistApplication toDto(CheckRequest checkRequest, CheckResult checkResult) {
@@ -71,12 +71,12 @@ public class GetChecklistApplication {
     public static class ApplicationResult {
         private String rejectReason;
         private String processor;
-        private String processDate;
+        private LocalDateTime processDate;
 
         public ApplicationResult(CheckResult checkResult) {
             this.rejectReason = checkResult.getRejectionReason();
             this.processor = checkResult.getProcessorMember().getName();
-            this.processDate = CustomDateFormatter.formatDate(checkResult.getCreatedAt().toLocalDate());
+            this.processDate = checkResult.getCreatedAt();
         }
 
         public static ApplicationResult toDto(CheckResult checkResult) {
