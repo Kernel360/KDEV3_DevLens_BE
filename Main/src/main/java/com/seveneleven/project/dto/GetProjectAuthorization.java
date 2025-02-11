@@ -5,6 +5,7 @@ import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetProjectAuthorization {
@@ -13,7 +14,8 @@ public class GetProjectAuthorization {
     @NoArgsConstructor
     public static class Response {
         private Long projectId;
-        private List<MemberAuthorization> memberAuthorization;
+        private List<CustomerMemberAuthorization> customerMemberAuthorizations;
+        private List<DeveloperMemberAuthorization> developerMemberAuthorizations;
 
         @Override
         public String toString() {
@@ -24,7 +26,15 @@ public class GetProjectAuthorization {
 
         private Response(Long projectId, List<ProjectAuthorization> projectAuthorizations) {
             this.projectId = projectId;
-            memberAuthorization = projectAuthorizations.stream().map(MemberAuthorization::toDto).toList();
+            this.customerMemberAuthorizations = new ArrayList<>();
+            this.developerMemberAuthorizations = new ArrayList<>();
+            projectAuthorizations.forEach(authorization -> {
+                    if(MemberType.CLIENT.equals(authorization.getMemberType())) {
+                        customerMemberAuthorizations.add(new CustomerMemberAuthorization(authorization));
+                    } else {
+                        developerMemberAuthorizations.add(new DeveloperMemberAuthorization(authorization));
+                    }
+            });
         }
 
         public static Response toDto(Long projectId, List<ProjectAuthorization> projectAuthorizations) {
@@ -33,28 +43,50 @@ public class GetProjectAuthorization {
     }
 
     @Getter
-    public static class MemberAuthorization {
+    public static class CustomerMemberAuthorization {
         private Long memberId;
         private String memberName;
         private String projectAuthorization;
-        private MemberType memberDivision;
 
         @Override
         public String toString() {
-            return "MemberAuthorization{" +
+            return "CustomerMemberAuthorization{" +
                     "memberId=" + memberId +
                     '}';
         }
 
-        private MemberAuthorization(ProjectAuthorization projectAuthorization) {
+        private CustomerMemberAuthorization(ProjectAuthorization projectAuthorization) {
             this.memberId = projectAuthorization.getMember().getId();
             this.memberName = projectAuthorization.getMember().getName();
             this.projectAuthorization = projectAuthorization.getAuthorizationCode();
-            this.memberDivision = projectAuthorization.getMemberType();
         }
 
-        public static MemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
-            return new MemberAuthorization(projectAuthorization);
+        public static CustomerMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
+            return new CustomerMemberAuthorization(projectAuthorization);
+        }
+    }
+
+    @Getter
+    public static class DeveloperMemberAuthorization {
+        private Long memberId;
+        private String memberName;
+        private String projectAuthorization;
+
+        @Override
+        public String toString() {
+            return "DeveloperMemberAuthorization{" +
+                    "memberId=" + memberId +
+                    '}';
+        }
+
+        private DeveloperMemberAuthorization(ProjectAuthorization projectAuthorization) {
+            this.memberId = projectAuthorization.getMember().getId();
+            this.memberName = projectAuthorization.getMember().getName();
+            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+        }
+
+        public static DeveloperMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
+            return new DeveloperMemberAuthorization(projectAuthorization);
         }
     }
 }

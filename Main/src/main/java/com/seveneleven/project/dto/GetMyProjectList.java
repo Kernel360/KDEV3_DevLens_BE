@@ -56,8 +56,8 @@ public class GetMyProjectList {
         private GetMyProjectResponseInfo(Project project, List<String> projectTags) {
             this.id = project.getId();
             this.projectName = project.getProjectName();
-            this.startDate = CustomDateFormatter.formatDate(project.getStartDate());
-            this.endDate = CustomDateFormatter.formatDate(project.getEndDate());
+            this.startDate = CustomDateFormatter.formatDate(project.getPlannedStartDate());
+            this.endDate = CustomDateFormatter.formatDate(project.getPlannedEndDate());
             this.customerId = project.getCustomer().getId();
             this.customerCompanyName = project.getCustomer().getCompanyName();
             this.developerId = project.getDeveloper().getId();

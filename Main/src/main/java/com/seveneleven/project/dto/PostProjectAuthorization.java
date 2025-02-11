@@ -16,26 +16,23 @@ public class PostProjectAuthorization {
     @Getter
     @NoArgsConstructor
     public static class Request {
-        List<MemberAuthorization> authorizations;
+        List<CustomerMemberAuthorization> customerAuthorizations;
+        List<DeveloperMemberAuthorization> developerAuthorizations;
+        // TODO - toString 추가
+    }
 
-        @Override
-        public String toString() {
-            return "Request{" +
-                    "authorizations=" + authorizations +
-                    '}';
-        }
+    public interface MemberAuthorization {
+        ProjectAuthorization toEntity(Project project, Member member);
     }
 
     @Getter
     @NoArgsConstructor
-    public static class MemberAuthorization {
-        private Long memberId;
-        private String projectAuthorization;
-        private MemberType memberDivision;
+    public static abstract class BaseMemberAuthorization implements MemberAuthorization {
+        protected Long memberId;
+        protected MemberType memberType;
+        protected String projectAuthorization;
 
-        public ProjectAuthorization toEntity(Project project, Member member) {
-            return ProjectAuthorization.create(member, project, memberDivision, projectAuthorization);
-        }
+        public abstract ProjectAuthorization toEntity(Project project, Member member);
 
         @Override
         public String toString() {
@@ -47,24 +44,46 @@ public class PostProjectAuthorization {
 
     @Getter
     @NoArgsConstructor
+    public static class CustomerMemberAuthorization extends BaseMemberAuthorization {
+        protected MemberType memberType = MemberType.CLIENT;
+
+        @Override
+        public ProjectAuthorization toEntity(Project project, Member member) {
+            return ProjectAuthorization.create(member, project, memberType, projectAuthorization);
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class DeveloperMemberAuthorization extends BaseMemberAuthorization {
+        protected MemberType memberType = MemberType.DEVELOPER;
+
+        @Override
+        public ProjectAuthorization toEntity(Project project, Member member) {
+            return ProjectAuthorization.create(member, project, memberType, projectAuthorization);
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
     public static class Response {
-        private Long stepId;
+        private Long projectId;
         private List<FailList> failList;
 
-        private Response(Long stepId) {
-            this.stepId = stepId;
+        private Response(Long projectId) {
+            this.projectId = projectId;
             this.failList = new ArrayList<>();
         }
 
         @Override
         public String toString() {
             return "Response{" +
-                    "stepId=" + stepId +
+                    "projectId=" + projectId +
                     '}';
         }
 
-        public static Response create(Long stepId) {
-            return new Response(stepId);
+        public static Response create(Long projectId) {
+            return new Response(projectId);
         }
     }
 
@@ -72,15 +91,17 @@ public class PostProjectAuthorization {
     @NoArgsConstructor
     public static class FailList {
         private Long memberId;
-        private MemberType memberDivision;
+        private MemberType memberType;
         private String projectAuthorization;
         private HttpStatus status;
         private String message;
 
         private FailList(MemberAuthorization member, HttpStatus status, String message) {
-            this.memberId = member.getMemberId();
-            this.memberDivision = member.getMemberDivision();
-            this.projectAuthorization = member.getProjectAuthorization();
+            if(member instanceof BaseMemberAuthorization baseMemberAuthorization) {
+                this.memberId = baseMemberAuthorization.getMemberId();
+                this.memberType = baseMemberAuthorization.getMemberType();
+                this.projectAuthorization = baseMemberAuthorization.getProjectAuthorization();
+            }
             this.status = status;
             this.message = message;
         }
