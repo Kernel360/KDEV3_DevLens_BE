@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import static com.seveneleven.response.ErrorCode.CHECK_REQUEST_NOT_FOUND;
 
 @Component
@@ -21,5 +23,10 @@ public class CheckRequestReaderImpl implements CheckRequestReader {
     public CheckRequest read(Long applicationId) {
         return checkRequestRepository.findByIdAndIsActive(applicationId, YesNo.YES)
                 .orElseThrow(() -> new BusinessException(CHECK_REQUEST_NOT_FOUND));
+    }
+
+    @Override
+    public List<CheckRequest> readByChecklistId(Long checklistId) {
+        return checkRequestRepository.findByChecklistIdAndIsActive(checklistId, YesNo.YES);
     }
 }

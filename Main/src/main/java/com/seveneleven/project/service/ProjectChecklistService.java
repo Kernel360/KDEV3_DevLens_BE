@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ProjectChecklistService {
-    GetProjectChecklistApplication.Response getApplicationDetail(Long applicationId);
+    GetApplication.Response getApplicationDetail(Long applicationId);
 
     List<FileMetadataDto> getApplicationFiles(Long applicationId);
 

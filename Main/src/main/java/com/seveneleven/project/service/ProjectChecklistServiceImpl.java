@@ -54,9 +54,9 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     }
 
     @Override
-    public GetProjectChecklistApplication.Response getApplicationDetail(Long applicationId) {
+    public GetApplication.Response getApplicationDetail(Long applicationId) {
         CheckRequest checkRequest = checkRequestReader.read(applicationId);
-        return GetProjectChecklistApplication.Response.toDto(checkRequest);
+        return GetApplication.Response.toDto(checkRequest);
     }
 
     @Override

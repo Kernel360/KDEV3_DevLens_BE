@@ -120,7 +120,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 프로젝트 체크리스트에 승인 요청을 확인하는 함수
      */
     @GetMapping("/checklists/applications/{applicationId}")
-    public ResponseEntity<APIResponse<GetProjectChecklistApplication.Response>> getProjectChecklistApplication(
+    public ResponseEntity<APIResponse<GetApplication.Response>> getProjectChecklistApplication(
             @PathVariable Long applicationId
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
@@ -258,6 +258,22 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                         SuccessCode.OK,
                         projectChecklistService.getChecklistRejectLinks(applicationId)
                 ));
+    }
+
+    /**
+     * 함수명 : getChecklistApplication
+     * 체크리스트의 모든 승인 요청 목록을 보내는 함수
+     */
+    @GetMapping("/checklists/{checklistId}/applications")
+    public ResponseEntity<APIResponse<GetChecklistApplication.Response>> getChecklistApplication(
+            @PathVariable Long checklistId
+    ) {
+        return ResponseEntity
+                .status(SuccessCode.OK.getStatusCode())
+                .body(APIResponse.success(
+                        SuccessCode.OK,
+                        projectChecklistFacade.getChecklistAllApplications(checklistId))
+                );
     }
 
 }

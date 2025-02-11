@@ -31,4 +31,6 @@ public interface CheckRequestRepository extends JpaRepository<CheckRequest, Long
     List<GetProjectDetail.ChecklistApplicationList> findAllApplicationLists(Long projectId);
 
     Optional<CheckRequest> findByIdAndIsActive(Long id, YesNo isActive);
+
+    List<CheckRequest> findByChecklistIdAndIsActive(Long checklistId, YesNo isActive);
 }

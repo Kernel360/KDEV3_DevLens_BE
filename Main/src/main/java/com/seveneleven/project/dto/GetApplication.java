@@ -4,7 +4,7 @@ import com.seveneleven.entity.project.CheckRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class GetProjectChecklistApplication {
+public class GetApplication {
 
     @Getter
     @NoArgsConstructor

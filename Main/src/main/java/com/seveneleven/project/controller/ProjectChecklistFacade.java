@@ -10,12 +10,15 @@ import com.seveneleven.project.dto.*;
 import com.seveneleven.project.service.ProjectCheckRequestService;
 import com.seveneleven.project.service.ProjectChecklistService;
 import com.seveneleven.project.service.ProjectStepService;
+import com.seveneleven.project.service.checklist.CheckResultReader;
 import com.seveneleven.util.GetIpUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @Slf4j
@@ -27,12 +30,13 @@ public class ProjectChecklistFacade {
     private final ProjectCheckRequestService projectCheckRequestService;
     private final MemberService memberService;
     private final GetIpUtil getIpUtil;
+    private final CheckResultReader checkResultReader;
 
     /**
      * 함수명 : getProjectChecklistApplication
      * 승인 요청 상세를 반환하는 함수
      */
-    public GetProjectChecklistApplication.Response getProjectChecklistApplication(Long applicationId) {
+    public GetApplication.Response getProjectChecklistApplication(Long applicationId) {
         return projectChecklistService.getApplicationDetail(applicationId);
     }
 
@@ -131,5 +135,18 @@ public class ProjectChecklistFacade {
         String ip = getIpUtil.getIpAddress(request);
 
         return projectChecklistService.postProjectReject(checkRequest, requestDto, member, ip);
+    }
+
+    @Transactional(readOnly = true)
+    public GetChecklistApplication.Response getChecklistAllApplications(Long checklistId) {
+        Checklist checklist = projectChecklistService.getChecklist(checklistId);
+        List<CheckRequest> applications =
+                projectCheckRequestService.getAllCheckRequestByChecklistId(checklist);
+
+        // Service로 이동시켜야 할까?
+        List<GetChecklistApplication.ChecklistApplication> result =
+                projectCheckRequestService.getChecklistApplications(applications);
+
+        return GetChecklistApplication.Response.toDto(result);
     }
 }
