@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PostLinkHistoryService {
+public class PostLinkHistoryService implements PostLinkHistoryServiceImpl {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final LinkHistoryRepository linkHistoryRepository;
@@ -26,6 +26,7 @@ public class PostLinkHistoryService {
      * @param uploadedLinkEntity 업로드된 링크 엔티티
      * @param registrantId 등록 수행자 id
      */
+    @Override
     @Transactional
     public void registerPostLinkHistory(Link uploadedLinkEntity, Long registrantId){
         //1. 이력 등록자 정보 가져오기
@@ -66,6 +67,7 @@ public class PostLinkHistoryService {
      * @param deletedLinkEntity 삭제된 링크 엔티티
      * @param registrantId 삭제 수행자 id
      */
+    @Override
     @Transactional
     public void deletePostLinkHistory(Link deletedLinkEntity, Long registrantId) {
         //1. 이력 등록자 정보 가져오기
