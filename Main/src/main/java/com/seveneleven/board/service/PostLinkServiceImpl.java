@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class PostLinkServiceImpl implements PostLinkService {
     private final LinkHandler linkHandler;
     private final PostRepository postRepository;
-    private final PostLinkHistoryServiceImpl postLinkHistoryServiceImpl;
+    private final PostLinkHistoryService postLinkHistoryService;
 
     private static final int MAX_LINK_COUNT = 10; //게시물별 최대 링크 수(10개)
 
@@ -63,7 +63,7 @@ public class PostLinkServiceImpl implements PostLinkService {
         for(LinkPayload linkPayload : linkPayloads){
             Link uploadedLinkEntity = linkHandler.uploadLink(linkPayload);
             //링크 업로드 이력 등록
-            postLinkHistoryServiceImpl.registerPostLinkHistory(uploadedLinkEntity, uploaderId);
+            postLinkHistoryService.registerPostLinkHistory(uploadedLinkEntity, uploaderId);
         }
     }
 
@@ -121,7 +121,7 @@ public class PostLinkServiceImpl implements PostLinkService {
         Link deletedLink = linkHandler.deleteLinkById(linkId);
 
         //4. 삭제 이력 등록
-        postLinkHistoryServiceImpl.deletePostLinkHistory(deletedLink, deleterId);
+        postLinkHistoryService.deletePostLinkHistory(deletedLink, deleterId);
     }
 
     /**
@@ -142,7 +142,7 @@ public class PostLinkServiceImpl implements PostLinkService {
         for(Link linkEntity : linkHandler.getLinks(LinkCategory.POST_ATTACHMENT_LINK, postEntity.getId())){
             Link deletedLink = linkHandler.deleteLinkById(linkEntity.getId());
             //삭제 이력 등록
-            postLinkHistoryServiceImpl.deletePostLinkHistory(deletedLink, postId);
+            postLinkHistoryService.deletePostLinkHistory(deletedLink, postId);
         }
     }
 

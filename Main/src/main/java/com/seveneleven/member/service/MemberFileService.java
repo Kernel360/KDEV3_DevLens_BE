@@ -5,12 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberFileService {
-    @Transactional
+
     void uploadProfileImage(MultipartFile file, Long memberId, Long uploaderId);
 
-    @Transactional(readOnly = true)
     FileMetadataResponse getProfileImage(Long memberId);
 
-    @Transactional
     void deleteProfileImage(Long memberId, Long deleterId);
 }
