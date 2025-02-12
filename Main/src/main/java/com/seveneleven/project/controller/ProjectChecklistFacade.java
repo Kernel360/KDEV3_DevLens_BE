@@ -36,6 +36,7 @@ public class ProjectChecklistFacade {
      * 함수명 : getProjectChecklistApplication
      * 승인 요청 상세를 반환하는 함수
      */
+    @Transactional(readOnly = true)
     public GetApplication.Response getProjectChecklistApplication(Long applicationId) {
         return projectChecklistService.getApplicationDetail(applicationId);
     }
@@ -44,6 +45,7 @@ public class ProjectChecklistFacade {
      * 함수명 : getStepChecklist
      * 해당 단계의 체크리스트 목록을 반환하는 함수
      */
+    @Transactional(readOnly = true)
     public GetStepChecklist.Response getStepChecklist(Long stepId) {
         return projectStepService.getStepChecklist(stepId);
     }
@@ -52,6 +54,7 @@ public class ProjectChecklistFacade {
      * 함수명 : postProjectChecklist
      * 체크리스트를 추가하는 함수
      */
+    @Transactional
     public PostProjectChecklist.Response postProjectChecklist(
             Long stepId,
             PostProjectChecklist.Request postProjectChecklist
@@ -64,6 +67,7 @@ public class ProjectChecklistFacade {
      * 함수명 : putProjectChecklist
      * 체크리스트를 수정하는 함수
      */
+    @Transactional
     public PutProjectChecklist.Response putProjectChecklist(
             Long checklistId,
             PutProjectChecklist.Request putProjectChecklist
@@ -76,6 +80,7 @@ public class ProjectChecklistFacade {
      * 함수명 : deleteProjectChecklist
      * 체크리스트를 삭제하는 함수
      */
+    @Transactional
     public DeleteProjectChecklist.Response deleteProjectChecklist(Long checklistId) {
         Checklist checklist = projectChecklistService.getChecklist(checklistId);
         return projectChecklistService.deleteProjectChecklist(checklist);
@@ -85,6 +90,7 @@ public class ProjectChecklistFacade {
      * 함수명 : postProjectChecklistApplication
      * 체크리스트 승인 요청을 등록하는 함수
      */
+    @Transactional
     public PostProjectChecklistApplication.Response postProjectChecklistApplication(
             Long checklistId,
             Long userId,
@@ -101,6 +107,7 @@ public class ProjectChecklistFacade {
      * 함수명 : postProjectChecklistAccept
      * 체크리스트 승인 요청을 승인하는 함수
      */
+    @Transactional
     public PostProjectChecklistAccept.Response postProjectChecklistAccept(
             Long applicationId,
             Long memberId,
@@ -124,6 +131,7 @@ public class ProjectChecklistFacade {
      * 함수명 : postProjectChecklistReject
      * 체크리스트 승인 요청을 반려하는 함수
      */
+    @Transactional(readOnly = true)
     public PostProjectChecklistReject.Response postProjectChecklistReject(
             Long applicationId,
             PostProjectChecklistReject.Request requestDto,

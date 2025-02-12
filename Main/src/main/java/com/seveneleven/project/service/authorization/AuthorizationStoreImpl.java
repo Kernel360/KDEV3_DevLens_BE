@@ -13,6 +13,8 @@ import com.seveneleven.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +109,7 @@ public class AuthorizationStoreImpl implements AuthorizationStore {
     /**
      * 요청에 포함되지 않은 기존 권한들에 대해 삭제(히스토리 저장) 처리합니다.
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     private void delete(List<ProjectAuthorization> remainingAuthorizations) {
         for (ProjectAuthorization authorization : remainingAuthorizations) {
             projectAuthorizationHistoryRepository.save(authorization.delete());

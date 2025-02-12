@@ -27,7 +27,6 @@ public class ProjectAuthorizationController {
             @PathVariable Long projectId,
             @RequestBody PostProjectAuthorization.Request requestDto
     ) {
-        // TODO - ProjectId로 변경
         PostProjectAuthorization.Response responseDto = projectAuthorizationFacade.postProjectAuthorization(requestDto, projectId);
 
         if(responseDto.getFailList().isEmpty()) {

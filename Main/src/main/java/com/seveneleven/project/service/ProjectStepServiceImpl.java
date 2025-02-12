@@ -12,7 +12,6 @@ import com.seveneleven.project.service.step.StepStore;
 import com.seveneleven.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,7 +40,6 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     }
 
     @Override
-    @Transactional
     public PostProjectStep.Response postProjectStep(Project project, PostProjectStep.Request requestDto) {
         List<Integer> orderList = stepReader.getStepOrderList(project.getId());
 
@@ -55,7 +53,6 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     }
 
     @Override
-    @Transactional
     public PutProjectStep.Response putProjectStep(ProjectStep projectStep, PutProjectStep.Request requestDto) {
         List<Integer> orderList = stepReader.getStepOrderList(projectStep.getProject().getId());
         Integer order = getStepOrder(orderList, requestDto.getStepOrder());
@@ -63,7 +60,6 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     }
 
     @Override
-    @Transactional
     public DeleteProjectStep.Response deleteProjectStep(Long projectId, Long stepId) {
         List<Checklist> checklists = checklistReader.read(stepId);
         ProjectStep projectStep = stepReader.read(stepId);

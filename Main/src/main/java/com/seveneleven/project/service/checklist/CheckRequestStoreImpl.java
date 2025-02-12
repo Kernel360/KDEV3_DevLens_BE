@@ -11,9 +11,8 @@ import com.seveneleven.project.dto.PostProjectChecklistApplication;
 import com.seveneleven.project.repository.CheckRequestRepository;
 import com.seveneleven.response.ErrorCode;
 import com.seveneleven.util.GetIpUtil;
-import com.seveneleven.util.file.handler.LinkHandler;
 import com.seveneleven.util.file.dto.LinkPayload;
-import jakarta.transaction.Transactional;
+import com.seveneleven.util.file.handler.LinkHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,7 +31,6 @@ public class CheckRequestStoreImpl implements CheckRequestStore {
     private final LinkHandler linkHandler;
 
     @Override
-    @Transactional
     public CheckRequest checkRequestStore(
             Checklist checklist,
             PostProjectChecklistApplication.Request requestDto,

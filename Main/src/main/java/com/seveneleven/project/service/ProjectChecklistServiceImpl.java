@@ -50,7 +50,9 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
             ProjectStep projectStep,
             PostProjectChecklist.Request postProjectChecklist
     ) {
-        return PostProjectChecklist.Response.toDto(checklistStore.storeChecklist(projectStep, postProjectChecklist));
+        return PostProjectChecklist.Response.toDto(
+                checklistStore.storeChecklist(projectStep, postProjectChecklist)
+        );
     }
 
     @Override
@@ -80,7 +82,6 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     }
 
     @Override
-    @Transactional
     public PostProjectChecklistApplication.Response postProjectChecklistApplication(
             Checklist checklist,
             Member member,
@@ -126,20 +127,23 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     }
 
     @Override
-    @Transactional
     public DeleteProjectChecklist.Response deleteProjectChecklist(Checklist checklist) {
         checklistStore.delete(checklist);
         return DeleteProjectChecklist.Response.toDto(checklist);
     }
 
     @Override
-    @Transactional
-    public PostProjectChecklistAccept.Response postProjectAccept(Long applicationId, Long memberId, HttpServletRequest request) {
+    public PostProjectChecklistAccept.Response postProjectAccept(
+            Long applicationId,
+            Long memberId,
+            HttpServletRequest request
+    ) {
         CheckRequest checkRequest = checkRequestReader.read(applicationId);
         String processorIp = getIpUtil.getIpAddress(request);
         Member member = getMember(memberId);
 
-        PostProjectChecklistAccept.Response response = checkResultStore.postApplicationAccept(checkRequest, member, processorIp);
+        PostProjectChecklistAccept.Response response =
+                checkResultStore.postApplicationAccept(checkRequest, member, processorIp);
 
         checkRequestStore.acceptCheckRequest(checkRequest);
         checklistStore.accept(checkRequest.getChecklist());
@@ -148,7 +152,6 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     }
 
     @Override
-    @Transactional
     public PostProjectChecklistReject.Response postProjectReject(
             CheckRequest checkRequest,
             PostProjectChecklistReject.Request requestDto,

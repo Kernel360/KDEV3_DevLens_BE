@@ -12,6 +12,5 @@ public interface MemberService {
     void logout(String token);
     MemberPatch.Response resetPassword(HttpServletRequest request, CustomUserDetails userDetails, MemberPatch.Request requestDto);
 
-    Long getCompanyIdById(Long memberId);
     Member getMember(Long memberId);
 }

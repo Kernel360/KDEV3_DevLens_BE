@@ -17,7 +17,6 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class ProjectReaderImpl implements ProjectReader {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
