@@ -15,7 +15,7 @@ public class AdminProjectTagServiceImpl implements AdminProjectTagService {
     private final AdminProjectTagStore adminProjectTagStore;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ProjectTag> storeProjectTags(Project project, List<String> tags) {
         return adminProjectTagStore.store(project, tags);
     }
