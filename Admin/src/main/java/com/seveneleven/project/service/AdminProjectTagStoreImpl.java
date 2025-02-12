@@ -16,6 +16,10 @@ public class AdminProjectTagStoreImpl implements AdminProjectTagStore {
 
     @Override
     public List<ProjectTag> store(Project project, List<String> tagNameList) {
+        if(tagNameList == null || tagNameList.isEmpty()) {
+            return List.of();
+        }
+
         List<ProjectTag> ProjectTags = tagNameList
                 .stream()
                 .map(tagName -> ProjectTag.create(project, tagName))
