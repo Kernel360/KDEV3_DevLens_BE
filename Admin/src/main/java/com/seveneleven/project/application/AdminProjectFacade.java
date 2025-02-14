@@ -49,7 +49,6 @@ public class AdminProjectFacade {
     }
 
     public GetProject.Response getProject(Long id){
-        // TODO - Project 권한 목록 추가 로직 - LSY
         Project project = adminProjectService.getProject(id);
         List<ProjectAuthorization> authorizations = adminProjectAuthorizationService.readByProjectId(id);
         List<ProjectTag> projectTags = adminProjectTagService.getAllProjectTags(id);
@@ -61,7 +60,6 @@ public class AdminProjectFacade {
     }
 
     public void deleteProject(Long id){
-        // TODO - 프로젝트 권한 목록 비활성화 로직 추가 - LSY
         Project project = adminProjectService.deleteProject(id);
         adminProjectHistoryService.saveProjectHistory(project);
     }
