@@ -2,12 +2,11 @@ package com.seveneleven.company.repository;
 
 import com.seveneleven.company.dto.GetAllCompanies;
 import com.seveneleven.company.dto.GetCompanies;
-import com.seveneleven.company.dto.GetCompanyMember;
 import com.seveneleven.company.exception.CompanyNotFoundException;
 import com.seveneleven.company.service.AdminCompanyReader;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.member.constant.YN;
-import com.seveneleven.project.dto.GetProject;
+import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.project.repository.AdminProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,9 +32,9 @@ public class AdminCompanyReaderImpl implements AdminCompanyReader {
     }
 
     @Override
-    public Page<GetProject.Response> getCompanyProject(Pageable pageable, Long id) {
+    public Page<GetProjectList.Response> getCompanyProject(Pageable pageable, Long id) {
         Company company = companyRepository.findById(id).orElseThrow(CompanyNotFoundException::new);
-        return adminProjectRepository.findByCustomerOrDeveloper(pageable, company, company).map(GetProject.Response::of);
+        return adminProjectRepository.findByCustomerOrDeveloper(pageable, company, company).map(GetProjectList.Response::of);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.seveneleven.company.controller;
 import com.seveneleven.company.application.AdminCompanyFacade;
 import com.seveneleven.company.dto.*;
 import com.seveneleven.project.application.AdminProjectFacade;
-import com.seveneleven.project.dto.GetProject;
+import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.PaginatedResponse;
 import com.seveneleven.response.SuccessCode;
@@ -57,7 +57,7 @@ public class CompanyController implements CompanyDocs {
      */
     @GetMapping("/{id}/projects")
     @Override
-    public ResponseEntity<APIResponse<PaginatedResponse<GetProject.Response>>> readCompanyProject(
+    public ResponseEntity<APIResponse<PaginatedResponse<GetProjectList.Response>>> readCompanyProject(
             @PathVariable Long id,
             @RequestParam Integer page
     ) {

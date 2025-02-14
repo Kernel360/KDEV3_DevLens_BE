@@ -1,21 +1,13 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.Project;
-import com.seveneleven.entity.project.ProjectAuthorization;
-import com.seveneleven.entity.project.ProjectTag;
-import com.seveneleven.entity.project.constant.MemberType;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetProject {
+public class GetProjectList {
     @Getter
     public static class Response {
         private Long id; // 프로젝트 ID
@@ -33,9 +25,6 @@ public class GetProject {
         private LocalDate endDate; // 종료일
         private String finalApprover; // 최종 결재자
         private LocalDateTime finalApprovalDate; // 최종 결재일시
-        private List<String> projectTags;
-        private List<PatchAuthorization.CustomerMemberAuthorization> customerMemberAuthorizations;
-        private List<PatchAuthorization.DeveloperMemberAuthorization> developerMemberAuthorizations;
 
         @Override
         public String toString() {
@@ -45,9 +34,7 @@ public class GetProject {
         }
 
         private Response(
-                Project project,
-                List<ProjectTag> tags,
-                List<ProjectAuthorization> authorizations
+                Project project
         ) {
             id = project.getId();
             projectName = project.getProjectName();
@@ -63,20 +50,10 @@ public class GetProject {
             startDate = project.getStartDate();
             endDate = project.getEndDate();
             finalApprovalDate = project.getFinalApprovalDate();
-            projectTags = tags.stream().map(ProjectTag::getTag).toList();
-            this.customerMemberAuthorizations = new ArrayList<>();
-            this.developerMemberAuthorizations = new ArrayList<>();
-            authorizations.forEach(authorization -> {
-                if(MemberType.CLIENT.equals(authorization.getMemberType())) {
-                    customerMemberAuthorizations.add(new PatchAuthorization.CustomerMemberAuthorization(authorization));
-                } else {
-                    developerMemberAuthorizations.add(new PatchAuthorization.DeveloperMemberAuthorization(authorization));
-                }
-            });
         }
 
-        public static Response of(Project project, List<ProjectTag> tags, List<ProjectAuthorization> authorizations) {
-            return new Response(project, tags, authorizations);
+        public static Response of(Project project) {
+            return new Response(project);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.seveneleven.company.controller;
 
 import com.seveneleven.company.dto.*;
-import com.seveneleven.project.dto.GetProject;
+import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.PaginatedResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -93,7 +93,7 @@ public interface CompanyDocs {
                     )
             }
     )
-    ResponseEntity<APIResponse<PaginatedResponse<GetProject.Response>>> readCompanyProject(
+    ResponseEntity<APIResponse<PaginatedResponse<GetProjectList.Response>>> readCompanyProject(
             @PathVariable Long id,
             @RequestParam Integer page
     );

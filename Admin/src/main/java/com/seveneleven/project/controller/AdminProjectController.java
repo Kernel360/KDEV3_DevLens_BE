@@ -2,10 +2,7 @@ package com.seveneleven.project.controller;
 
 import com.seveneleven.project.application.AdminProjectFacade;
 import com.seveneleven.project.application.AdminProjectHistoryFacade;
-import com.seveneleven.project.dto.GetProject;
-import com.seveneleven.project.dto.GetProjectHistory;
-import com.seveneleven.project.dto.PostProject;
-import com.seveneleven.project.dto.PutProject;
+import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.PaginatedResponse;
 import com.seveneleven.response.SuccessCode;
@@ -62,8 +59,8 @@ public class AdminProjectController implements AdminProjectDocs{
         함수 목적 : 프로젝트 목록 조회
      */
     @GetMapping("")
-    public ResponseEntity<APIResponse<PaginatedResponse<GetProject.Response>>> getListOfProjects(@RequestParam(value = "page") Integer page) {
-        PaginatedResponse<GetProject.Response> response = adminProjectFacade.getListOfProject(page);
+    public ResponseEntity<APIResponse<PaginatedResponse<GetProjectList.Response>>> getListOfProjects(@RequestParam(value = "page") Integer page) {
+        PaginatedResponse<GetProjectList.Response> response = adminProjectFacade.getListOfProject(page);
         return ResponseEntity
                 .status(SuccessCode.OK.getStatus())
                 .body(APIResponse.success(SuccessCode.OK, response));

@@ -4,6 +4,7 @@ import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.project.dto.GetProject;
+import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.project.dto.PostProject;
 import com.seveneleven.project.dto.PutProject;
 import com.seveneleven.project.service.*;
@@ -44,15 +45,18 @@ public class AdminProjectFacade {
                         request.getCustomerAuthorizations(),
                         request.getDeveloperAuthorizations()
                 );
-        return PutProject.Response.of(project, projectTags);
+        return PutProject.Response.of(project, projectTags, authorizations);
     }
 
     public GetProject.Response getProject(Long id){
         // TODO - Project 권한 목록 추가 로직 - LSY
-        return adminProjectService.getProject(id);
+        Project project = adminProjectService.getProject(id);
+        List<ProjectAuthorization> authorizations = adminProjectAuthorizationService.readByProjectId(id);
+        List<ProjectTag> projectTags = adminProjectTagService.getAllProjectTags(id);
+        return GetProject.Response.of(project, projectTags, authorizations);
     }
 
-    public PaginatedResponse<GetProject.Response> getListOfProject(Integer page) {
+    public PaginatedResponse<GetProjectList.Response> getListOfProject(Integer page) {
         return adminProjectService.getListOfProject(page);
     }
 
@@ -66,7 +70,7 @@ public class AdminProjectFacade {
         return adminProjectService.checkProjectNameExists(name);
     }
 
-    public PaginatedResponse<GetProject.Response> getCompanyProject(Long id, Integer page) {
+    public PaginatedResponse<GetProjectList.Response> getCompanyProject(Long id, Integer page) {
         return adminProjectService.getCompanyProject(page, id);
     }
 }

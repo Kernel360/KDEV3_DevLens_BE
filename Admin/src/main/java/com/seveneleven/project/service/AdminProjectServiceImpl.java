@@ -5,6 +5,7 @@ import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectType;
 import com.seveneleven.project.dto.GetProject;
+import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.project.dto.PostProject;
 import com.seveneleven.project.dto.PutProject;
 import com.seveneleven.project.exception.ProjectNameDuplicatedException;
@@ -43,20 +44,19 @@ public class AdminProjectServiceImpl implements AdminProjectService {
         return adminProjectStore.store(request.toEntity(customer, developer, projectType));
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public GetProject.Response getProject(Long id) {
-        return GetProject.Response.of(adminProjectReader.getProject(id));
+    public Project getProject(Long id) {
+        return adminProjectReader.getProject(id);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public PaginatedResponse<GetProject.Response> getListOfProject(Integer page) {
+    public PaginatedResponse<GetProjectList.Response> getListOfProject(Integer page) {
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE.getPageSize(), Sort.by("id").descending());
         Page<Project> projects = adminProjectReader.getProjectList(pageable);
         if (projects.getContent().isEmpty()) throw new ProjectNotFoundException();
 
-        return PaginatedResponse.createPaginatedResponse(projects.map(GetProject.Response::of));
+        return PaginatedResponse.createPaginatedResponse(projects.map(GetProjectList.Response::of));
     }
 
     @Transactional
@@ -101,9 +101,9 @@ public class AdminProjectServiceImpl implements AdminProjectService {
      */
     @Transactional(readOnly = true)
     @Override
-    public PaginatedResponse<GetProject.Response> getCompanyProject(Integer pageNumber, Long id) {
+    public PaginatedResponse<GetProjectList.Response> getCompanyProject(Integer pageNumber, Long id) {
         Pageable pageable = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE.getPageSize());
-        Page<GetProject.Response> page = adminCompanyReader.getCompanyProject(pageable, id);
+        Page<GetProjectList.Response> page = adminCompanyReader.getCompanyProject(pageable, id);
         return PaginatedResponse.createPaginatedResponse(page);
     }
 }

@@ -2,7 +2,7 @@ package com.seveneleven.project.service;
 
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectTag;
-import com.seveneleven.project.repository.ProjectTagRepository;
+import com.seveneleven.project.repository.AdminProjectTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminProjectTagStoreImpl implements AdminProjectTagStore {
 
-    private final ProjectTagRepository projectTagRepository;
+    private final AdminProjectTagRepository projectTagRepository;
 
     @Override
     public List<ProjectTag> store(Project project, List<String> tagNameList) {

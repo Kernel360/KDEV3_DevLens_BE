@@ -16,6 +16,11 @@ public class AdminProjectAuthorizationServiceImpl implements AdminProjectAuthori
     private final AdminProjectAuthorizationReader authorizationReader;
 
     @Override
+    public List<ProjectAuthorization> readByProjectId(Long projectId) {
+        return authorizationReader.getAllByProjectId(projectId);
+    }
+
+    @Override
     public List<ProjectAuthorization> store(
             Project project,
             List<PatchAuthorization.CustomerMemberAuthorization> customers,

@@ -4,7 +4,6 @@ import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectTag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,7 +11,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminProjectTagServiceImpl implements AdminProjectTagService {
 
+    private final ProjectTagReader projectTagReader;
     private final AdminProjectTagStore adminProjectTagStore;
+
+    @Override
+    public List<ProjectTag> getAllProjectTags(Long projectId) {
+        return projectTagReader.readByProjectId(projectId);
+    }
 
     @Override
     public List<ProjectTag> storeProjectTags(Project project, List<String> tags) {

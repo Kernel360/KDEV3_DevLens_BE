@@ -1,9 +1,6 @@
 package com.seveneleven.project.controller;
 
-import com.seveneleven.project.dto.GetProject;
-import com.seveneleven.project.dto.GetProjectHistory;
-import com.seveneleven.project.dto.PostProject;
-import com.seveneleven.project.dto.PutProject;
+import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.PaginatedResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -109,7 +106,7 @@ public interface AdminProjectDocs {
                     )
             }
     )
-    ResponseEntity<APIResponse<PaginatedResponse<GetProject.Response>>> getListOfProjects(@RequestParam(value = "page") Integer page);
+    ResponseEntity<APIResponse<PaginatedResponse<GetProjectList.Response>>> getListOfProjects(@RequestParam(value = "page") Integer page);
 
     @GetMapping("/histories")
     @Operation(
