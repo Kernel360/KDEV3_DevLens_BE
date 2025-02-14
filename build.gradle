@@ -84,6 +84,8 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+        implementation 'com.github.loki4j:loki-logback-appender:1.6.0'
     }
 
     test {
