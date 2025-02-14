@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class MemberFileServiceImpl implements MemberFileService {
@@ -33,12 +35,16 @@ public class MemberFileServiceImpl implements MemberFileService {
      */
     @Override
     @Transactional
-    public void uploadProfileImage(MultipartFile file, Long memberId, Long uploaderId) {
+    public void uploadProfileImage(MultipartFile file, Long memberId, Long uploaderId, String uploaderRole) {
         //1. memberId로 존재 여부 판별
         Member memberEntity = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        //TODO) 2. 수행자 권한 판별
+        //2. 수행자 권한 판별
+        //member와 uploader가 같거나 admin이어야함
+        if (!(Objects.equals("ADMIN", uploaderRole) || Objects.equals(memberEntity.getId(), uploaderId))) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
 
         //3. 프로필 이미지 존재하는지 판별
         if(fileMetadataRepository.existsByCategoryAndReferenceId(FileCategory.USER_PROFILE_IMAGE, memberEntity.getId())){
@@ -92,12 +98,16 @@ public class MemberFileServiceImpl implements MemberFileService {
      */
     @Override
     @Transactional
-    public void deleteProfileImage(Long memberId, Long deleterId) {
+    public void deleteProfileImage(Long memberId, Long deleterId, String deleterRole) {
         //1. 회원 존재 유무 판별
         Member memberEntity = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        //TODO)2. 수행자 ID 정보 판별
+        //2. 수행자 ID 정보 판별
+        //member와 uploader가 같거나 admin이어야함
+        if (!(Objects.equals("ADMIN", deleterRole) || Objects.equals(memberEntity.getId(), deleterId))) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
 
         //3. 삭제 수행
         FileMetadata deletedFile = fileHandler.deleteFile(FileCategory.USER_PROFILE_IMAGE, memberEntity.getId());

@@ -6,9 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberFileService {
 
-    void uploadProfileImage(MultipartFile file, Long memberId, Long uploaderId);
+    void uploadProfileImage(MultipartFile file, Long memberId, Long uploaderId, String uploaderRole);
 
     FileMetadataResponse getProfileImage(Long memberId);
 
-    void deleteProfileImage(Long memberId, Long deleterId);
+    void deleteProfileImage(Long memberId, Long deleterId, String deleterRole);
 }

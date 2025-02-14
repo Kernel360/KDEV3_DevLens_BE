@@ -1,5 +1,6 @@
 package com.seveneleven.member.controller;
 
+import com.seveneleven.entity.member.constant.Role;
 import com.seveneleven.member.dto.MyPageGetMember;
 import com.seveneleven.member.dto.PatchMember;
 import com.seveneleven.member.service.MemberFileService;
@@ -7,12 +8,18 @@ import com.seveneleven.member.service.MyPageService;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
+import com.seveneleven.util.security.GetRoleUtil;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /*
  * 마이페이지 API Controller
@@ -89,8 +96,9 @@ public class MyPageController implements MyPageDocs{
                                                                        @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         Long uploaderId = userDetails.getId();
+        String uploaderRole = GetRoleUtil.getUserRole(userDetails);
 
-        memberFileService.uploadProfileImage(file, memberId, uploaderId);
+        memberFileService.uploadProfileImage(file, memberId, uploaderId, uploaderRole);
 
         return ResponseEntity
                 .status(SuccessCode.CREATED.getStatus())
@@ -130,8 +138,9 @@ public class MyPageController implements MyPageDocs{
                                                                        @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         Long uploaderId = userDetails.getId();
+        String uploaderRole = GetRoleUtil.getUserRole(userDetails);
 
-        memberFileService.deleteProfileImage(memberId, uploaderId);
+        memberFileService.deleteProfileImage(memberId, uploaderId, uploaderRole);
 
         return ResponseEntity
                 .status(SuccessCode.DELETED.getStatus())
