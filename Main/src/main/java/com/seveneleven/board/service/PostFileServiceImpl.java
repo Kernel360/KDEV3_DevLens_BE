@@ -4,20 +4,25 @@ import com.seveneleven.board.repository.PostRepository;
 import com.seveneleven.entity.board.Post;
 import com.seveneleven.entity.file.FileMetadata;
 import com.seveneleven.entity.file.constant.FileCategory;
+import com.seveneleven.entity.member.constant.Role;
 import com.seveneleven.exception.BusinessException;
 import com.seveneleven.response.ErrorCode;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
 import com.seveneleven.util.file.handler.FileHandler;
 import com.seveneleven.util.file.repository.FileMetadataHistoryRepository;
 import com.seveneleven.util.file.repository.FileMetadataRepository;
+import com.seveneleven.util.security.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.seveneleven.response.ErrorCode.NOT_HAVE_EDIT_PERMISSION;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +32,6 @@ public class PostFileServiceImpl implements PostFileService {
     private final FileMetadataRepository fileMetadataRepository;
 
     private static final int MAX_FILE_COUNT = 10; //게시물별 최대 파일 수(10개)
-    private final FileMetadataHistoryRepository fileMetadataHistoryRepository;
     private final PostFileHistoryService postFileHistoryService;
 
     /**
@@ -37,15 +41,21 @@ public class PostFileServiceImpl implements PostFileService {
      * @param files 업로드할 로고 이미지 파일들
      * @param postId 해당 게시물 id
      * @param uploaderId 업로드 수행자 id
+     * @param uploaderRole 업로드 수행자 권한
      */
     @Override
     @Transactional
-    public void uploadPostFiles(List<MultipartFile> files, Long postId, Long uploaderId){
+    public void uploadPostFiles(List<MultipartFile> files, Long postId, Long uploaderId, String uploaderRole){
         //1. 게시물 id로 존재여부 판별
         Post postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
 
-        //TODO) 2. 수행자 권한 판별 - admin, 해당 게시글 작성자
+        //2. 수행자 권한 판별
+        //게시물 작성자와 uploader가 같거나 admin이어야함
+        if (!(Objects.equals("ADMIN", uploaderRole) || Objects.equals(postEntity.getCreatedBy(), uploaderId))) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
+
 
         //3. 저장할 파일 갯수 + 현재 저장 갯수 >= 11인지 판별
         //현재 저장된 파일 갯수 확인
@@ -96,12 +106,16 @@ public class PostFileServiceImpl implements PostFileService {
      */
     @Override
     @Transactional
-    public void deletePostFile(Long postId, Long fileId, Long deleterId){
+    public void deletePostFile(Long postId, Long fileId, Long deleterId, String deleterRole){
         //1. 게시물 유효성 검사
         Post postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
 
-        //TODO) 2. 삭제 수행자 권한 판별
+        //2. 수행자 권한 판별
+        //게시물 작성자와 uploader가 같거나 admin이어야함
+        if (!(Objects.equals("ADMIN", deleterRole) || Objects.equals(postEntity.getCreatedBy(), deleterId))) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
 
         //3. 해당 게시물 파일 목록에 해당 파일이 존재하는지 확인
         List<FileMetadata> fileEntities = fileHandler.getFiles(FileCategory.POST_ATTACHMENT, postEntity.getId());
@@ -126,12 +140,16 @@ public class PostFileServiceImpl implements PostFileService {
      */
     @Override
     @Transactional
-    public void deleteAllPostFiles(Long postId, Long deleterId){
+    public void deleteAllPostFiles(Long postId, Long deleterId, String deleterRole){
         //1. 게시물 유효성 검사
         Post postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_POST));
 
-        //TODO) 2. 수행자 권한 판별
+        //2. 수행자 권한 판별
+        //게시물 작성자와 uploader가 같거나 admin이어야함
+        if (!(Objects.equals("ADMIN", deleterRole) || Objects.equals(postEntity.getCreatedBy(), deleterId))) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
 
         //3. 해당 게시물의 파일들을 전체 삭제한다.
         for(FileMetadata fileEntity : fileHandler.getFiles(FileCategory.POST_ATTACHMENT, postEntity.getId())) {

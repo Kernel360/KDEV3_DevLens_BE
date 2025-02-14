@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @OpenAPIDefinition(
         info = @Info(
-                description = "Devlens Admin API 문서",
-                title = "Devlens Admin API 문서",
+                description = "Devlens Main API 문서",
+                title = "Devlens Main API 문서",
                 version = "1.0"
         ),
         servers = {

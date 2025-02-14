@@ -13,6 +13,7 @@ import com.seveneleven.util.GetIpUtil;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
 import com.seveneleven.util.file.dto.LinkInput;
 import com.seveneleven.util.file.dto.LinkResponse;
+import com.seveneleven.util.security.GetRoleUtil;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -211,7 +212,7 @@ public class PostServiceImpl implements PostService {
         postLinkService.deleteAllPostLinks(postId, user.getId());
 
         // 게시물 파일 일괄 삭제
-        postFileService.deleteAllPostFiles(post.getId(), user.getId());
+        postFileService.deleteAllPostFiles(post.getId(), user.getId(), GetRoleUtil.getUserRole(user));
 
         postStore.storePostHistory(post, HistoryAction.DELETE, deleterIp);
         postStore.deletePost(post);

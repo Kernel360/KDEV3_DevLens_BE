@@ -12,6 +12,7 @@ import com.seveneleven.response.SuccessCode;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
 import com.seveneleven.util.file.dto.LinkInput;
 import com.seveneleven.util.file.dto.LinkResponse;
+import com.seveneleven.util.security.GetRoleUtil;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -151,9 +152,10 @@ public class BoardController implements BoardDocs {
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         Long uploaderId = userDetails.getId();
+        String uploaderRole = GetRoleUtil.getUserRole(userDetails);
 
         //파일 업로드
-        postFileService.uploadPostFiles(files, postId, uploaderId);
+        postFileService.uploadPostFiles(files, postId, uploaderId, uploaderRole);
 
         return ResponseEntity.status(SuccessCode.CREATED.getStatus())
                 .body(APIResponse.success(SuccessCode.CREATED));
@@ -170,6 +172,7 @@ public class BoardController implements BoardDocs {
                                                                 @AuthenticationPrincipal CustomUserDetails userDetails
     ){
         Long uploaderId = userDetails.getId();
+        String uploaderRole = GetRoleUtil.getUserRole(userDetails);
 
         postLinkService.uploadPostLinks(linkInputs, postId, uploaderId);
 
@@ -187,6 +190,7 @@ public class BoardController implements BoardDocs {
                                                                @AuthenticationPrincipal CustomUserDetails userDetails
     ){
         Long deleterId = userDetails.getId();
+        String deleterRole = GetRoleUtil.getUserRole(userDetails);
 
         postLinkService.deletePostLink(postId, linkId, deleterId);
 
@@ -195,7 +199,6 @@ public class BoardController implements BoardDocs {
     }
 
     //게시물 수정 - 파일
-
     /**
      * 함수명 : deletePostFile()
      * 게시물의 파일을 단일 삭제하는 메서드(수정화면)
@@ -206,8 +209,9 @@ public class BoardController implements BoardDocs {
                                                                     @AuthenticationPrincipal CustomUserDetails userDetails
     ){
         Long deleterId = userDetails.getId();
+        String deleterRole = GetRoleUtil.getUserRole(userDetails);
 
-        postFileService.deletePostFile(postId, fileId, deleterId);
+        postFileService.deletePostFile(postId, fileId, deleterId, deleterRole);
 
         return ResponseEntity.status(SuccessCode.DELETED.getStatus())
                 .body(APIResponse.success(SuccessCode.DELETED));
