@@ -36,9 +36,7 @@ public class CompanyFileServiceImpl implements CompanyFileService {
         Company companyEntity = companyRepository.findById(companyId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.COMPANY_IS_NOT_FOUND));
 
-        //TODO) 2. 수행자 권한 판별 validation - admin판별, super의 회사 판별
-
-        //3. 로고 이미 존재하는지 판별
+        //2. 로고 이미 존재하는지 판별
         if(fileMetadataRepository.existsByCategoryAndReferenceId(FileCategory.COMPANY_LOGO_IMAGE, companyEntity.getId())){
             //기존 로고 이미지 파일을 삭제한다.
             //3-1. 삭제수행
@@ -55,10 +53,10 @@ public class CompanyFileServiceImpl implements CompanyFileService {
             return;
         }
 
-        //4. S3파일 업로드, 메타데이터 테이블 저장
+        //3. S3파일 업로드, 메타데이터 테이블 저장
         FileMetadata uploadedFileEntity = fileHandler.uploadFile(file, FileCategory.COMPANY_LOGO_IMAGE, companyEntity.getId());
 
-        //5. 파일 이력 등록
+        //4. 파일 이력 등록
         companyFileHistoryService.registerLogoImageHistory(uploadedFileEntity, uploaderId);
     }
 
@@ -93,12 +91,10 @@ public class CompanyFileServiceImpl implements CompanyFileService {
         Company companyEntity = companyRepository.findById(companyId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.COMPANY_IS_NOT_FOUND));
 
-        //TODO) 2. 삭제 수행자 판별
-
-        //3. 삭제수행
+        //2. 삭제수행
         FileMetadata deletedEntity = fileHandler.deleteFile(FileCategory.COMPANY_LOGO_IMAGE, companyEntity.getId());
 
-        //4. 삭제 이력 등록
+        //3. 삭제 이력 등록
         companyFileHistoryService.deleteLogoImageHistory(deletedEntity, deleterId);
     }
 }
