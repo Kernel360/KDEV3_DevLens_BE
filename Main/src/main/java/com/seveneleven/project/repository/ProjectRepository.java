@@ -2,10 +2,8 @@ package com.seveneleven.project.repository;
 
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
-import com.seveneleven.project.dto.GetProjectDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -40,21 +38,21 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     """)
     List<Project> findAllCompanyProgressingProjects(Long companyId, String projectStatusCode);
 
-    @Query(value = """
-        SELECT
-        new com.seveneleven.project.dto.GetProjectDetail$ProjectDetail(
-                p.id,
-                p_t.projectTypeName,
-                p.projectName,
-                p.projectDescription,
-                p.bnsManager
-        )
-        FROM
-            Project p
-        LEFT JOIN
-            ProjectType p_t ON p_t.id = p.projectType.id
-        WHERE
-             p.id = :projectId
-        """)
-    Optional<GetProjectDetail.ProjectDetail> getProjectDetail(@Param("projectId") Long projectId);
+//    @Query(value = """
+//        SELECT
+//        new com.seveneleven.project.dto.GetProjectDetail$ProjectDetail(
+//                p.id,
+//                p_t.projectTypeName,
+//                p.projectName,
+//                p.projectDescription,
+//                p.bnsManager
+//        )
+//        FROM
+//            Project p
+//        LEFT JOIN
+//            ProjectType p_t ON p_t.id = p.projectType.id
+//        WHERE
+//             p.id = :projectId
+//        """)
+//    Optional<GetProjectDetail.ProjectDetail> getProjectDetail(@Param("projectId") Long projectId);
 }

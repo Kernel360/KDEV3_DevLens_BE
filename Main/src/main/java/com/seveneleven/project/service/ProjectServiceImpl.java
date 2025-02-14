@@ -1,10 +1,12 @@
 package com.seveneleven.project.service;
 
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.project.dto.GetProjectDetail;
 import com.seveneleven.project.dto.PatchProjectCurrentStep;
+import com.seveneleven.project.service.authorization.AuthorizationReader;
 import com.seveneleven.project.service.project.ProjectReader;
 import com.seveneleven.project.service.project.ProjectStore;
 import com.seveneleven.project.service.step.StepReader;
@@ -21,6 +23,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectStore projectStore;
     private final ProjectTagReader projectTagReader;
     private final StepReader stepReader;
+    private final AuthorizationReader authorizationReader;
 
     @Override
     public Project getProject(Long projectId) {
@@ -39,7 +42,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public GetProjectDetail.Response getProjectDetail(Long projectId) {
-        return projectReader.getProjectDetail(projectId);
+        Project project = projectReader.read(projectId);
+        List<ProjectTag> projectTags = projectTagReader.getAllByProjectId(projectId);
+        List<ProjectAuthorization> authorizations = authorizationReader.readByProjectId(projectId);
+        return GetProjectDetail.Response.toDto(project, projectTags, authorizations);
     }
 
     @Override

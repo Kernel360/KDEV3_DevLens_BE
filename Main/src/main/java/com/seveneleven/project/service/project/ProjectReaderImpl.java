@@ -1,10 +1,8 @@
 package com.seveneleven.project.service.project;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import com.seveneleven.exception.BusinessException;
-import com.seveneleven.project.dto.GetProjectDetail;
 import com.seveneleven.project.repository.CheckRequestRepository;
 import com.seveneleven.project.repository.ProjectRepository;
 import com.seveneleven.project.repository.ProjectStepRepository;
@@ -20,8 +18,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ProjectReaderImpl implements ProjectReader {
     private final ProjectRepository projectRepository;
-    private final ProjectStepRepository projectStepRepository;
-    private final CheckRequestRepository checkRequestRepository;
 
     @Override
     public Project read(Long projectId) {
@@ -37,14 +33,5 @@ public class ProjectReaderImpl implements ProjectReader {
     @Override
     public List<Project> getCompanyProject(Long companyId, String filter) {
         return projectRepository.findAllCompanyProgressingProjects(companyId, filter);
-    }
-
-    @Override
-    public GetProjectDetail.Response getProjectDetail(Long projectId) {
-        return GetProjectDetail.Response.toDto(
-                projectRepository.getProjectDetail(projectId).orElseThrow(() -> new BusinessException(ErrorCode.PROJECT_NOT_FOUND)),
-                projectStepRepository.findStepProcessRate(projectId, YesNo.YES),
-                checkRequestRepository.findAllApplicationLists(projectId)
-        );
     }
 }

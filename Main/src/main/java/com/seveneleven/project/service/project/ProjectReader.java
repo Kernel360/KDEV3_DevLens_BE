@@ -9,5 +9,4 @@ public interface ProjectReader {
     Project read(Long projectId);
     List<Project> getMyProjectList(Long memberId, String filter);
     List<Project> getCompanyProject(Long companyId, String filter);
-    GetProjectDetail.Response getProjectDetail(Long projectId);
 }

@@ -8,7 +8,6 @@ import com.seveneleven.project.dto.GetProjectAuthorization;
 import com.seveneleven.project.dto.PostProjectAuthorization;
 import com.seveneleven.project.service.authorization.AuthorizationReader;
 import com.seveneleven.project.service.authorization.AuthorizationStore;
-import com.seveneleven.project.service.step.StepReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectAuthorizationServiceImpl implements ProjectAuthorizationService {
 
-    private final StepReader stepReader;
     private final AuthorizationReader authorizationReader;
     private final AuthorizationStore authorizationStore;
 

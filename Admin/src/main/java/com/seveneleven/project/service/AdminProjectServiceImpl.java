@@ -29,7 +29,6 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     private final AdminCompanyReader adminCompanyReader;
     private final AdminProjectTypeReader adminProjectTypeReader;
 
-    @Transactional
     @Override
     public Project createProject(PostProject.Request request) {
         //프로젝트 이름 중복 체크

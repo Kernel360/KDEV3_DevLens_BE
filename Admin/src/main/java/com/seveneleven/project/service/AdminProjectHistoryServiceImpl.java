@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
@@ -25,7 +26,9 @@ public class AdminProjectHistoryServiceImpl implements AdminProjectHistoryServic
     private final AdminMemberRepository adminMemberRepository;
     private final AdminProjectHistoryStore adminProjectHistoryStore;
     private final AdminProjectHistoryReader adminProjectHistoryReader;
+
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveProjectHistory(Project project) {
         // 이력 저장
         adminProjectHistoryStore.store(project.saveHistory());

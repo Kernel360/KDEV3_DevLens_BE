@@ -1,9 +1,12 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.member.Company;
+import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.entity.project.ProjectType;
+import com.seveneleven.entity.project.constant.MemberType;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -11,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,6 +32,8 @@ public class PostProject {
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private List<String> projectTags;
+        List<CustomerMemberAuthorization> customerAuthorizations;
+        List<DeveloperMemberAuthorization> developerAuthorizations;
 
         @Override
         public String toString() {
@@ -56,6 +62,70 @@ public class PostProject {
         }
     }
 
+    public interface MemberAuthorization {
+        ProjectAuthorization toEntity(Project project, Member member);
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static abstract class BaseMemberAuthorization implements MemberAuthorization {
+        protected Long memberId;
+        protected String memberName;
+        protected MemberType memberType;
+        protected String projectAuthorization;
+
+        public abstract ProjectAuthorization toEntity(Project project, Member member);
+
+        @Override
+        public String toString() {
+            return "MemberAuthorization{" +
+                    "memberId=" + memberId +
+                    '}';
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class CustomerMemberAuthorization extends BaseMemberAuthorization {
+        protected MemberType memberType = MemberType.CLIENT;
+
+        @Override
+        public ProjectAuthorization toEntity(Project project, Member member) {
+            return ProjectAuthorization.create(member, project, memberType, projectAuthorization);
+        }
+
+        private CustomerMemberAuthorization(ProjectAuthorization projectAuthorization) {
+            this.memberId = projectAuthorization.getMember().getId();
+            this.memberName = projectAuthorization.getMember().getName();
+            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+        }
+
+        public static CustomerMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
+            return new CustomerMemberAuthorization(projectAuthorization);
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class DeveloperMemberAuthorization extends BaseMemberAuthorization {
+        protected MemberType memberType = MemberType.DEVELOPER;
+
+        @Override
+        public ProjectAuthorization toEntity(Project project, Member member) {
+            return ProjectAuthorization.create(member, project, memberType, projectAuthorization);
+        }
+
+        private DeveloperMemberAuthorization(ProjectAuthorization projectAuthorization) {
+            this.memberId = projectAuthorization.getMember().getId();
+            this.memberName = projectAuthorization.getMember().getName();
+            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+        }
+
+        public static DeveloperMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
+            return new DeveloperMemberAuthorization(projectAuthorization);
+        }
+    }
+
     @Getter
     public static class Response {
         private Long id; // 프로젝트 ID
@@ -70,6 +140,8 @@ public class PostProject {
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private List<String> projectTags;
+        private List<CustomerMemberAuthorization> customerMemberAuthorizations;
+        private List<DeveloperMemberAuthorization> developerMemberAuthorizations;
 
         @Override
         public String toString() {
@@ -80,7 +152,8 @@ public class PostProject {
 
         private Response(
                 Project project,
-                List<ProjectTag> tags
+                List<ProjectTag> tags,
+                List<ProjectAuthorization> authorizations
         ) {
             id = project.getId();
             projectName = project.getProjectName();
@@ -94,10 +167,19 @@ public class PostProject {
             plannedStartDate = project.getPlannedStartDate();
             plannedEndDate = project.getPlannedEndDate();
             projectTags = tags.stream().map(ProjectTag::getTag).toList();
+            this.customerMemberAuthorizations = new ArrayList<>();
+            this.developerMemberAuthorizations = new ArrayList<>();
+            authorizations.forEach(authorization -> {
+                if(MemberType.CLIENT.equals(authorization.getMemberType())) {
+                    customerMemberAuthorizations.add(new CustomerMemberAuthorization(authorization));
+                } else {
+                    developerMemberAuthorizations.add(new DeveloperMemberAuthorization(authorization));
+                }
+            });
         }
 
-        public static Response of(Project project, List<ProjectTag> tags) {
-            return new Response(project, tags);
+        public static Response of(Project project, List<ProjectTag> tags, List<ProjectAuthorization> authorizations) {
+            return new Response(project, tags, authorizations);
         }
     }
 }

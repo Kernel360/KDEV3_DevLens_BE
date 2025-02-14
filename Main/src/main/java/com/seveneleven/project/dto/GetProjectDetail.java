@@ -1,11 +1,14 @@
 package com.seveneleven.project.dto;
 
-import lombok.AllArgsConstructor;
+import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectAuthorization;
+import com.seveneleven.entity.project.ProjectTag;
+import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetProjectDetail {
@@ -14,96 +17,109 @@ public class GetProjectDetail {
     @Setter
     @NoArgsConstructor
     public static class Response {
-        private ProjectDetail projectDetail;
-        private List<ProjectStepInfo> projectStep;
-        private List<ChecklistApplicationList> checklistApplicationList;
-
-        @Override
-        public String toString() {
-            return "Response{" +
-                    "projectDetail=" + projectDetail +
-                    '}';
-        }
-
-        private Response(ProjectDetail projectDetail, List<ProjectStepInfo> projectStep, List<ChecklistApplicationList> checklistApplicationList) {
-            this.projectDetail = projectDetail;
-            this.projectStep = projectStep;
-            this.checklistApplicationList = checklistApplicationList;
-        }
-
-        public static Response toDto(ProjectDetail projectDetail,
-                                     List<ProjectStepInfo> projectStep,
-                                     List<ChecklistApplicationList> checklistApplicationList
-        ) {
-            return new Response(projectDetail, projectStep, checklistApplicationList);
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static class ProjectDetail {
         private Long id;
         private String projectTypeName;
         private String projectName;
         private String projectDescription;
         private String bnsManager;
+        private List<String> projectTags;
+        private String currentStep;
+        private List<CustomerMemberAuthorization> customerMemberAuthorizations;
+        private List<DeveloperMemberAuthorization> developerMemberAuthorizations;
 
         @Override
         public String toString() {
-            return "ProjectDetail{" +
+            return "Response{" +
                     "id=" + id +
                     '}';
         }
 
-        public ProjectDetail(
-                Long projectId,
-                String projectTypeName,
-                String projectName,
-                String projectDescription,
-                String name
+        private Response(
+                Project project,
+                List<ProjectTag> projectTags,
+                List<ProjectAuthorization> authorizations
         ) {
-            this.id = projectId;
-            this.projectTypeName = projectTypeName;
-            this.projectName = projectName;
-            this.projectDescription = projectDescription;
-            this.bnsManager = name;
+            this.id = project.getId();
+            this.projectTypeName = project.getProjectType().getProjectTypeName();
+            this.projectName = project.getProjectName();
+            this.projectDescription = project.getProjectDescription();
+            this.bnsManager = project.getBnsManager();
+            this.projectTags = projectTags.stream().map(ProjectTag::getTag).toList();
+            this.currentStep = project.getCurrentProjectStep();
+
+            this.customerMemberAuthorizations = new ArrayList<>();
+            this.developerMemberAuthorizations = new ArrayList<>();
+            authorizations.forEach(authorization -> {
+                if(MemberType.CLIENT.equals(authorization.getMemberType())) {
+                    customerMemberAuthorizations.add(new CustomerMemberAuthorization(authorization));
+                } else {
+                    developerMemberAuthorizations.add(new DeveloperMemberAuthorization(authorization));
+                }
+            });
+        }
+
+        public static Response toDto(
+                Project project,
+                List<ProjectTag> projectTags,
+                List<ProjectAuthorization> authorizations
+        ) {
+            return new Response(project, projectTags, authorizations);
         }
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ProjectStepInfo {
-        private Long stepId;
-        private String stepName;
-        private Double stepProcessRate;
+    public static class CustomerMemberAuthorization {
+        private Long memberId;
+        private String memberName;
+        private String department;
+        private String position;
+        private String projectAuthorization;
 
         @Override
         public String toString() {
-            return "ProjectStepInfo{" +
-                    "stepId=" + stepId +
+            return "CustomerMemberAuthorization{" +
+                    "memberId=" + memberId +
                     '}';
+        }
+
+        private CustomerMemberAuthorization(ProjectAuthorization projectAuthorization) {
+            this.memberId = projectAuthorization.getMember().getId();
+            this.memberName = projectAuthorization.getMember().getName();
+            this.department = projectAuthorization.getMember().getDepartment();
+            this.position = projectAuthorization.getMember().getPosition();
+            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+        }
+
+        public static CustomerMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
+            return new CustomerMemberAuthorization(projectAuthorization);
         }
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ChecklistApplicationList {
-        private Long checklistApplicationId;
-        private String StepName;
-        private String checklistName;
-        private String applicationTitle;
-        private String applicationUserName;
-        private LocalDateTime ApplicationDateTime;
+    public static class DeveloperMemberAuthorization {
+        private Long memberId;
+        private String memberName;
+        private String department;
+        private String position;
+        private String projectAuthorization;
 
         @Override
         public String toString() {
-            return "ChecklistApplicationList{" +
-                    "checklistApplicationId=" + checklistApplicationId +
+            return "DeveloperMemberAuthorization{" +
+                    "memberId=" + memberId +
                     '}';
+        }
+
+        private DeveloperMemberAuthorization(ProjectAuthorization projectAuthorization) {
+            this.memberId = projectAuthorization.getMember().getId();
+            this.memberName = projectAuthorization.getMember().getName();
+            this.department = projectAuthorization.getMember().getDepartment();
+            this.position = projectAuthorization.getMember().getPosition();
+            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+        }
+
+        public static DeveloperMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
+            return new DeveloperMemberAuthorization(projectAuthorization);
         }
     }
 }

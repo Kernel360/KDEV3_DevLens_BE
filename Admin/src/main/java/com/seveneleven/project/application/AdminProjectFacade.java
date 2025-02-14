@@ -1,17 +1,16 @@
 package com.seveneleven.project.application;
 
 import com.seveneleven.entity.project.Project;
+import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.project.dto.GetProject;
 import com.seveneleven.project.dto.PostProject;
 import com.seveneleven.project.dto.PutProject;
-import com.seveneleven.project.service.AdminProjectHistoryService;
-import com.seveneleven.project.service.AdminProjectService;
-import com.seveneleven.project.service.AdminProjectStepService;
-import com.seveneleven.project.service.AdminProjectTagService;
+import com.seveneleven.project.service.*;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,14 +21,16 @@ public class AdminProjectFacade {
     private final AdminProjectHistoryService adminProjectHistoryService;
     private final AdminProjectStepService adminProjectStepService;
     private final AdminProjectTagService adminProjectTagService;
+    private final AdminProjectAuthorizationService adminProjectAuthorizationService;
 
+    @Transactional
     public PostProject.Response registerProject(PostProject.Request request){
-        // TODO - Project 권한 설정 로직 추가 - LSY
         Project project = adminProjectService.createProject(request);
         adminProjectStepService.createBasicStep(project);
         adminProjectHistoryService.saveProjectHistory(project);
         List<ProjectTag> projectTags = adminProjectTagService.storeProjectTags(project, request.getProjectTags());
-        return PostProject.Response.of(project, projectTags);
+        List<ProjectAuthorization> authorizations = adminProjectAuthorizationService.store(project, request);
+        return PostProject.Response.of(project, projectTags, authorizations);
     }
 
     public PutProject.Response updateProject(Long id,PutProject.Request request){

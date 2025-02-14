@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class MyProjectController implements MyProjectDocs {
 
-    private final MyControllerFacade myControllerFacade;
+    private final MyProjectControllerFacade myProjectControllerFacade;
 
     /**
      * 함수명 : getMyProject()
@@ -30,7 +30,7 @@ public class MyProjectController implements MyProjectDocs {
                 .status(SuccessCode.OK.getStatusCode())
                 .body(APIResponse.success(
                         SuccessCode.OK,
-                        myControllerFacade.getMyProjectList(
+                        myProjectControllerFacade.getMyProjectList(
                                 userDetails.getMember().getId(),
                                 filter
                         )));
@@ -47,6 +47,6 @@ public class MyProjectController implements MyProjectDocs {
             @RequestParam(value = "filter", required = false) String filter
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
-                .body(APIResponse.success(SuccessCode.OK, myControllerFacade.getCompanyProject(companyId, filter)));
+                .body(APIResponse.success(SuccessCode.OK, myProjectControllerFacade.getCompanyProject(companyId, filter)));
     }
 }

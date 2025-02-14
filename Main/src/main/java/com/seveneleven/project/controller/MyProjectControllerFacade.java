@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class MyControllerFacade {
+public class MyProjectControllerFacade {
 
     private final ProjectService projectService;
     private final CompanyService companyService;
