@@ -11,11 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -23,7 +21,7 @@ import java.util.Objects;
 
 /**
  * JWT 필터 클래스
- *
+ * <br>
  * - HTTP 요청에서 JWT 토큰을 추출하고, 해당 토큰의 유효성을 검증합니다.
  * - 유효한 JWT 토큰이 있을 경우, 인증 정보를 Security Context에 저장합니다.
  */
@@ -44,6 +42,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String requestUri = request.getRequestURI();
+
+        //Prometheus 요청일 경우 로그 출력 안 함
+        if (requestUri.startsWith("/actuator/prometheus")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         log.info("Request Come : {} {}", request.getMethod(), request.getRequestURI());
         log.info("Request ContentType: {}", request.getContentType());
