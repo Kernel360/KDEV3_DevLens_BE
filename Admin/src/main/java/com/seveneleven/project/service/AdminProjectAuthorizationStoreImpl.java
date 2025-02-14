@@ -6,7 +6,7 @@ import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.exception.BusinessException;
 import com.seveneleven.member.repository.AdminMemberRepository;
-import com.seveneleven.project.dto.PostProject;
+import com.seveneleven.project.dto.PatchAuthorization;
 import com.seveneleven.project.repository.AdminProjectAuthorizationHistoryRepository;
 import com.seveneleven.project.repository.AdminProjectAuthorizationRepository;
 import com.seveneleven.response.ErrorCode;
@@ -29,21 +29,22 @@ public class AdminProjectAuthorizationStoreImpl implements AdminProjectAuthoriza
 
     @Override
     public List<ProjectAuthorization> store(
-            PostProject.Request requestDto,
+            List<PatchAuthorization.CustomerMemberAuthorization> customers,
+            List<PatchAuthorization.DeveloperMemberAuthorization> developers,
             List<ProjectAuthorization> existingProjectAuthorizations,
             Project project
     ) {
         // DTO에 고객과 개발자 권한이 각각 별도의 리스트로 들어오므로 합쳐서 처리합니다.
-        List<PostProject.MemberAuthorization> requestAuthorizations = new ArrayList<>();
-        if (requestDto.getCustomerAuthorizations() != null) {
-            requestAuthorizations.addAll(requestDto.getCustomerAuthorizations());
+        List<PatchAuthorization.MemberAuthorization> requestAuthorizations = new ArrayList<>();
+        if (customers != null) {
+            requestAuthorizations.addAll(customers);
         }
-        if (requestDto.getDeveloperAuthorizations() != null) {
-            requestAuthorizations.addAll(requestDto.getDeveloperAuthorizations());
+        if (developers != null) {
+            requestAuthorizations.addAll(developers);
         }
         List<ProjectAuthorization> result = new ArrayList<>();
         // 요청에 담긴 각 권한 정보를 처리합니다.
-        for (PostProject.MemberAuthorization requestAuth : requestAuthorizations) {
+        for (PatchAuthorization.MemberAuthorization requestAuth : requestAuthorizations) {
             try {
                 result.add(processAuthorization(requestAuth, existingProjectAuthorizations, project));
             } catch (BusinessException e) {
@@ -67,11 +68,11 @@ public class AdminProjectAuthorizationStoreImpl implements AdminProjectAuthoriza
      * 없으면 신규 생성하는 비즈니스 로직을 수행합니다.
      */
     private ProjectAuthorization processAuthorization(
-            PostProject.MemberAuthorization requestDto,
+            PatchAuthorization.MemberAuthorization requestDto,
             List<ProjectAuthorization> existingAuthList,
             Project project
     ) {
-        if(requestDto instanceof PostProject.BaseMemberAuthorization request) {
+        if(requestDto instanceof PatchAuthorization.BaseMemberAuthorization request) {
             Member member = memberRepository.findByIdAndStatus(request.getMemberId(), MemberStatus.ACTIVE)
                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
@@ -82,7 +83,6 @@ public class AdminProjectAuthorizationStoreImpl implements AdminProjectAuthoriza
                     break;
                 }
             }
-            log.info("request id : {}, memberType : {}", request.getMemberId(), request.getMemberType());
 
             if (matchedAuthorization != null) {
                 // 해당 권한은 요청에 포함되었으므로 기존 리스트에서 제거하여 나중에 남은 항목은 삭제 처리 대상으로 남깁니다.

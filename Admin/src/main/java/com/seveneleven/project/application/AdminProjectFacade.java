@@ -29,15 +29,21 @@ public class AdminProjectFacade {
         adminProjectStepService.createBasicStep(project);
         adminProjectHistoryService.saveProjectHistory(project);
         List<ProjectTag> projectTags = adminProjectTagService.storeProjectTags(project, request.getProjectTags());
-        List<ProjectAuthorization> authorizations = adminProjectAuthorizationService.store(project, request);
+        List<ProjectAuthorization> authorizations = adminProjectAuthorizationService.store(project, request.getCustomerAuthorizations(), request.getDeveloperAuthorizations());
         return PostProject.Response.of(project, projectTags, authorizations);
     }
 
-    public PutProject.Response updateProject(Long id,PutProject.Request request){
-        // TODO - Project 권한 설정 로직 추가 고민 중 - LSY
+    @Transactional
+    public PutProject.Response updateProject(Long id, PutProject.Request request){
         Project project = adminProjectService.updateProject(id, request);
         adminProjectHistoryService.saveProjectHistory(project);
         List<ProjectTag> projectTags = adminProjectTagService.storeProjectTags(project, request.getProjectTags());
+        List<ProjectAuthorization> authorizations =
+                adminProjectAuthorizationService.store(
+                        project,
+                        request.getCustomerAuthorizations(),
+                        request.getDeveloperAuthorizations()
+                );
         return PutProject.Response.of(project, projectTags);
     }
 

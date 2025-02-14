@@ -1,7 +1,6 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.member.Company;
-import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectTag;
@@ -32,8 +31,8 @@ public class PostProject {
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private List<String> projectTags;
-        List<CustomerMemberAuthorization> customerAuthorizations;
-        List<DeveloperMemberAuthorization> developerAuthorizations;
+        private List<PatchAuthorization.CustomerMemberAuthorization> customerAuthorizations;
+        private List<PatchAuthorization.DeveloperMemberAuthorization> developerAuthorizations;
 
         @Override
         public String toString() {
@@ -62,70 +61,6 @@ public class PostProject {
         }
     }
 
-    public interface MemberAuthorization {
-        ProjectAuthorization toEntity(Project project, Member member);
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static abstract class BaseMemberAuthorization implements MemberAuthorization {
-        protected Long memberId;
-        protected String memberName;
-        protected MemberType memberType;
-        protected String projectAuthorization;
-
-        public abstract ProjectAuthorization toEntity(Project project, Member member);
-
-        @Override
-        public String toString() {
-            return "MemberAuthorization{" +
-                    "memberId=" + memberId +
-                    '}';
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static class CustomerMemberAuthorization extends BaseMemberAuthorization {
-        protected MemberType memberType = MemberType.CLIENT;
-
-        @Override
-        public ProjectAuthorization toEntity(Project project, Member member) {
-            return ProjectAuthorization.create(member, project, memberType, projectAuthorization);
-        }
-
-        private CustomerMemberAuthorization(ProjectAuthorization projectAuthorization) {
-            this.memberId = projectAuthorization.getMember().getId();
-            this.memberName = projectAuthorization.getMember().getName();
-            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
-        }
-
-        public static CustomerMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
-            return new CustomerMemberAuthorization(projectAuthorization);
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static class DeveloperMemberAuthorization extends BaseMemberAuthorization {
-        protected MemberType memberType = MemberType.DEVELOPER;
-
-        @Override
-        public ProjectAuthorization toEntity(Project project, Member member) {
-            return ProjectAuthorization.create(member, project, memberType, projectAuthorization);
-        }
-
-        private DeveloperMemberAuthorization(ProjectAuthorization projectAuthorization) {
-            this.memberId = projectAuthorization.getMember().getId();
-            this.memberName = projectAuthorization.getMember().getName();
-            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
-        }
-
-        public static DeveloperMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
-            return new DeveloperMemberAuthorization(projectAuthorization);
-        }
-    }
-
     @Getter
     public static class Response {
         private Long id; // 프로젝트 ID
@@ -140,8 +75,8 @@ public class PostProject {
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private List<String> projectTags;
-        private List<CustomerMemberAuthorization> customerMemberAuthorizations;
-        private List<DeveloperMemberAuthorization> developerMemberAuthorizations;
+        private List<PatchAuthorization.CustomerMemberAuthorization> customerMemberAuthorizations;
+        private List<PatchAuthorization.DeveloperMemberAuthorization> developerMemberAuthorizations;
 
         @Override
         public String toString() {
@@ -171,9 +106,9 @@ public class PostProject {
             this.developerMemberAuthorizations = new ArrayList<>();
             authorizations.forEach(authorization -> {
                 if(MemberType.CLIENT.equals(authorization.getMemberType())) {
-                    customerMemberAuthorizations.add(new CustomerMemberAuthorization(authorization));
+                    customerMemberAuthorizations.add(new PatchAuthorization.CustomerMemberAuthorization(authorization));
                 } else {
-                    developerMemberAuthorizations.add(new DeveloperMemberAuthorization(authorization));
+                    developerMemberAuthorizations.add(new PatchAuthorization.DeveloperMemberAuthorization(authorization));
                 }
             });
         }

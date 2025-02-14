@@ -16,6 +16,7 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PutProject {
+
     @Getter
     public static class Request {
         @NotBlank
@@ -33,6 +34,8 @@ public class PutProject {
         private LocalDate endDate; // 종료일
         private LocalDateTime finalApprovalDate; // 최종 결재일시
         private List<String> projectTags;
+        private List<PatchAuthorization.CustomerMemberAuthorization> customerAuthorizations;
+        private List<PatchAuthorization.DeveloperMemberAuthorization> developerAuthorizations;
 
         @Override
         public String toString() {

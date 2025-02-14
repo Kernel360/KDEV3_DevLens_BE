@@ -2,7 +2,7 @@ package com.seveneleven.project.service;
 
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
-import com.seveneleven.project.dto.PostProject;
+import com.seveneleven.project.dto.PatchAuthorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,12 @@ public class AdminProjectAuthorizationServiceImpl implements AdminProjectAuthori
     private final AdminProjectAuthorizationReader authorizationReader;
 
     @Override
-    public List<ProjectAuthorization> store(Project project, PostProject.Request request) {
+    public List<ProjectAuthorization> store(
+            Project project,
+            List<PatchAuthorization.CustomerMemberAuthorization> customers,
+            List<PatchAuthorization.DeveloperMemberAuthorization> developers
+    ) {
         List<ProjectAuthorization> authorizations = authorizationReader.getAllByProjectId(project.getId());
-        return authorizationStore.store(request, authorizations, project);
+        return authorizationStore.store(customers, developers, authorizations, project);
     }
 }
