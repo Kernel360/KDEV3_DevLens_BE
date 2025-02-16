@@ -3,14 +3,12 @@ package com.seveneleven.project.service.step;
 import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.exception.BusinessException;
-import com.seveneleven.project.dto.GetProjectStep;
 import com.seveneleven.project.repository.ProjectStepRepository;
 import com.seveneleven.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -27,19 +25,8 @@ public class StepReaderImpl implements StepReader {
     }
 
     @Override
-    public GetProjectStep.Response getProjectStep(Long projectId) {
-        List<ProjectStep> stepInfos = projectStepRepository.findByProjectIdAndIsActiveOrderByStepOrder(projectId, YesNo.YES);
-
-        List<GetProjectStep.ProjectStepInfo> projectStepInfos = new ArrayList<>();
-
-        for(ProjectStep stepInfo : stepInfos) {
-            projectStepInfos.add(GetProjectStep.ProjectStepInfo.toDto(
-                    stepInfo,
-                    projectStepRepository.findProjectStepChecklist(stepInfo.getId())
-            ));
-        }
-
-        return new GetProjectStep.Response(projectId, projectStepInfos);
+    public List<ProjectStep> getProjectStep(Long projectId) {
+        return projectStepRepository.findByProjectIdAndIsActiveOrderByStepOrder(projectId, YesNo.YES);
     }
 
     @Override

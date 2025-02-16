@@ -5,6 +5,7 @@ import com.seveneleven.project.dto.GetProjectAuthorization;
 import com.seveneleven.project.dto.PostProjectAuthorization;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
+import com.seveneleven.util.methodauthorize.annotation.ApproverAuthorize;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,12 @@ public class ProjectAuthorizationController {
      * 함수명 : postProjectAuthorization
      * 프로젝트 접근 권한을 편집하는 함수
      */
+    @ApproverAuthorize
     @PutMapping("/{projectId}/authorizations")
     public ResponseEntity<APIResponse<PostProjectAuthorization.Response>> postProjectAuthorization(
             @PathVariable Long projectId,
             @RequestBody PostProjectAuthorization.Request requestDto
     ) {
-        // TODO - ProjectId로 변경
         PostProjectAuthorization.Response responseDto = projectAuthorizationFacade.postProjectAuthorization(requestDto, projectId);
 
         if(responseDto.getFailList().isEmpty()) {

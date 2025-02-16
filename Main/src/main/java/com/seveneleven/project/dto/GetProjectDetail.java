@@ -2,6 +2,7 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
+import com.seveneleven.entity.project.ProjectStep;
 import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
@@ -23,8 +24,10 @@ public class GetProjectDetail {
         private String projectDescription;
         private String bnsManager;
         private List<String> projectTags;
-        private String currentStep;
+        private List<ProjectSteps> projectSteps;
+        private String customerCompanyName;
         private List<CustomerMemberAuthorization> customerMemberAuthorizations;
+        private String developerCompanyName;
         private List<DeveloperMemberAuthorization> developerMemberAuthorizations;
 
         @Override
@@ -36,6 +39,7 @@ public class GetProjectDetail {
 
         private Response(
                 Project project,
+                List<ProjectStep> projectSteps,
                 List<ProjectTag> projectTags,
                 List<ProjectAuthorization> authorizations
         ) {
@@ -45,8 +49,9 @@ public class GetProjectDetail {
             this.projectDescription = project.getProjectDescription();
             this.bnsManager = project.getBnsManager();
             this.projectTags = projectTags.stream().map(ProjectTag::getTag).toList();
-            this.currentStep = project.getCurrentProjectStep();
-
+            this.projectSteps = projectSteps.stream().map(step -> ProjectSteps.toDto(project, step)).toList();
+            this.customerCompanyName = project.getCustomer().getCompanyName();
+            this.developerCompanyName = project.getDeveloper().getCompanyName();
             this.customerMemberAuthorizations = new ArrayList<>();
             this.developerMemberAuthorizations = new ArrayList<>();
             authorizations.forEach(authorization -> {
@@ -60,10 +65,28 @@ public class GetProjectDetail {
 
         public static Response toDto(
                 Project project,
+                List<ProjectStep> projectSteps,
                 List<ProjectTag> projectTags,
                 List<ProjectAuthorization> authorizations
         ) {
-            return new Response(project, projectTags, authorizations);
+            return new Response(project, projectSteps, projectTags, authorizations);
+        }
+    }
+
+    @Getter
+    public static class ProjectSteps {
+        private Long stepId;
+        private String stepName;
+        private Boolean isCurrentStep;
+
+        private ProjectSteps(Project project, ProjectStep projectStep) {
+            this.stepId = projectStep.getId();
+            this.stepName = projectStep.getStepName();
+            this.isCurrentStep = projectStep.getStepName().equals(project.getCurrentProjectStep());
+        }
+
+        public static ProjectSteps toDto(Project project, ProjectStep projectStep) {
+            return new ProjectSteps(project, projectStep);
         }
     }
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
+@Component("projectAuthorizationCheckService")
 @Slf4j
 @RequiredArgsConstructor
 public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizationCheckService {

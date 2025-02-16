@@ -2,7 +2,6 @@ package com.seveneleven.project.repository;
 
 import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.ProjectStep;
-import com.seveneleven.project.dto.GetProjectStep;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,21 +45,6 @@ public interface ProjectStepRepository extends JpaRepository<ProjectStep, Long> 
 //            @Param("projectId") Long projectId,
 //            @Param("isActive") YesNo isActive
 //    );
-
-    @Query("""
-    SELECT
-        new com.seveneleven.project.dto.GetProjectStep$ProjectChecklist(
-        p_c.id,
-        p_c.title,
-        p_c.isChecked,
-        p_c.approvalDate
-        )
-    FROM
-        Checklist p_c
-    WHERE
-        p_c.projectStep.id = :stepId
-    """)
-    List<GetProjectStep.ProjectChecklist> findProjectStepChecklist(@Param("stepId") Long stepId);
 
     @Query("""
     SELECT p.id

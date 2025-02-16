@@ -1,6 +1,7 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.global.YesNo;
+import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.entity.project.ProjectStep;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,14 +47,14 @@ public class GetProjectStep {
                     '}';
         }
 
-        private ProjectStepInfo(ProjectStep projectStep, List<ProjectChecklist> projectChecklist) {
+        private ProjectStepInfo(ProjectStep projectStep, List<Checklist> projectChecklist) {
             stepId = projectStep.getId();
             stepName = projectStep.getStepName();
             stepOrder = projectStep.getStepOrder();
-            this.projectChecklist = projectChecklist;
+            this.projectChecklist = projectChecklist.stream().map(ProjectChecklist::new).toList();
         }
 
-        public static ProjectStepInfo toDto(ProjectStep projectStep, List<ProjectChecklist> projectChecklist) {
+        public static ProjectStepInfo toDto(ProjectStep projectStep, List<Checklist> projectChecklist) {
             return new ProjectStepInfo(projectStep, projectChecklist);
         }
     }
@@ -73,11 +74,11 @@ public class GetProjectStep {
                     '}';
         }
 
-        public ProjectChecklist(Long checklistId, String checklistName, YesNo checklistStatus, LocalDateTime approvalTime) {
-            this.checklistId = checklistId;
-            this.checklistName = checklistName;
-            this.checklistStatus = checklistStatus == YesNo.YES;
-            this.approvalTime = approvalTime;
+        public ProjectChecklist(Checklist checklist) {
+            this.checklistId = checklist.getId();
+            this.checklistName = checklist.getTitle();
+            this.checklistStatus = checklist.getIsChecked() == YesNo.YES;
+            this.approvalTime = checklist.getApprovalDate();
         }
     }
 }

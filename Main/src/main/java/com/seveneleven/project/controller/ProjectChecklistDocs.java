@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/projects")
 public interface ProjectChecklistDocs {
 
-    @GetMapping("/steps/{stepId}")
+    @GetMapping("/{projectId}/steps/{stepId}")
     @Operation(
             summary = "체크리스트 조회",
             description = "특정 단계의 체크리스트를 조회합니다.",
@@ -42,6 +42,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<GetStepChecklist.Response>> getProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long stepId
     );
 

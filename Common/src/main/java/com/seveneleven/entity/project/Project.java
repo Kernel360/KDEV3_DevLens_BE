@@ -83,6 +83,7 @@ public class Project extends BaseEntity {
         this.contractNumber = contractNumber;
         this.plannedStartDate = plannedStartDate;
         this.plannedEndDate = plannedEndDate;
+        this.currentProjectStep = "기획";
     }
 
     public static Project create(

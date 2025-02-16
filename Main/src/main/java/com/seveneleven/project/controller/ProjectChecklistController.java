@@ -4,9 +4,10 @@ import com.seveneleven.project.dto.*;
 import com.seveneleven.project.service.ProjectChecklistService;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
-import com.seveneleven.util.file.dto.LinkResponse;
-import com.seveneleven.util.security.dto.CustomUserDetails;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
+import com.seveneleven.util.file.dto.LinkResponse;
+import com.seveneleven.util.methodauthorize.annotation.ParticipantAuthorize;
+import com.seveneleven.util.security.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getStepChecklist
      * 해당 단계의 체크리스트 목록을 반환하는 함수
      */
-    @GetMapping("/steps/{stepId}/checklists")
+    @ParticipantAuthorize
+    @GetMapping("/{projectId}/steps/{stepId}/checklists")
     public ResponseEntity<APIResponse<GetStepChecklist.Response>> getProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long stepId
     ) {
         return ResponseEntity

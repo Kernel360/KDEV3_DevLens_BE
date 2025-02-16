@@ -3,6 +3,7 @@ package com.seveneleven.exception;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.ErrorCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -15,6 +16,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(e.getErrorCode().getStatus())
                 .body(APIResponse.fail(e.getErrorCode()));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<APIResponse<?>> handleAccexxDeniedException(AccessDeniedException e) {
+        return ResponseEntity.status(ErrorCode.FORBIDDEN.getStatusCode())
+                .body(APIResponse.fail(ErrorCode.FORBIDDEN));
     }
 
     // 기타 예외에 대한 처리 예시

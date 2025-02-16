@@ -33,7 +33,7 @@ public class MemberController implements MemberDocs{
     @Value("${spring.profiles.active}")
     private String mod;
 
-    /**
+    /**∑
      * 함수명 : login
      * 회원 로그인 처리 및 JWT 토큰 발급.
      *

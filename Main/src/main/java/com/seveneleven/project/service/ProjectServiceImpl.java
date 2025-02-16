@@ -43,9 +43,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public GetProjectDetail.Response getProjectDetail(Long projectId) {
         Project project = projectReader.read(projectId);
+
+        List<ProjectStep> projectSteps = stepReader.getProjectStep(project.getId());
         List<ProjectTag> projectTags = projectTagReader.getAllByProjectId(projectId);
         List<ProjectAuthorization> authorizations = authorizationReader.readByProjectId(projectId);
-        return GetProjectDetail.Response.toDto(project, projectTags, authorizations);
+
+        return GetProjectDetail.Response.toDto(project, projectSteps, projectTags, authorizations);
     }
 
     @Override
