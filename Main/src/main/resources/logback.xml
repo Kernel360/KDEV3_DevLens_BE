@@ -28,4 +28,33 @@
         <appender-ref ref="LOKI"/>
         <appender-ref ref="CONSOLE"/>
     </root>
+
+    <!-- ✅ 콘솔 로그 설정 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %-30.30thread %-50.50logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    ==============================================================================
+    ✅ 파일 로그 설정
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %-30.30thread %-50.50logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ✅ 루트 로거 설정 -->
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
 </configuration>
