@@ -5,7 +5,7 @@
         </http>
         <format>
             <label>
-                <pattern>service_name=main-application-log,host=${HOSTNAME}</pattern>
+                <pattern>service_name=admin-application-log,host=${HOSTNAME}</pattern>
             </label>
             <message class="com.github.loki4j.logback.JsonLayout"/>
         </format>
@@ -37,7 +37,7 @@
     </appender>
 
 
-    ==============================================================================
+<!--    ==============================================================================-->
     ✅ 파일 로그 설정
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
