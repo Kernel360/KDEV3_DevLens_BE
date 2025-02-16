@@ -26,7 +26,7 @@ public class PostListResponse {
 
     private PostListResponse(Post post, Long commentCount) {
         this.projectStepId = post.getProjectStep().getId();
-        this.parentPostId = getParentPostId();
+        this.parentPostId = getParentPostId(post);
         this.postId = post.getId();
         this.status = post.getStatus();
         this.priority = post.getPriority();
@@ -41,11 +41,11 @@ public class PostListResponse {
         return new PostListResponse(post, commentCount);
     }
 
-    private Long getParentPostId() {
-        if(parentPostId == null) {
+    private Long getParentPostId(Post post) {
+        if(post.getParentPost() == null) {
             return null;
         }
-        return parentPostId;
+        return post.getParentPost().getId();
     }
 
     @Override

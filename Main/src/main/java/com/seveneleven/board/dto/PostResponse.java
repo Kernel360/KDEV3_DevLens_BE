@@ -16,10 +16,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class PostResponse {
-
     private Long postId;
     private Long projectStepId;
-    private Long parentPostId;
     private TaskPriority priority;
     private PostStatus status;
     private String title;
@@ -35,6 +33,8 @@ public class PostResponse {
     private List<LinkResponse> links;
     @Setter
     private List<FileMetadataResponse> files;
+    private Boolean isParentPost;
+    private List<RelatedPostResponse> relatedPosts;
 
     @Override
     public String toString() {
@@ -45,16 +45,16 @@ public class PostResponse {
 
     private PostResponse(
             Post post,
-            Long parentPostId,
             String writer,
             Boolean isAuthor,
             List<GetCommentResponse> comments,
             List<LinkResponse> links,
-            List<FileMetadataResponse> files
+            List<FileMetadataResponse> files,
+            Boolean isParentPost,
+            List<RelatedPostResponse> relatedPosts
     ) {
         this.postId = post.getId();
         this.projectStepId = post.getProjectStep().getId();
-        this.parentPostId = parentPostId;
         this.priority = post.getPriority();
         this.status = post.getStatus();
         this.title = post.getTitle();
@@ -67,25 +67,29 @@ public class PostResponse {
         this.comments = comments;
         this.links = links;
         this.files = files;
+        this.isParentPost = isParentPost;
+        this.relatedPosts = relatedPosts;
+
     }
 
     public static PostResponse getPostResponse(Post post,
-                                               Long parentPostId,
                                                String writer,
                                                Boolean isAuthor,
                                                List<GetCommentResponse> comments,
                                                List<LinkResponse> links,
-                                               List<FileMetadataResponse> files) {
+                                               List<FileMetadataResponse> files,
+                                               Boolean isParentPost,
+                                               List<RelatedPostResponse> relatedPosts
+    ) {
         return new PostResponse(
                 post,
-                parentPostId,
                 writer,
                 isAuthor,
                 comments,
                 links,
-                files
+                files,
+                isParentPost,
+                relatedPosts
         );
     }
-
-
 }

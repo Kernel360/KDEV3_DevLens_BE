@@ -1,6 +1,7 @@
 package com.seveneleven.board.service;
 
 import com.seveneleven.board.dto.PostListResponse;
+import com.seveneleven.board.dto.RelatedPostResponse;
 import com.seveneleven.board.repository.PostRepository;
 import com.seveneleven.entity.board.Post;
 import com.seveneleven.entity.project.ProjectStep;
@@ -34,6 +35,11 @@ public class PostReaderImpl implements PostReader {
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_POST));
+    }
+
+    @Override
+    public List<RelatedPostResponse> getRelatedPosts(Long postId) {
+        return postRepository.findChildPostIdsAndTitlesByParentId(postId);
     }
 
     @Override

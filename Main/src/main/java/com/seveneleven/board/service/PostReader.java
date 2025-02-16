@@ -1,6 +1,7 @@
 package com.seveneleven.board.service;
 
 import com.seveneleven.board.dto.PostListResponse;
+import com.seveneleven.board.dto.RelatedPostResponse;
 import com.seveneleven.entity.board.Post;
 import com.seveneleven.entity.project.ProjectStep;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ public interface PostReader {
     void existPost(Long postId);
 
     Post getPost(Long postId);
+
+    List<RelatedPostResponse> getRelatedPosts(Long postId);
 
     Page<PostListResponse> getAllPostsNoStepId(List<Long> projectId, String keyword, String repoFilter, Pageable pageable);
 

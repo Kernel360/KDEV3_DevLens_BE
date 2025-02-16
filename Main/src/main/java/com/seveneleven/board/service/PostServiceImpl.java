@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,11 +82,6 @@ public class PostServiceImpl implements PostService {
     public PostResponse selectPost(Long postId, Long userId) {
         Post post = postReader.getPost(postId);
 
-        Long parentPostId = null;
-        if (post.getParentPost() != null) {
-            parentPostId = post.getParentPost().getId();
-        }
-
         // 댓글 목록 조회
         List<GetCommentResponse> comments = commentService.selectCommentList(post.getId(), userId);
 
@@ -95,14 +91,25 @@ public class PostServiceImpl implements PostService {
         // 파일 목록 조회
         List<FileMetadataResponse> files = postFileService.getPostFiles(post.getId());
 
+        // 관련 게시글 조회
+        List<RelatedPostResponse> relatedPosts = new ArrayList<>();
+
+        if(post.isParent()) {
+            relatedPosts = postReader.getRelatedPosts(postId);
+        }
+        if(!post.isParent()) {
+            relatedPosts.add(RelatedPostResponse.getRelatedPostResponse(post.getParentPostId(), post.getParentPostTitle()));
+        }
+
         return getPostResponse(
                 post,
-                parentPostId,
                 postReader.getWriter(post.getCreatedBy()),
                 userId.equals(post.getCreatedBy()),
                 comments,
                 links,
-                files
+                files,
+                post.isParent(),
+                relatedPosts
         );
     }
 

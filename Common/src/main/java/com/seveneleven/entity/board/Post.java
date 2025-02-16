@@ -8,8 +8,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import java.time.LocalDate;
 
@@ -47,7 +45,6 @@ public class Post extends BaseEntity {
 
     @JoinColumn(name = "parent_post_id", nullable = true, referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotFound(action = NotFoundAction.IGNORE)
     private Post parentPost;
 
     @Column(name = "ref")
@@ -142,4 +139,15 @@ public class Post extends BaseEntity {
         childPostNum--;
     }
 
+    public String getParentPostTitle() {
+        return parentPost.getTitle();
+    }
+
+    public Long getParentPostId() {
+        return parentPost.getId();
+    }
+
+    public boolean isParent() {
+        return parentPost != null;
+    }
 }

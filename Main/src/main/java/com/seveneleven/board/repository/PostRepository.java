@@ -1,6 +1,7 @@
 package com.seveneleven.board.repository;
 
 import com.seveneleven.board.dto.PostListResponse;
+import com.seveneleven.board.dto.RelatedPostResponse;
 import com.seveneleven.entity.board.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // 그룹 내 refOrder 최대값 구하기
     @Query("SELECT MAX(p.refOrder) FROM Post p WHERE p.parentPost.id = :parentPostId")
     Optional<Integer> findMaxRefOrderByParentPostId(@Param("parentPostId") Long parentPostId);
+
+    // 자식 게시글 id와 title 조회
+    @Query("""
+    SELECT new com.seveneleven.board.dto.RelatedPostResponse(p.id, p.title)
+    FROM Post p WHERE p.parentPost.id = :postId
+    """)
+    List<RelatedPostResponse> findChildPostIdsAndTitlesByParentId(@Param("postId") Long postId);
 
     // 전체 게시글 목록 조회
     @Query("""
@@ -54,7 +62,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
                                         @Param("filter") String filter,
                                         Pageable pageable);
 
-    // 프로젝트 단게별 게시글 목록 조회
+    // 프로젝트 단계별 게시글 목록 조회
     @Query("""
     SELECT new com.seveneleven.board.dto.PostListResponse(
         p,

@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum PostFilter {
-    ALL("모두"),
+    ALL("전체"),
     TITLE("제목"),
     CONTENT("내용"),
-    WRITER("작성자");
+    WRITER("작성자"),
+    DOC_NUM("문서번호");
 
     private final String description;
 }
