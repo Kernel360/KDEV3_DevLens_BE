@@ -4,6 +4,7 @@ import com.seveneleven.entity.project.CheckRequest;
 import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.exception.BusinessException;
 import com.seveneleven.project.dto.GetChecklistApplication;
+import com.seveneleven.project.service.checklist.CheckRequestLinkReader;
 import com.seveneleven.project.service.checklist.CheckRequestReader;
 import com.seveneleven.project.service.checklist.CheckResultReader;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class ProjectCheckRequestServiceImpl implements ProjectCheckRequestServic
 
     private final CheckRequestReader checkRequestReader;
     private final CheckResultReader checkResultReader;
+    private final CheckRequestLinkReader checkRequestLinkReader;
 
     @Override
     public CheckRequest getCheckRequestById(Long id) {
@@ -34,9 +36,13 @@ public class ProjectCheckRequestServiceImpl implements ProjectCheckRequestServic
     public List<GetChecklistApplication.ChecklistApplication> getChecklistApplications(List<CheckRequest> applications) {
         return applications.stream().map(application -> {
             try {
-                return GetChecklistApplication.ChecklistApplication.toDto(application, checkResultReader.read(application.getId()));
+                return GetChecklistApplication.ChecklistApplication.toDto(
+                        application,
+                        checkResultReader.read(application.getId()),
+                        checkRequestLinkReader.readCheckRequestLinks(application)
+                );
             } catch (BusinessException e) {
-                return GetChecklistApplication.ChecklistApplication.toDto(application);
+                return GetChecklistApplication.ChecklistApplication.toDto(application, checkRequestLinkReader.readCheckRequestLinks(application));
             }
         }).toList();
     }

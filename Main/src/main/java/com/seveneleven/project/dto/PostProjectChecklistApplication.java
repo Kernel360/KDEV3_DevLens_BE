@@ -21,13 +21,12 @@ public class PostProjectChecklistApplication {
     public static class Request {
         private String title;
         private String description;
-        private Long requesterId;
         private List<LinkInput> linkInputs = new ArrayList<>();
 
         @Override
         public String toString() {
             return "Request{" +
-                    "title='" + title + '\'' +
+                    "linkInputs=" + linkInputs +
                     '}';
         }
 

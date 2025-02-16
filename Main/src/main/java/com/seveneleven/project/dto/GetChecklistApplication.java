@@ -2,6 +2,7 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.CheckRequest;
 import com.seveneleven.entity.project.CheckResult;
+import com.seveneleven.util.file.dto.LinkResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,8 +36,9 @@ public class GetChecklistApplication {
         private String proposer;
         private LocalDateTime applicationDate;
         private ApplicationResult applicationResult;
+        private List<LinkResponse> linkResponse;
 
-        private ChecklistApplication(CheckRequest checkRequest, CheckResult checkResult) {
+        private ChecklistApplication(CheckRequest checkRequest, CheckResult checkResult, List<LinkResponse> linkResponse) {
             this.applicationId = checkRequest.getId();
             this.checklistTitle = checkRequest.getChecklist().getTitle();
             this.applicationTitle = checkRequest.getTitle();
@@ -45,9 +47,10 @@ public class GetChecklistApplication {
             this.proposer = checkRequest.getRequester().getName();
             this.applicationDate = checkRequest.getCreatedAt();
             this.applicationResult = ApplicationResult.toDto(checkResult);
+            this.linkResponse = linkResponse;
         }
 
-        private ChecklistApplication(CheckRequest checkRequest) {
+        private ChecklistApplication(CheckRequest checkRequest, List<LinkResponse> linkResponse) {
             this.applicationId = checkRequest.getId();
             this.checklistTitle = checkRequest.getChecklist().getTitle();
             this.applicationTitle = checkRequest.getTitle();
@@ -55,14 +58,15 @@ public class GetChecklistApplication {
             this.processStatus = checkRequest.getApprovalStatus().getDescription();
             this.proposer = checkRequest.getRequester().getName();
             this.applicationDate = checkRequest.getCreatedAt();
+            this.linkResponse = linkResponse;
         }
 
-        public static ChecklistApplication toDto(CheckRequest checkRequest, CheckResult checkResult) {
-            return new ChecklistApplication(checkRequest, checkResult);
+        public static ChecklistApplication toDto(CheckRequest checkRequest, CheckResult checkResult, List<LinkResponse> linkResponse) {
+            return new ChecklistApplication(checkRequest, checkResult, linkResponse);
         }
 
-        public static ChecklistApplication toDto(CheckRequest checkRequest) {
-            return new ChecklistApplication(checkRequest);
+        public static ChecklistApplication toDto(CheckRequest checkRequest, List<LinkResponse> linkResponse) {
+            return new ChecklistApplication(checkRequest, linkResponse);
         }
     }
 
