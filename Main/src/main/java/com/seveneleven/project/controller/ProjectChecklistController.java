@@ -278,4 +278,12 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 );
     }
 
+    @DeleteMapping("/checklists/{checklistId}/applications/{applicationsId}")
+    public ResponseEntity<APIResponse<SuccessCode>> deleteChecklistApplication(
+            @PathVariable Long checklistId,
+            @PathVariable Long applicationsId
+    ) {
+        return null;
+    }
+
 }

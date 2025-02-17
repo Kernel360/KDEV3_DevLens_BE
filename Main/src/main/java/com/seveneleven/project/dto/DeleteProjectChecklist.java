@@ -1,6 +1,5 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Checklist;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ public class DeleteProjectChecklist {
     @NoArgsConstructor
     public static class Response {
         private Long checklistId;
-        private Boolean checklistStatus;
+        private String checklistStatus;
 
         @Override
         public String toString() {
@@ -24,7 +23,7 @@ public class DeleteProjectChecklist {
 
         private Response(Checklist checklist) {
             this.checklistId = checklist.getId();
-            this.checklistStatus = checklist.getIsActive() == YesNo.YES;
+            this.checklistStatus = checklist.getChecklistStatus().name();
         }
 
         public static Response toDto(Checklist checklist) {

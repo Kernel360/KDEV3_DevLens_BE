@@ -1,6 +1,5 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.entity.project.ProjectStep;
 import lombok.Getter;
@@ -64,7 +63,7 @@ public class GetProjectStep {
     public static class ProjectChecklist {
         private Long checklistId;
         private String checklistName;
-        private Boolean checklistStatus;
+        private String checklistStatus;
         private LocalDateTime approvalTime;
 
         @Override
@@ -77,7 +76,7 @@ public class GetProjectStep {
         public ProjectChecklist(Checklist checklist) {
             this.checklistId = checklist.getId();
             this.checklistName = checklist.getTitle();
-            this.checklistStatus = checklist.getIsChecked() == YesNo.YES;
+            this.checklistStatus = checklist.getChecklistStatus().name();
             this.approvalTime = checklist.getApprovalDate();
         }
     }

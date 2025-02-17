@@ -1,8 +1,6 @@
 package com.seveneleven.entity.project;
 
 import com.seveneleven.entity.global.BaseEntity;
-import com.seveneleven.entity.global.YesNo;
-import com.seveneleven.entity.global.converter.YesNoConverter;
 import com.seveneleven.exception.BusinessException;
 import com.seveneleven.response.ErrorCode;
 import jakarta.persistence.*;
@@ -31,12 +29,7 @@ public class ChecklistHistory extends BaseEntity {
     private String description; // 체크리스트 설명
 
     @Column(nullable = false)
-    @Convert(converter = YesNoConverter.class)
-    private YesNo isActive; // 사용 유무
-
-    @Column(nullable = false)
-    @Convert(converter = YesNoConverter.class)
-    private YesNo isChecked; // 체크 유무
+    private String checklistStatus;
 
     private Long approverId; // 승인자 ID
 
@@ -47,8 +40,7 @@ public class ChecklistHistory extends BaseEntity {
         this.projectStepName = checklist.getProjectStep().getStepName();
         this.title = checklist.getTitle();
         this.description = checklist.getDescription();
-        this.isActive = checklist.getIsActive();
-        this.isChecked = checklist.getIsChecked();
+        this.checklistStatus = checklist.getChecklistStatus().name();
         this.approverId = checklist.getApproverId();
         this.approvalDate = checklist.getApprovalDate();
     }

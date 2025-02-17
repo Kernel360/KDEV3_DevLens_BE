@@ -1,6 +1,5 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Checklist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,12 +26,11 @@ public class PutProjectChecklist {
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
         private Long id;
         private String title;
         private String description;
-        private YesNo isChecked;
+        private String checklistStatus;
 
         @Override
         public String toString() {
@@ -41,13 +39,15 @@ public class PutProjectChecklist {
                     '}';
         }
 
+        public Response(Checklist checklist) {
+            this.id = checklist.getId();
+            this.title = checklist.getTitle();
+            this.description = checklist.getDescription();
+            this.checklistStatus = checklist.getChecklistStatus().name();
+        }
+
         public static PutProjectChecklist.Response toDto(Checklist checklist) {
-            return new PutProjectChecklist.Response(
-                    checklist.getId(),
-                    checklist.getTitle(),
-                    checklist.getDescription(),
-                    checklist.getIsChecked()
-            );
+            return new PutProjectChecklist.Response(checklist);
         }
     }
 }

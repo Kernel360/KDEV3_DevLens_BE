@@ -1,8 +1,7 @@
 package com.seveneleven.entity.project;
 
 import com.seveneleven.entity.global.BaseEntity;
-import com.seveneleven.entity.global.YesNo;
-import com.seveneleven.entity.global.converter.YesNoConverter;
+import com.seveneleven.entity.project.constant.ChecklistStatus;
 import com.seveneleven.exception.BusinessException;
 import com.seveneleven.response.ErrorCode;
 import jakarta.persistence.*;
@@ -33,12 +32,8 @@ public class Checklist extends BaseEntity {
     private String description; // 체크리스트 설명
 
     @Column(nullable = false)
-    @Convert(converter = YesNoConverter.class)
-    private YesNo isActive; // 사용 유무
-
-    @Column(nullable = false)
-    @Convert(converter = YesNoConverter.class)
-    private YesNo isChecked; // 체크 유무
+    @Enumerated(EnumType.STRING)
+    private ChecklistStatus checklistStatus; // 사용 유무
 
     private Long approverId; // 승인자 ID
 
@@ -48,8 +43,7 @@ public class Checklist extends BaseEntity {
         this.projectStep = projectStep;
         this.title = title;
         this.description = description;
-        this.isActive = YesNo.YES;
-        this.isChecked = YesNo.NO;
+        this.checklistStatus = ChecklistStatus.APPROVE_WAITING;
         this.approverId = null;
         this.approvalDate = null;
     }
@@ -59,7 +53,7 @@ public class Checklist extends BaseEntity {
     }
 
     public Checklist updateChecklist(String title, String description) {
-        if(isActive == YesNo.YES) {
+        if(checklistStatus != ChecklistStatus.DELETED) {
             this.title = title;
             this.description = description;
             return this;
@@ -67,27 +61,27 @@ public class Checklist extends BaseEntity {
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_DELETED);
     }
 
-    public Checklist(ProjectStep projectStep, String title, String description, YesNo isActive, YesNo isChecked, Long approverId, LocalDateTime approvalDate) {
-        this.projectStep = projectStep;
-        this.title = title;
-        this.description = description;
-        this.isActive = isActive;
-        this.isChecked = isChecked;
-        this.approverId = approverId;
-        this.approvalDate = approvalDate;
-    }
+//    public Checklist(ProjectStep projectStep, String title, String description, YesNo isActive, YesNo isChecked, Long approverId, LocalDateTime approvalDate) {
+//        this.projectStep = projectStep;
+//        this.title = title;
+//        this.description = description;
+//        this.isActive = isActive;
+//        this.isChecked = isChecked;
+//        this.approverId = approverId;
+//        this.approvalDate = approvalDate;
+//    }
 
     public Checklist deleteChecklist() {
-        if(isActive == YesNo.YES) {
-            isActive = YesNo.NO;
+        if(checklistStatus != ChecklistStatus.DELETED) {
+            checklistStatus = ChecklistStatus.DELETED;
             return this;
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_DELETED);
     }
 
     public void acceptChecklist() {
-        if(isChecked == YesNo.NO) {
-            isChecked = YesNo.YES;
+        if(checklistStatus == ChecklistStatus.APPROVE_WAITING) {
+            checklistStatus = ChecklistStatus.APPROVED;
             return;
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);

@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,14 +39,13 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     public GetProjectStep.Response getProjectStep(Long projectId) {
         List<ProjectStep> projectSteps = stepReader.getProjectStep(projectId);
 
-        List<GetProjectStep.ProjectStepInfo> projectStepInfos = new ArrayList<>();
-
-        for(ProjectStep stepInfo : projectSteps) {
-            projectStepInfos.add(GetProjectStep.ProjectStepInfo.toDto(
+        List<GetProjectStep.ProjectStepInfo> projectStepInfos = projectSteps.stream().map(stepInfo -> {
+            List<Checklist> checklists = checklistReader.read(stepInfo.getId());
+            return GetProjectStep.ProjectStepInfo.toDto(
                     stepInfo,
-                    checklistReader.read(stepInfo.getId())
-            ));
-        }
+                    checklists
+                    );
+            }).toList();
 
         return new GetProjectStep.Response(projectId, projectStepInfos);
     }

@@ -1,6 +1,5 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.entity.project.ProjectStep;
 import lombok.Getter;
@@ -39,15 +38,13 @@ public class PostProjectChecklist {
         private Long projectChecklistId;
         private String checklistTitle;
         private String checklistDescription;
-        private Boolean isActive;
-        private Boolean isChecked;
+        private String checklistStatus;
 
-        public Response(Long projectChecklistId, String checklistTitle, String checklistDescription, Boolean isActive, Boolean isChecked) {
-            this.projectChecklistId = projectChecklistId;
-            this.checklistTitle = checklistTitle;
-            this.checklistDescription = checklistDescription;
-            this.isActive = isActive;
-            this.isChecked = isChecked;
+        public Response(Checklist checklist) {
+            projectChecklistId = checklist.getId();
+            checklistTitle = checklist.getTitle();
+            checklistDescription = checklist.getDescription();
+            checklistStatus = checklist.getChecklistStatus().name();
         }
 
         @Override
@@ -58,13 +55,7 @@ public class PostProjectChecklist {
         }
 
         public static Response toDto(Checklist checklist) {
-            return new Response(
-                    checklist.getId(),
-                    checklist.getTitle(),
-                    checklist.getDescription(),
-                    checklist.getIsActive() == YesNo.YES,
-                    checklist.getIsChecked() == YesNo.YES
-            );
+            return new Response(checklist);
         }
     }
 }

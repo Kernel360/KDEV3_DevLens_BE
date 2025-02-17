@@ -1,6 +1,5 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.global.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,7 @@ public class GetStepChecklist {
     public static class projectChecklist {
         private Long checklistId;
         private String checklistName;
-        private Boolean checklistStatus;
+        private String checklistStatus;
         private LocalDateTime checkAcceptTime;
 
         @Override
@@ -43,10 +42,10 @@ public class GetStepChecklist {
                     '}';
         }
 
-        public projectChecklist(Long checklistId, String checklistName, YesNo checklistStatus, LocalDateTime checkAcceptTime) {
+        public projectChecklist(Long checklistId, String checklistName, String checklistStatus, LocalDateTime checkAcceptTime) {
             this.checklistId = checklistId;
             this.checklistName = checklistName;
-            this.checklistStatus = checklistStatus == YesNo.YES;
+            this.checklistStatus = checklistStatus;
             this.checkAcceptTime = checkAcceptTime;
         }
     }
