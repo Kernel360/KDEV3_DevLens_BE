@@ -2,13 +2,11 @@ package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.CheckResult;
 import com.seveneleven.entity.project.constant.ApprovalStatus;
-import com.seveneleven.util.file.dto.LinkInput;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class PostProjectChecklistReject {
 
@@ -16,7 +14,7 @@ public class PostProjectChecklistReject {
     @NoArgsConstructor
     public static class Request {
         private String rejectReason;
-        private List<LinkInput> linkInputs;
+//        private List<LinkInput> linkInputs;
 
         @Override
         public String toString() {

@@ -86,4 +86,12 @@ public class Checklist extends BaseEntity {
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
     }
+
+    public void rejectChecklist() {
+        if(checklistStatus == ChecklistStatus.APPROVE_WAITING) {
+            checklistStatus = ChecklistStatus.APPLICATION_WAITING;
+            return;
+        }
+        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
+    }
 }
