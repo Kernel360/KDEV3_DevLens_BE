@@ -6,6 +6,8 @@ import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
 import com.seveneleven.util.file.dto.LinkResponse;
+import com.seveneleven.util.methodauthorize.annotation.CustomerApproverAuthorize;
+import com.seveneleven.util.methodauthorize.annotation.DeveloperApproverAuthorize;
 import com.seveneleven.util.methodauthorize.annotation.ParticipantAuthorize;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/projects")
+@RequestMapping("/api/projects/{projectId}")
 public class ProjectChecklistController implements ProjectChecklistDocs {
 
     private final ProjectChecklistFacade projectChecklistFacade;
@@ -32,7 +34,7 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 해당 단계의 체크리스트 목록을 반환하는 함수
      */
     @ParticipantAuthorize
-    @GetMapping("/{projectId}/steps/{stepId}/checklists")
+    @GetMapping("/steps/{stepId}/checklists")
     public ResponseEntity<APIResponse<GetStepChecklist.Response>> getProjectChecklist(
             @PathVariable Long projectId,
             @PathVariable Long stepId
@@ -46,8 +48,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : postProjectChecklist
      * 해당 프로젝트 단계에 체크리스트를 추가하는 함수
      */
+    @DeveloperApproverAuthorize
     @PostMapping("/steps/{stepId}/checklists")
     public ResponseEntity<APIResponse<PostProjectChecklist.Response>> postProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long stepId,
             @RequestBody PostProjectChecklist.Request request
     ) {
@@ -59,8 +63,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : putProjectChecklist
      * 해당 체크리스트를 수정하는 함수
      */
+    @DeveloperApproverAuthorize
     @PutMapping("/checklists/{checklistId}")
     public ResponseEntity<APIResponse<PutProjectChecklist.Response>> putProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long checklistId,
             @RequestBody PutProjectChecklist.Request request
     ) {
@@ -72,8 +78,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : deleteProjectChecklist
      * 해당 체크리스트를 삭제하는 함수
      */
+    @DeveloperApproverAuthorize
     @DeleteMapping("/checklists/{checklistId}")
     public ResponseEntity<APIResponse<DeleteProjectChecklist.Response>> deleteProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long checklistId
     ) {
         return ResponseEntity.status(HttpStatus.OK)
@@ -84,9 +92,11 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : postProjectChecklistApplication
      * 해당 체크리스트에 체크 승인 요청을 보내는 함수
      */
+    @DeveloperApproverAuthorize
     @PostMapping("/checklists/{checklistId}/applications")
     public ResponseEntity<APIResponse<PostProjectChecklistApplication.Response>> postProjectChecklistApplication(
             @AuthenticationPrincipal CustomUserDetails user,
+            @PathVariable Long projectId,
             @PathVariable Long checklistId,
             @RequestBody PostProjectChecklistApplication.Request requestDto,
             HttpServletRequest request
@@ -102,8 +112,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : postProjectChecklistApplicationFiles
      * 해당 체크리스트에 체크 승인 요청 파일을 업로드하는 함수
      */
+    @DeveloperApproverAuthorize
     @PostMapping(value = "/checklists/{checklistId}/applications/{applicationId}/files", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse<SuccessCode>> postProjectChecklistApplication(
+            @PathVariable Long projectId,
             @PathVariable Long checklistId,
             @PathVariable Long applicationId,
             @RequestParam("files") List<MultipartFile> files,
@@ -122,8 +134,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getProjectChecklistApplication
      * 프로젝트 체크리스트에 승인 요청을 확인하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/checklists/applications/{applicationId}")
     public ResponseEntity<APIResponse<GetApplication.Response>> getProjectChecklistApplication(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
@@ -137,8 +151,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getProjectChecklistApplicationFiles
      * 프로젝트 체크리스트 승인 요청의 파일을 확인하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/checklists/applications/{applicationId}/files")
     public ResponseEntity<APIResponse<List<FileMetadataResponse>>> getProjectChecklistApplicationFiles(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
@@ -152,8 +168,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getProjectChecklistApplicationLinks
      * 프로젝트 체크리스트 승인 요청의 링크들을 확인하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/checklists/applications/{applicationId}/links")
     public ResponseEntity<APIResponse<List<LinkResponse>>> getProjectChecklistApplicationLinks(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
@@ -167,8 +185,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : postProjectChecklistAccept
      * 해당 체크리스트 승인 요청을 승인 처리하는 함수
      */
+    @CustomerApproverAuthorize
     @PostMapping("/accept/{applicationId}")
     public ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             HttpServletRequest request
@@ -187,8 +207,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : postProjectChecklistReject
      * 해당 체크리스트 승인 요청을 반려 처리하는 함수
      */
+    @CustomerApproverAuthorize
     @PostMapping("/applications/{applicationId}/reject")
     public ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId,
             @RequestBody PostProjectChecklistReject.Request requestDto,
             @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -206,8 +228,14 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                 .body(APIResponse.success(SuccessCode.OK, response));
     }
 
+    /**
+     * 함수명 : getProjectApplicationResult
+     * 승인 요청 처리 결과를 반환하는 함수
+     */
+    @ParticipantAuthorize
     @GetMapping("/application/{applicationId}/result")
     public ResponseEntity<APIResponse<GetApplicationResult.Response>> getProjectApplicationResult(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId
     ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
@@ -218,8 +246,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : postProjectChecklistRejectFiles
      * 체크리스트 승인 요청 반려 사유에 파일을 등록하는 함수
      */
+    @CustomerApproverAuthorize
     @PostMapping(value = "/reject/{applicationId}/files", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<APIResponse<SuccessCode>> postProjectChecklistRejectFile(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId,
             @RequestParam("files") List<MultipartFile> files,
             @AuthenticationPrincipal CustomUserDetails userDetails
@@ -236,9 +266,12 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getProjectChecklistRejectFiles
      * 체크리스트 승인 요청 반려 사유의 파일 목록을 조회하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/reject/{applicationId}/files")
     public ResponseEntity<APIResponse<List<FileMetadataResponse>>> getProjectChecklistRejectFiles(
-            @PathVariable Long applicationId){
+            @PathVariable Long projectId,
+            @PathVariable Long applicationId
+    ) {
 
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
                 .body(APIResponse.success(
@@ -251,10 +284,12 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getProjectChecklistRejectFiles
      * 체크리스트 승인 요청 반려 사유의 링크 목록을 조회하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/reject/{applicationId}/links")
     public ResponseEntity<APIResponse<List<LinkResponse>>> getProjectChecklistRejectLinks(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId
-    ){
+    ) {
         return ResponseEntity.status(SuccessCode.OK.getStatusCode())
                 .body(APIResponse.success(
                         SuccessCode.OK,
@@ -266,8 +301,10 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
      * 함수명 : getChecklistApplication
      * 체크리스트의 모든 승인 요청 목록을 보내는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/checklists/{checklistId}/applications")
     public ResponseEntity<APIResponse<GetChecklistApplication.Response>> getChecklistApplication(
+            @PathVariable Long projectId,
             @PathVariable Long checklistId
     ) {
         return ResponseEntity
@@ -277,13 +314,4 @@ public class ProjectChecklistController implements ProjectChecklistDocs {
                         projectChecklistFacade.getChecklistAllApplications(checklistId))
                 );
     }
-
-    @DeleteMapping("/checklists/{checklistId}/applications/{applicationsId}")
-    public ResponseEntity<APIResponse<SuccessCode>> deleteChecklistApplication(
-            @PathVariable Long checklistId,
-            @PathVariable Long applicationsId
-    ) {
-        return null;
-    }
-
 }

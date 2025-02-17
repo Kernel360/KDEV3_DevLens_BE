@@ -33,8 +33,8 @@ public class ChecklistStoreImpl implements ChecklistStore {
     }
 
     @Override
-    public void accept(Checklist checklist) {
-        checklist.acceptChecklist();
+    public void accept(Checklist checklist, Long memberId) {
+        checklist.acceptChecklist(memberId);
     }
 
     @Override

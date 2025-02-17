@@ -6,6 +6,7 @@ import com.seveneleven.project.dto.PostProjectAuthorization;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
 import com.seveneleven.util.methodauthorize.annotation.ApproverAuthorize;
+import com.seveneleven.util.methodauthorize.annotation.ParticipantAuthorize;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,7 @@ public class ProjectAuthorizationController {
      * 함수명 : getProjectAuthorization
      * 해당 프로젝트의 접근 권한자 목록을 반환하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/{projectId}/authorizations")
     public ResponseEntity<APIResponse<GetProjectAuthorization.Response>> getProjectAuthorization(
             @PathVariable Long projectId

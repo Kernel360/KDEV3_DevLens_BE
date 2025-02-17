@@ -15,10 +15,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Project Checklist API", description = "프로젝트 체크리스트 관련 API")
-@RequestMapping("/api/projects")
+@RequestMapping("/api/projects/{projectId}")
 public interface ProjectChecklistDocs {
 
-    @GetMapping("/{projectId}/steps/{stepId}")
+    @GetMapping("/steps/{stepId}")
     @Operation(
             summary = "체크리스트 조회",
             description = "특정 단계의 체크리스트를 조회합니다.",
@@ -62,6 +62,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklist.Response>> postProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long stepId,
             @RequestBody PostProjectChecklist.Request request
     );
@@ -82,6 +83,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PutProjectChecklist.Response>> putProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long checklistId,
             @RequestBody PutProjectChecklist.Request request
     );
@@ -110,6 +112,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<DeleteProjectChecklist.Response>> deleteProjectChecklist(
+            @PathVariable Long projectId,
             @PathVariable Long checklistId
     );
 
@@ -130,6 +133,7 @@ public interface ProjectChecklistDocs {
     )
     ResponseEntity<APIResponse<PostProjectChecklistApplication.Response>> postProjectChecklistApplication(
             @AuthenticationPrincipal CustomUserDetails user,
+            @PathVariable Long projectId,
             @PathVariable Long checklistId,
             @RequestBody PostProjectChecklistApplication.Request requestDto,
             HttpServletRequest request
@@ -159,6 +163,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistAccept.Response>> postProjectChecklistAccept(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId,
             @AuthenticationPrincipal CustomUserDetails userDetails,
             HttpServletRequest request
@@ -188,6 +193,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<PostProjectChecklistReject.Response>> postProjectChecklistReject(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId,
             @RequestBody PostProjectChecklistReject.Request requestDto,
             @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -218,6 +224,7 @@ public interface ProjectChecklistDocs {
             }
     )
     ResponseEntity<APIResponse<GetApplicationResult.Response>> getProjectApplicationResult(
+            @PathVariable Long projectId,
             @PathVariable Long applicationId
     );
 }

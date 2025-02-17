@@ -43,7 +43,7 @@ public class Checklist extends BaseEntity {
         this.projectStep = projectStep;
         this.title = title;
         this.description = description;
-        this.checklistStatus = ChecklistStatus.APPROVE_WAITING;
+        this.checklistStatus = ChecklistStatus.APPLICATION_WAITING;
         this.approverId = null;
         this.approvalDate = null;
     }
@@ -79,9 +79,19 @@ public class Checklist extends BaseEntity {
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_DELETED);
     }
 
-    public void acceptChecklist() {
+    public void setChecklistApplication() {
+        if(checklistStatus == ChecklistStatus.APPLICATION_WAITING) {
+            checklistStatus = ChecklistStatus.APPROVE_WAITING;
+            return;
+        }
+        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
+    }
+
+    public void acceptChecklist(Long approverId) {
         if(checklistStatus == ChecklistStatus.APPROVE_WAITING) {
             checklistStatus = ChecklistStatus.APPROVED;
+            this.approverId = approverId;
+            this.approvalDate = LocalDateTime.now();
             return;
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);

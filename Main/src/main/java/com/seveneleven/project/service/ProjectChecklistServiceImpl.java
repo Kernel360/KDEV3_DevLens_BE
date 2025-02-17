@@ -88,6 +88,7 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
             String ip
     ) {
         CheckRequest checkRequest = checkRequestStore.checkRequestStore(checklist, requestDto, member, ip);
+        checklist.setChecklistApplication();
         checkRequestStore.checkRequestHistoryStore(checkRequest);
 
         return PostProjectChecklistApplication.Response.toDto(checkRequest);
@@ -142,7 +143,7 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
         PostProjectChecklistAccept.Response response = checkResultStore.postApplicationAccept(checkRequest, member, processorIp);
 
         checkRequestStore.acceptCheckRequest(checkRequest);
-        checklistStore.accept(checkRequest.getChecklist());
+        checklistStore.accept(checkRequest.getChecklist(), memberId);
 
         return response;
     }

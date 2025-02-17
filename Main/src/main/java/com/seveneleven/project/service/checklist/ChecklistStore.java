@@ -10,7 +10,7 @@ import java.util.List;
 public interface ChecklistStore {
     Checklist storeChecklist(ProjectStep projectStep, PostProjectChecklist.Request checklist);
     Checklist updateChecklist(Checklist checklist, PutProjectChecklist.Request request);
-    void accept(Checklist checklist);
+    void accept(Checklist checklist, Long memberId);
     void delete(Checklist checklist);
     void deleteAll(List<Checklist> checklists);
 }

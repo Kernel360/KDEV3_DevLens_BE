@@ -3,6 +3,8 @@ package com.seveneleven.project.controller;
 import com.seveneleven.project.dto.*;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
+import com.seveneleven.util.methodauthorize.annotation.ApproverAuthorize;
+import com.seveneleven.util.methodauthorize.annotation.ParticipantAuthorize;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ public class ProjectStepController implements ProjectStepDocs {
      * 함수명 : getProjectStepAndChecklist
      * 해당 프로젝트의 모든 단계와 체크리스트 목록을 반환하는 함수
      */
+    @ParticipantAuthorize
     @GetMapping("/{projectId}/steps")
     public ResponseEntity<APIResponse<GetProjectStep.Response>> getProjectStepAndChecklist(
             @PathVariable Long projectId
@@ -34,6 +37,7 @@ public class ProjectStepController implements ProjectStepDocs {
      * 함수명 : postProjectStep
      * 해당 프로젝트에 프로젝트 단계를 추가하는 함수
      */
+    @ApproverAuthorize
     @PostMapping("/{projectId}/steps")
     public ResponseEntity<APIResponse<PostProjectStep.Response>> postProjectStep(
             @PathVariable Long projectId,
@@ -47,6 +51,7 @@ public class ProjectStepController implements ProjectStepDocs {
      * 함수명 : putProjectStep
      * 프로젝트 단계를 수정하는 함수
      */
+    @ApproverAuthorize
     @PutMapping("/steps/{stepId}")
     public ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
             @PathVariable Long stepId,
@@ -60,6 +65,7 @@ public class ProjectStepController implements ProjectStepDocs {
      * 함수명 : deleteProjectStep
      * 프로젝트 단계를 삭제하는 함수
      */
+    @ApproverAuthorize
     @DeleteMapping("/{projectId}/steps/{stepId}")
     public ResponseEntity<APIResponse<DeleteProjectStep.Response>> deleteProjectStep(
         @PathVariable Long projectId,

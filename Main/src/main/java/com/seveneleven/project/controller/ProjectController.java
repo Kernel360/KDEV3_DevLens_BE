@@ -5,6 +5,7 @@ import com.seveneleven.project.dto.PatchProjectCurrentStep;
 import com.seveneleven.project.service.ProjectService;
 import com.seveneleven.response.APIResponse;
 import com.seveneleven.response.SuccessCode;
+import com.seveneleven.util.methodauthorize.annotation.ParticipantAuthorize;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class ProjectController implements ProjectDocs {
      * 함수명 : getProjectDetail
      * 프로젝트 상세 페이지를 반환하는 함수
      */
+    @Override
+    @ParticipantAuthorize
     @GetMapping("/{projectId}/detail")
     public ResponseEntity<APIResponse<GetProjectDetail.Response>> getProjectDetail(
             @PathVariable Long projectId
@@ -35,6 +38,7 @@ public class ProjectController implements ProjectDocs {
      * 프로젝트의 현재 단계를 수정하는 함수
      */
     @Override
+    @ParticipantAuthorize
     @PatchMapping("/projects/{projectId}/current-steps/{stepId}")
     public ResponseEntity<APIResponse<PatchProjectCurrentStep.Response>> patchProjectCurrentStep(
             @PathVariable Long projectId,
