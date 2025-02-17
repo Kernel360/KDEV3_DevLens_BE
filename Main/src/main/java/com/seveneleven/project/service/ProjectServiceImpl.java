@@ -13,6 +13,7 @@ import com.seveneleven.project.service.step.StepReader;
 import com.seveneleven.project.service.tags.ProjectTagReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public PatchProjectCurrentStep.Response patchProjectCurrentStep(Long projectId, Long stepId) {
         Project project = projectReader.read(projectId);
         ProjectStep projectStep = stepReader.read(stepId);

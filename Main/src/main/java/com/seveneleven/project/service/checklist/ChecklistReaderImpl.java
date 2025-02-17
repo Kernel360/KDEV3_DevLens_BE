@@ -1,6 +1,5 @@
 package com.seveneleven.project.service.checklist;
 
-import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.project.Checklist;
 import com.seveneleven.entity.project.constant.ChecklistStatus;
 import com.seveneleven.exception.BusinessException;
@@ -34,6 +33,6 @@ public class ChecklistReaderImpl implements ChecklistReader {
 
     @Override
     public List<Checklist> read(Long stepId) {
-        return checklistRepository.findByProjectStepIdAndIsActive(stepId, YesNo.YES);
+        return checklistRepository.findByProjectStepIdAndChecklistStatusNot(stepId, ChecklistStatus.DELETED);
     }
 }

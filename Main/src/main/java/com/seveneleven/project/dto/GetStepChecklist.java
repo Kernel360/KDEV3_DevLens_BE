@@ -1,5 +1,6 @@
 package com.seveneleven.project.dto;
 
+import com.seveneleven.entity.project.constant.ChecklistStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,10 +43,10 @@ public class GetStepChecklist {
                     '}';
         }
 
-        public projectChecklist(Long checklistId, String checklistName, String checklistStatus, LocalDateTime checkAcceptTime) {
+        public projectChecklist(Long checklistId, String checklistName, ChecklistStatus checklistStatus, LocalDateTime checkAcceptTime) {
             this.checklistId = checklistId;
             this.checklistName = checklistName;
-            this.checklistStatus = checklistStatus;
+            this.checklistStatus = checklistStatus.name();
             this.checkAcceptTime = checkAcceptTime;
         }
     }
