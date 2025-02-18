@@ -20,8 +20,10 @@ public class GetProject {
     public static class Response {
         private Long id; // 프로젝트 ID
         private String projectName; // 프로젝트명
-        private String customerCompanyName; // 고객사 ID (Company 엔티티의 ID)
-        private String developerCompanyName; // 개발사 ID (Company 엔티티의 ID)
+        private Long customerCompanyId;
+        private String customerCompanyName; // 고객사 이름
+        private Long developerCompanyId;
+        private String developerCompanyName; // 개발사 이름
         private String projectDescription; // 프로젝트 설명
         private String projectTypeName; // 프로젝트 유형 ID
         private ProjectStatusCode projectStatusCode; // 프로젝트 상태 코드
@@ -51,7 +53,9 @@ public class GetProject {
         ) {
             id = project.getId();
             projectName = project.getProjectName();
+            customerCompanyId = project.getCustomer().getId();
             customerCompanyName = project.getCustomer().getCompanyName();
+            developerCompanyId = project.getDeveloper().getId();
             developerCompanyName = project.getDeveloper().getCompanyName();
             projectDescription = project.getProjectDescription();
             projectTypeName = project.getProjectType().getProjectTypeName();
