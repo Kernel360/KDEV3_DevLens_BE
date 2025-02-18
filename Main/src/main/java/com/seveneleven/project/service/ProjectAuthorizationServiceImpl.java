@@ -1,6 +1,7 @@
 package com.seveneleven.project.service;
 
 import com.seveneleven.entity.member.Member;
+import com.seveneleven.entity.member.constant.Role;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.project.dto.GetMemberAuthorization;
@@ -36,6 +37,9 @@ public class ProjectAuthorizationServiceImpl implements ProjectAuthorizationServ
 
     @Override
     public GetMemberAuthorization.Response getMemberAuthorization(Project project, Member member) {
+        if(Role.ADMIN.equals(member.getRole())) {
+            return GetMemberAuthorization.Response.toAdminDto(member);
+        }
         ProjectAuthorization authorization =
                 authorizationReader.readByProjectIdAndUserId(project.getId(), member.getId());
 
