@@ -18,7 +18,7 @@ import java.util.List;
 public class GetProject {
     @Getter
     public static class Response {
-        private Long id; // 프로젝트 ID
+        private Long id; // 프로젝트 ID...
         private String projectName; // 프로젝트명
         private Long customerCompanyId;
         private String customerCompanyName; // 고객사 이름
