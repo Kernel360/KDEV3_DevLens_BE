@@ -8,6 +8,7 @@ import com.seveneleven.entity.board.Post;
 import com.seveneleven.entity.board.constant.HistoryAction;
 import com.seveneleven.entity.member.constant.Role;
 import com.seveneleven.exception.BusinessException;
+import com.seveneleven.notification.service.NotificationService;
 import com.seveneleven.util.GetIpUtil;
 import com.seveneleven.util.security.dto.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentStore commentStore;
     private final PostReader postReader;
     private final GetIpUtil getIpUtil;
+    private final NotificationService notificationService;
 
     /**
      * 함수명 : selectCommentList()
@@ -76,6 +78,9 @@ public class CommentServiceImpl implements CommentService {
             parentComment.increaseChildCommentNum();
         }
         commentStore.storeCommentHistory(comment, HistoryAction.CREATE, registerIp, null);
+
+        // 게시글 작성자에게 댓글 알림 전송
+        notificationService.notifyComment(postId);
     }
 
     /**
