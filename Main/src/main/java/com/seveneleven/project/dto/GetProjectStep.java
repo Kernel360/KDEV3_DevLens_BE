@@ -46,15 +46,15 @@ public class GetProjectStep {
                     '}';
         }
 
-        private ProjectStepInfo(ProjectStep projectStep, List<Checklist> projectChecklist) {
+        private ProjectStepInfo(ProjectStep projectStep, Integer order, List<Checklist> projectChecklist) {
             stepId = projectStep.getId();
             stepName = projectStep.getStepName();
-            stepOrder = projectStep.getStepOrder();
+            stepOrder = order;
             this.projectChecklist = projectChecklist.stream().map(ProjectChecklist::new).toList();
         }
 
-        public static ProjectStepInfo toDto(ProjectStep projectStep, List<Checklist> projectChecklist) {
-            return new ProjectStepInfo(projectStep, projectChecklist);
+        public static ProjectStepInfo toDto(ProjectStep projectStep, Integer order, List<Checklist> projectChecklist) {
+            return new ProjectStepInfo(projectStep, order, projectChecklist);
         }
     }
 

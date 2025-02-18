@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MemberType {
-    ADMIN("admin"),
+    ADMIN("ADMIN"),
     CLIENT("client"),
     DEVELOPER("developer");
 
