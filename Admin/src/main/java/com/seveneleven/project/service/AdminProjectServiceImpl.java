@@ -4,12 +4,10 @@ import com.seveneleven.company.service.AdminCompanyReader;
 import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectType;
-import com.seveneleven.project.dto.GetProject;
 import com.seveneleven.project.dto.GetProjectList;
 import com.seveneleven.project.dto.PostProject;
 import com.seveneleven.project.dto.PutProject;
 import com.seveneleven.project.exception.ProjectNameDuplicatedException;
-import com.seveneleven.project.exception.ProjectNotFoundException;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -54,7 +52,7 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     public PaginatedResponse<GetProjectList.Response> getListOfProject(Integer page) {
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE.getPageSize(), Sort.by("id").descending());
         Page<Project> projects = adminProjectReader.getProjectList(pageable);
-        if (projects.getContent().isEmpty()) throw new ProjectNotFoundException();
+//        if (projects.getContent().isEmpty()) throw new ProjectNotFoundException();
 
         return PaginatedResponse.createPaginatedResponse(projects.map(GetProjectList.Response::of));
     }
