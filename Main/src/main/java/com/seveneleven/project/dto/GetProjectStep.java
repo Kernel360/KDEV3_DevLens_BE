@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetProjectStep {
@@ -16,7 +17,7 @@ public class GetProjectStep {
     @NoArgsConstructor
     public static class Response {
         private Long projectId;
-        private List<ProjectStepInfo> projectStepInfo;
+        private List<ProjectStepInfo> projectStepInfo = new ArrayList<>();
 
         @Override
         public String toString() {
@@ -25,9 +26,17 @@ public class GetProjectStep {
                     '}';
         }
 
-        public Response(Long projectId, List<ProjectStepInfo> projectStepInfo) {
+        private Response(Long projectId) {
             this.projectId = projectId;
-            this.projectStepInfo = projectStepInfo;
+            this.projectStepInfo = new ArrayList<>();
+        }
+
+        public static Response create(Long projectId) {
+            return new Response(projectId);
+        }
+
+        public void add(ProjectStep projectStep, List<Checklist> checklists) {
+            projectStepInfo.add(ProjectStepInfo.toDto(projectStep, projectStepInfo.size() + 1, checklists));
         }
     }
 

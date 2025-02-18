@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -40,18 +39,13 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     public GetProjectStep.Response getProjectStep(Long projectId) {
         List<ProjectStep> projectSteps = stepReader.getProjectStep(projectId);
 
-        AtomicInteger index = new AtomicInteger(1);
+        GetProjectStep.Response response = GetProjectStep.Response.create(projectId);
 
-        List<GetProjectStep.ProjectStepInfo> projectStepInfos = projectSteps.stream().map(stepInfo -> {
-            List<Checklist> checklists = checklistReader.read(stepInfo.getId());
-            return GetProjectStep.ProjectStepInfo.toDto(
-                    stepInfo,
-                    index.getAndIncrement(),
-                    checklists
-                    );
-            }).toList();
+        projectSteps.forEach(stepInfo -> {
+            response.add(stepInfo, checklistReader.read(stepInfo.getId()));
+        });
 
-        return new GetProjectStep.Response(projectId, projectStepInfos);
+        return response;
     }
 
     @Override
