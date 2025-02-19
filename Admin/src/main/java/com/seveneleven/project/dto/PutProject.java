@@ -29,7 +29,6 @@ public class PutProject {
         private Long projectTypeId; // 프로젝트 유형 ID
         private ProjectStatusCode projectStatusCode; //
         private String bnsManager; // BNS 담당자 ID (Member 엔티티의 ID)
-        private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private LocalDate startDate; // 시작일
@@ -54,7 +53,6 @@ public class PutProject {
                     projectName,
                     projectDescription,
                     projectStatusCode,
-                    contractNumber,
                     plannedStartDate,
                     plannedEndDate,
                     startDate,
@@ -76,7 +74,6 @@ public class PutProject {
         private String projectType; // 프로젝트 유형 ID
         private ProjectStatusCode projectStatusCode; //
         private String bnsManager; // BNS 담당자 ID (Member 엔티티의 ID)
-        private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private LocalDate startDate; // 시작일
@@ -101,7 +98,6 @@ public class PutProject {
             projectDescription = project.getProjectDescription();
             projectType = project.getProjectType().getProjectTypeName();
             bnsManager = project.getBnsManager();
-            contractNumber = project.getContractNumber();
             plannedStartDate = project.getPlannedStartDate();
             plannedEndDate = project.getPlannedEndDate();
             startDate = project.getStartDate(); // 시작일
