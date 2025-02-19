@@ -68,11 +68,11 @@ public class AdminProjectServiceImpl implements AdminProjectService {
             }
         }
 
-        Company customer = adminCompanyReader.getCompany(request.getCustomerId());
-        Company developer = adminCompanyReader.getCompany(request.getDeveloperId());
+//        Company customer = adminCompanyReader.getCompany(request.getCustomerId());
+//        Company developer = adminCompanyReader.getCompany(request.getDeveloperId());
         ProjectType projectType = adminProjectTypeReader.getProjectType(request.getProjectTypeId());
 
-        Project updatedProject = request.updateProject(project, customer, developer, projectType);
+        Project updatedProject = request.updateProject(project, projectType);
         return adminProjectStore.store(updatedProject);
     }
 

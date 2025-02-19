@@ -1,6 +1,5 @@
 package com.seveneleven.project.dto;
 
-import com.seveneleven.entity.member.Company;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectTag;
@@ -49,8 +48,6 @@ public class PutProject {
 
         public Project updateProject(
                 Project project,
-                Company customer,
-                Company developer,
                 ProjectType projectType
         ) {
             return project.update(
@@ -63,8 +60,6 @@ public class PutProject {
                     startDate,
                     endDate,
                     finalApprovalDate,
-                    customer,
-                    developer,
                     projectType,
                     bnsManager
             );

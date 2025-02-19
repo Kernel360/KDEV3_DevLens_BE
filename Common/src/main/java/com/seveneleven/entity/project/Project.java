@@ -124,14 +124,10 @@ public class Project extends BaseEntity {
             LocalDate startDate,
             LocalDate endDate,
             LocalDateTime approvalDate,
-            Company customer,
-            Company developer,
             ProjectType ProjectType,
             String bnsManager
     ) {
         this.projectName = name;
-        this.customer = customer;
-        this.developer = developer;
         this.projectDescription = description;
         this.projectType = ProjectType;
         this.projectStatusCode = statusCode;
