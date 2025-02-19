@@ -118,7 +118,6 @@ public class Project extends BaseEntity {
             String name,
             String description,
             ProjectStatusCode statusCode,
-            String contractNumber,
             LocalDate plannedStartDate,
             LocalDate plannedEndDate,
             LocalDate startDate,
@@ -132,7 +131,6 @@ public class Project extends BaseEntity {
         this.projectType = ProjectType;
         this.projectStatusCode = statusCode;
         this.bnsManager = bnsManager;
-        this.contractNumber = contractNumber;
         this.plannedStartDate = plannedStartDate;
         this.plannedEndDate = plannedEndDate;
         this.startDate = startDate;
