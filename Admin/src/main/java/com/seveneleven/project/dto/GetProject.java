@@ -25,7 +25,7 @@ public class GetProject {
         private Long developerCompanyId;
         private String developerCompanyName; // 개발사 이름
         private String projectDescription; // 프로젝트 설명
-        private String projectTypeName; // 프로젝트 유형 ID
+        private Long projectTypeId; // 프로젝트 유형 ID
         private ProjectStatusCode projectStatusCode; // 프로젝트 상태 코드
         private String bnsManager; // BNS 담당자 ID (Member 엔티티의 ID)
         private String contractNumber; // 계약서 번호
@@ -58,7 +58,7 @@ public class GetProject {
             developerCompanyId = project.getDeveloper().getId();
             developerCompanyName = project.getDeveloper().getCompanyName();
             projectDescription = project.getProjectDescription();
-            projectTypeName = project.getProjectType().getProjectTypeName();
+            projectTypeId = project.getProjectType().getId();
             projectStatusCode = project.getProjectStatusCode();
             bnsManager = project.getBnsManager();
             contractNumber = project.getContractNumber();
