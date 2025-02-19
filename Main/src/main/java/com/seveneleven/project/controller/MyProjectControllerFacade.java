@@ -41,6 +41,7 @@ public class MyProjectControllerFacade {
     public GetCompanyProject.Response getCompanyProject(Long companyId, String filter) {
         Company company = companyService.getCompany(companyId);
         List<Project> findProjects = projectService.getCompanyProject(company.getId(), filter);
+
         List<GetCompanyProject.CompanyProject> companyProjects = findProjects.stream()
                 .map(project ->
                         GetCompanyProject.CompanyProject.toDto(
@@ -48,6 +49,7 @@ public class MyProjectControllerFacade {
                                 projectService.getProjectTags(project.getId())
                         ))
                 .toList();
+
         return GetCompanyProject.Response.toDto(company.getId(), companyProjects);
     }
 }
