@@ -11,6 +11,7 @@ import com.seveneleven.project.service.step.StepReader;
 import com.seveneleven.project.service.step.StepStore;
 import com.seveneleven.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectStepServiceImpl implements ProjectStepService {
 
     private final StepReader stepReader;
@@ -65,8 +67,12 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     @Override
     @Transactional
     public PutProjectStep.Response putProjectStep(ProjectStep projectStep, PutProjectStep.Request requestDto) {
+        log.info("request.order : {}", requestDto.getStepOrder());
         List<Integer> orderList = stepReader.getStepOrderList(projectStep.getProject().getId());
-        Integer order = getStepOrder(orderList, requestDto.getStepOrder());
+        orderList.removeIf(order -> order.equals(projectStep.getStepOrder()));
+
+        Integer order = getStepOrder(orderList, requestDto.getStepOrder() - 1);
+        log.info("order : {}", order);
         return stepStore.edit(requestDto, projectStep, order);
     }
 
@@ -81,13 +87,13 @@ public class ProjectStepServiceImpl implements ProjectStepService {
     }
 
     private Integer getStepOrder(List<Integer> orderList, Integer target) {
-        if(target == null || target < 1) {
+        if(target == null || target < 0) {
             throw new BusinessException(ErrorCode.PROJECT_STEP_ORDER_MORE_THAN_ZERO);
         }
         if(orderList == null || orderList.isEmpty()) {
             return 100;
         }
-        if(target == 1) {
+        if(target == 0) {
             Integer find = orderList.get(0);
             return find / 2;
         }

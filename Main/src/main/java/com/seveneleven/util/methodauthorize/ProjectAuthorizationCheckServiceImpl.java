@@ -28,11 +28,11 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
 
-    private static final String DEVELOPER = "developer";
-    private static final String CUSTOMER = "customer";
+    private static final String DEVELOPER = "DEVELOPER";
+    private static final String CUSTOMER = "CUSTOMER";
 
-    private static final String APPROVER = "approver";
-    private static final String PARTICIPANT = "participant";
+    private static final String APPROVER = "APPROVER";
+    private static final String PARTICIPANT = "PARTICIPANT";
 
     @Override
     public boolean checkParticipant(Long memberId, Long projectId) {
@@ -53,7 +53,7 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
                 projectAuthorizationRepository
                         .findByProjectIdAndMemberIdAndIsActive(projectId, memberId, YesNo.YES);
 
-        if(authorization.isPresent() && Objects.equals(APPROVER.toUpperCase(), authorization.get().getAuthorization())) {
+        if(authorization.isPresent() && Objects.equals(APPROVER, authorization.get().getAuthorization())) {
             return true;
         }
         log.error("memberId : {} not have authorization in project : {}", memberId, projectId);
@@ -108,8 +108,8 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
 
         if(
                 authorization.isPresent() &&
-                Objects.equals(authorizationCode.toUpperCase(), authorization.get().getAuthorization()) &&
-                company == (companyCode.equals(CUSTOMER.toLowerCase()) ? project.getCustomer() : project.getDeveloper())
+                Objects.equals(authorizationCode, authorization.get().getAuthorization()) &&
+                company == (companyCode.equals(CUSTOMER) ? project.getCustomer() : project.getDeveloper())
         ) {
             return true;
         }
