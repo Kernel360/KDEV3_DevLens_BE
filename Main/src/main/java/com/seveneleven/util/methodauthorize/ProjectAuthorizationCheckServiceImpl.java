@@ -53,7 +53,7 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
                 projectAuthorizationRepository
                         .findByProjectIdAndMemberIdAndIsActive(projectId, memberId, YesNo.YES);
 
-        if(authorization.isPresent() && APPROVER.equals(authorization.get().getAuthorizationCode())) {
+        if(authorization.isPresent() && Objects.equals(APPROVER.toUpperCase(), authorization.get().getAuthorization())) {
             return true;
         }
         log.error("memberId : {} not have authorization in project : {}", memberId, projectId);
