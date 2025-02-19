@@ -3,6 +3,7 @@ package com.seveneleven.project.dto;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
+import com.seveneleven.entity.project.constant.Authorization;
 import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class PatchAuthorization {
         protected Long memberId;
         protected String memberName;
         protected MemberType memberType;
-        protected String projectAuthorization;
+        protected Authorization projectAuthorization;
 
         public abstract ProjectAuthorization toEntity(Project project, Member member);
 

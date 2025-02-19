@@ -4,6 +4,7 @@ import com.seveneleven.entity.global.BaseEntity;
 import com.seveneleven.entity.global.YesNo;
 import com.seveneleven.entity.global.converter.YesNoConverter;
 import com.seveneleven.entity.member.Member;
+import com.seveneleven.entity.project.constant.Authorization;
 import com.seveneleven.entity.project.constant.MemberType;
 import com.seveneleven.entity.project.duplkey.MemberProjectStepId;
 import jakarta.persistence.*;
@@ -34,12 +35,13 @@ public class ProjectAuthorization extends BaseEntity {
     private MemberType memberType; // 회원 구분 (client, developer)
 
     // Question - Enum으로 뺄까?
-    private String authorizationCode; // 권한 코드
+    @Enumerated(EnumType.STRING)
+    private Authorization authorizationCode; // 권한 코드
 
     @Convert(converter = YesNoConverter.class)
     private YesNo isActive; // 삭제 여부
 
-    private ProjectAuthorization(Member member, Project project, MemberType memberType, String authorizationCode) {
+    private ProjectAuthorization(Member member, Project project, MemberType memberType, Authorization authorizationCode) {
         this.id = new MemberProjectStepId(member.getId(), project.getId());
         this.member = member;
         this.project = project;
@@ -48,11 +50,11 @@ public class ProjectAuthorization extends BaseEntity {
         this.isActive = YesNo.YES;
     }
 
-    public static ProjectAuthorization create(Member member, Project project, MemberType memberType, String authorizationCode) {
+    public static ProjectAuthorization create(Member member, Project project, MemberType memberType, Authorization authorizationCode) {
         return new ProjectAuthorization(member, project, memberType, authorizationCode);
     }
 
-    public void edit(MemberType memberType, String authorizationCode) {
+    public void edit(MemberType memberType, Authorization authorizationCode) {
         this.memberType = memberType;
         this.authorizationCode = authorizationCode;
     }
@@ -60,5 +62,9 @@ public class ProjectAuthorization extends BaseEntity {
     public ProjectAuthorizationHistory delete() {
         isActive = YesNo.NO;
         return ProjectAuthorizationHistory.create(this);
+    }
+
+    public String getAuthorization() {
+        return authorizationCode.name();
     }
 }

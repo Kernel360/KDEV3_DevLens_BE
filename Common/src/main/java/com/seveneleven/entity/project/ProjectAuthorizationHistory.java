@@ -38,7 +38,7 @@ public class ProjectAuthorizationHistory extends BaseEntity {
         this.memberName = authorization.getMember().getName();
         this.projectName = authorization.getProject().getProjectName();
         this.memberType = authorization.getMemberType().name();
-        this.authorizationCode = authorization.getAuthorizationCode();
+        this.authorizationCode = authorization.getAuthorization();
         this.isActive = authorization.getIsActive();
     }
 
