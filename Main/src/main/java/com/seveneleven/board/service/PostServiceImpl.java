@@ -70,6 +70,9 @@ public class PostServiceImpl implements PostService {
         } else {
             repoPostList = postReader.getPostsByProjectStepId(projectStepId, keyword, repoFilter, PageRequest.of(page, PAGE_SIZE, getSort(isAllStages, sortType)));
         }
+        repoPostList.getContent().forEach(post ->
+            post.setFileExist(!postFileService.getPostFiles(post.getPostId()).isEmpty())
+        );
 
         return PaginatedResponse.createPaginatedResponse(repoPostList);
     }

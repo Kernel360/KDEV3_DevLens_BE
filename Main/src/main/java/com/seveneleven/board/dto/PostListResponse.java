@@ -23,6 +23,7 @@ public class PostListResponse {
     private LocalDateTime createDate;
     private LocalDate deadline;
     private Long commentCount;
+    private Boolean fileExists;
 
     private PostListResponse(Post post, Long commentCount) {
         this.projectStepId = post.getProjectStep().getId();
@@ -35,6 +36,11 @@ public class PostListResponse {
         this.createDate = post.getCreatedAt();
         this.deadline = post.getDeadline();
         this.commentCount = commentCount;
+        this.fileExists = false;
+    }
+
+    public void setFileExist(boolean fileExists) {
+        this.fileExists = fileExists;
     }
 
     public static PostListResponse toDto(Post post, Long commentCount) {
