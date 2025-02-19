@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface AdminProjectTagRepository extends JpaRepository<ProjectTag, Long> {
     List<ProjectTag> findByProjectIdAndIsActive(Long projectId, YesNo isActive);
+
+
 }

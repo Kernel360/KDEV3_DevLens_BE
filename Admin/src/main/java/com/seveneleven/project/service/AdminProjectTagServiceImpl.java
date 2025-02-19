@@ -12,7 +12,7 @@ import java.util.List;
 public class AdminProjectTagServiceImpl implements AdminProjectTagService {
 
     private final ProjectTagReader projectTagReader;
-    private final AdminProjectTagStore adminProjectTagStore;
+    private final AdminProjectTagStore projectTagStore;
 
     @Override
     public List<ProjectTag> getAllProjectTags(Long projectId) {
@@ -21,6 +21,7 @@ public class AdminProjectTagServiceImpl implements AdminProjectTagService {
 
     @Override
     public List<ProjectTag> storeProjectTags(Project project, List<String> tags) {
-        return adminProjectTagStore.store(project, tags);
+        List<ProjectTag> projectTags = projectTagReader.readByProjectId(project.getId());
+        return projectTagStore.store(project, tags, projectTags);
     }
 }

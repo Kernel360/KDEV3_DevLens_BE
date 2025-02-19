@@ -3,6 +3,7 @@ package com.seveneleven.project.dto;
 import com.seveneleven.entity.member.Member;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
+import com.seveneleven.entity.project.constant.Authorization;
 import com.seveneleven.entity.project.constant.MemberType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,7 @@ public class PostProjectAuthorization {
     public static abstract class BaseMemberAuthorization implements MemberAuthorization {
         protected Long memberId;
         protected MemberType memberType;
-        protected String projectAuthorization;
+        protected Authorization projectAuthorization;
 
         public abstract ProjectAuthorization toEntity(Project project, Member member);
 
@@ -92,7 +93,7 @@ public class PostProjectAuthorization {
     public static class FailList {
         private Long memberId;
         private MemberType memberType;
-        private String projectAuthorization;
+        private Authorization projectAuthorization;
         private HttpStatus status;
         private String message;
 

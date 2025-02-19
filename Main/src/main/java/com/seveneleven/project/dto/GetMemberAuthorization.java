@@ -24,7 +24,7 @@ public class GetMemberAuthorization {
 
         private Response(ProjectAuthorization authorization) {
             this.memberId = authorization.getMember().getId();
-            this.authorization = authorization.getAuthorizationCode();
+            this.authorization = authorization.getAuthorization();
             this.memberType = authorization.getMemberType();
         }
 
