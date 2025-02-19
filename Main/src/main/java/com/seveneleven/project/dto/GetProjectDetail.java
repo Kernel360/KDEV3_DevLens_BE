@@ -110,7 +110,7 @@ public class GetProjectDetail {
             this.memberName = projectAuthorization.getMember().getName();
             this.department = projectAuthorization.getMember().getDepartment();
             this.position = projectAuthorization.getMember().getPosition();
-            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+            this.projectAuthorization = projectAuthorization.getAuthorization();
         }
 
         public static CustomerMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
@@ -138,7 +138,7 @@ public class GetProjectDetail {
             this.memberName = projectAuthorization.getMember().getName();
             this.department = projectAuthorization.getMember().getDepartment();
             this.position = projectAuthorization.getMember().getPosition();
-            this.projectAuthorization = projectAuthorization.getAuthorizationCode();
+            this.projectAuthorization = projectAuthorization.getAuthorization();
         }
 
         public static DeveloperMemberAuthorization toDto(ProjectAuthorization projectAuthorization) {
