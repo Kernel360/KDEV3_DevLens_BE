@@ -84,7 +84,7 @@ public class Checklist extends BaseEntity {
             checklistStatus = ChecklistStatus.APPROVE_WAITING;
             return;
         }
-        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
+        throw new BusinessException(ErrorCode.CHECKLIST_CANT_APPLICATION);
     }
 
     public void acceptChecklist(Long approverId) {
@@ -94,7 +94,7 @@ public class Checklist extends BaseEntity {
             this.approvalDate = LocalDateTime.now();
             return;
         }
-        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
+        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_APPROVED);
     }
 
     public void rejectChecklist() {
@@ -102,6 +102,6 @@ public class Checklist extends BaseEntity {
             checklistStatus = ChecklistStatus.APPLICATION_WAITING;
             return;
         }
-        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_CHECKED);
+        throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_APPROVED);
     }
 }
