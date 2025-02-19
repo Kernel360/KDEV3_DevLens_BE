@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Component("projectAuthorizationCheckService")
@@ -92,7 +93,7 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
     }
 
     private boolean checkCompanyAndAuthorization(
-            Long memberId, Long projectId, String authorizationCode, String companyCode
+            Long memberId, Long projectId, String companyCode, String authorizationCode
     ) {
         Member member = memberRepository.findByIdAndStatus(memberId, MemberStatus.ACTIVE)
                 .orElseThrow(() -> new AccessDeniedException(ErrorCode.NOT_FOUND_MEMBER.getMessage()));
@@ -107,8 +108,8 @@ public class ProjectAuthorizationCheckServiceImpl implements ProjectAuthorizatio
 
         if(
                 authorization.isPresent() &&
-                authorizationCode.equals(authorization.get().getAuthorizationCode()) &&
-                company == (companyCode.equals(CUSTOMER) ? project.getCustomer() : project.getDeveloper())
+                Objects.equals(authorizationCode.toUpperCase(), authorization.get().getAuthorization()) &&
+                company == (companyCode.equals(CUSTOMER.toLowerCase()) ? project.getCustomer() : project.getDeveloper())
         ) {
             return true;
         }
