@@ -52,8 +52,9 @@ public class ProjectStepController implements ProjectStepDocs {
      * 프로젝트 단계를 수정하는 함수
      */
     @ApproverAuthorize
-    @PutMapping("/steps/{stepId}")
+    @PutMapping("/{projectId}/steps/{stepId}")
     public ResponseEntity<APIResponse<PutProjectStep.Response>> putProjectStep(
+            @PathVariable Long projectId,
             @PathVariable Long stepId,
             @RequestBody PutProjectStep.Request requestDto
     ) {
