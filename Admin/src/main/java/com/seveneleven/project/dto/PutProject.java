@@ -76,7 +76,6 @@ public class PutProject {
         private String projectType; // 프로젝트 유형 ID
         private ProjectStatusCode projectStatusCode; //
         private String bnsManager; // BNS 담당자 ID (Member 엔티티의 ID)
-        private String contractNumber; // 계약서 번호
         private LocalDate plannedStartDate; // 시작 예정일
         private LocalDate plannedEndDate; // 종료 예정일
         private LocalDate startDate; // 시작일
