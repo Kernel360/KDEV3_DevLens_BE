@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/projects")
@@ -126,5 +128,16 @@ public class AdminProjectController implements AdminProjectDocs{
         return ResponseEntity
                 .status(SuccessCode.DELETED.getStatus())
                 .body(APIResponse.success(SuccessCode.DELETED));
+    }
+
+    @GetMapping("/main")
+    public ResponseEntity<APIResponse<List<GetAdminDashboard.Response>>> getAdminMain() {
+
+        return ResponseEntity
+                .status(SuccessCode.OK.getStatusCode())
+                .body(APIResponse.success(
+                        SuccessCode.OK,
+                        adminProjectFacade.getAdminDashboard()
+                ));
     }
 }
