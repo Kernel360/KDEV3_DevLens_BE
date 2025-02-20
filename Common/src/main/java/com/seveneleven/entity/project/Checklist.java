@@ -104,4 +104,8 @@ public class Checklist extends BaseEntity {
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_APPROVED);
     }
+
+    public void setProjectLastActivityTimeNow() {
+        projectStep.getProject().setLastActivityTimeNow();
+    }
 }

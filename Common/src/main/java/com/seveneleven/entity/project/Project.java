@@ -60,7 +60,7 @@ public class Project extends BaseEntity {
 
     private Long finalApproverId; // 최종 결재자
 
-    private LocalDateTime finalApprovalDate; // 최종 결재일시
+    private LocalDateTime lastActivityTime;
 
     // Dto를 받는 생성자
     private Project(
@@ -86,6 +86,7 @@ public class Project extends BaseEntity {
         this.plannedStartDate = plannedStartDate;
         this.plannedEndDate = plannedEndDate;
         this.currentProjectStep = "기획";
+        this.lastActivityTime = LocalDateTime.now();
     }
 
     public static Project create(
@@ -122,7 +123,6 @@ public class Project extends BaseEntity {
             LocalDate plannedEndDate,
             LocalDate startDate,
             LocalDate endDate,
-            LocalDateTime approvalDate,
             ProjectType ProjectType,
             String bnsManager
     ) {
@@ -135,7 +135,7 @@ public class Project extends BaseEntity {
         this.plannedEndDate = plannedEndDate;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.finalApprovalDate = approvalDate;
+        this.lastActivityTime = LocalDateTime.now();
         return this;
     }
 
@@ -150,5 +150,9 @@ public class Project extends BaseEntity {
 
     public void modifyCurrentProjectStep(String currentProjectStep) {
         this.currentProjectStep = currentProjectStep;
+    }
+
+    public void setLastActivityTimeNow() {
+        this.lastActivityTime = LocalDateTime.now();
     }
 }

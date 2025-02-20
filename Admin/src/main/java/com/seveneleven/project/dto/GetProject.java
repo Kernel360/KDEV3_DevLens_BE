@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,6 @@ public class GetProject {
         private LocalDate startDate; // 시작일
         private LocalDate endDate; // 종료일
         private String finalApprover; // 최종 결재자
-        private LocalDateTime finalApprovalDate; // 최종 결재일시
         private List<String> projectTags;
         private List<PatchAuthorization.CustomerMemberAuthorization> customerMemberAuthorizations;
         private List<PatchAuthorization.DeveloperMemberAuthorization> developerMemberAuthorizations;
@@ -66,7 +64,6 @@ public class GetProject {
             plannedEndDate = project.getPlannedEndDate();
             startDate = project.getStartDate();
             endDate = project.getEndDate();
-            finalApprovalDate = project.getFinalApprovalDate();
             projectTags = tags.stream().map(ProjectTag::getTag).toList();
             this.customerMemberAuthorizations = new ArrayList<>();
             this.developerMemberAuthorizations = new ArrayList<>();

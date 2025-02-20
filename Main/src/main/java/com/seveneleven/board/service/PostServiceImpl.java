@@ -170,6 +170,8 @@ public class PostServiceImpl implements PostService {
         Map<String, Long> responseMap = new HashMap<>();
         responseMap.put("postId", postId);
 
+        post.setProjectLastActivityTimeNow();
+
         return responseMap;
     }
 
@@ -194,6 +196,8 @@ public class PostServiceImpl implements PostService {
                 postUpdateRequest.getDeadline(),
                 modifierIp
         );
+
+        post.setProjectLastActivityTimeNow();
 
         savePostAndPostHistory(post, modifierIp, HistoryAction.UPDATE);
     }
@@ -228,6 +232,8 @@ public class PostServiceImpl implements PostService {
 
         // 게시물 파일 일괄 삭제
         postFileService.deleteAllPostFiles(post.getId(), user.getId(), user.getRole().toString());
+
+        post.setProjectLastActivityTimeNow();
 
         postStore.storePostHistory(post, HistoryAction.DELETE, deleterIp);
         postStore.deletePost(post);

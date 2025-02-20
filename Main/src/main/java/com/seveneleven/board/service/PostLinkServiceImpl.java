@@ -76,6 +76,8 @@ public class PostLinkServiceImpl implements PostLinkService {
             linkResponseList.add(LinkResponse.toResponse(uploadedLinkEntity));
         }
 
+        postEntity.setProjectLastActivityTimeNow();
+
         return linkResponseList;
     }
 
@@ -138,6 +140,9 @@ public class PostLinkServiceImpl implements PostLinkService {
 
         //4. 삭제 이력 등록
         postLinkHistoryService.deletePostLinkHistory(deletedLink, deleterId);
+
+        //5. 프로젝트 최종 활동 일자 변경
+        postEntity.setProjectLastActivityTimeNow();
     }
 
     /**

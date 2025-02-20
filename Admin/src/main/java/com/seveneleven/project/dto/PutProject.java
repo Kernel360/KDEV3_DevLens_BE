@@ -57,7 +57,6 @@ public class PutProject {
                     plannedEndDate,
                     startDate,
                     endDate,
-                    finalApprovalDate,
                     projectType,
                     bnsManager
             );
@@ -78,7 +77,6 @@ public class PutProject {
         private LocalDate plannedEndDate; // 종료 예정일
         private LocalDate startDate; // 시작일
         private LocalDate endDate; // 종료일
-        private LocalDateTime finalApprovalDate; // 최종 결재일시
         private List<String> projectTags;
         private List<PatchAuthorization.CustomerMemberAuthorization> customerMemberAuthorizations;
         private List<PatchAuthorization.DeveloperMemberAuthorization> developerMemberAuthorizations;
@@ -102,7 +100,6 @@ public class PutProject {
             plannedEndDate = project.getPlannedEndDate();
             startDate = project.getStartDate(); // 시작일
             endDate = project.getEndDate(); //종료일
-            finalApprovalDate = project.getFinalApprovalDate(); // 최종 결재일시
             projectTags = tags.stream().map(ProjectTag::getTag).toList();
             this.customerMemberAuthorizations = new ArrayList<>();
             this.developerMemberAuthorizations = new ArrayList<>();

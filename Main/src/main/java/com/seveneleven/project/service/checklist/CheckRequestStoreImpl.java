@@ -73,6 +73,7 @@ public class CheckRequestStoreImpl implements CheckRequestStore {
     @Override
     public CheckRequest rejectCheckRequest(CheckRequest checkRequest) {
         checkRequest.getChecklist().rejectChecklist();
+        checkRequest.setProjectLastActivityTimeNow();
         return checkRequestRepository.save(checkRequest.reject());
     }
 }

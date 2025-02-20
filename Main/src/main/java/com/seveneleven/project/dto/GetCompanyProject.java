@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class GetCompanyProject {
@@ -47,6 +48,7 @@ public class GetCompanyProject {
         private String developerCompanyName;
         private String currentStepName;
         private List<String> projectTags;
+        private LocalDateTime lastActivityTime;
 
         private CompanyProject(Project project, List<String> projectTags) {
             this.id = project.getId();
@@ -59,6 +61,7 @@ public class GetCompanyProject {
             this.developerCompanyName = project.getDeveloper().getCompanyName();
             this.currentStepName = project.getCurrentProjectStep();
             this.projectTags = projectTags;
+            this.lastActivityTime = project.getLastActivityTime();
         }
 
         public static CompanyProject toDto(Project project, List<String> projectTags) {

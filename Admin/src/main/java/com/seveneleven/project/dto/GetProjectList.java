@@ -24,7 +24,7 @@ public class GetProjectList {
         private LocalDate startDate; // 시작일
         private LocalDate endDate; // 종료일
         private String finalApprover; // 최종 결재자
-        private LocalDateTime finalApprovalDate; // 최종 결재일시
+        private LocalDateTime lastActivityTime;
 
         @Override
         public String toString() {
@@ -49,7 +49,7 @@ public class GetProjectList {
             plannedEndDate = project.getPlannedEndDate();
             startDate = project.getStartDate();
             endDate = project.getEndDate();
-            finalApprovalDate = project.getFinalApprovalDate();
+            lastActivityTime = project.getLastActivityTime();
         }
 
         public static Response of(Project project) {

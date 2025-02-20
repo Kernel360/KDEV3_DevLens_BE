@@ -52,6 +52,7 @@ public class ProjectChecklistFacade {
      * 함수명 : postProjectChecklist
      * 체크리스트를 추가하는 함수
      */
+    @Transactional
     public PostProjectChecklist.Response postProjectChecklist(
             Long stepId,
             PostProjectChecklist.Request postProjectChecklist
@@ -63,7 +64,7 @@ public class ProjectChecklistFacade {
     /**
      * 함수명 : putProjectChecklist
      * 체크리스트를 수정하는 함수
-     */
+     */@Transactional
     public PutProjectChecklist.Response putProjectChecklist(
             Long checklistId,
             PutProjectChecklist.Request putProjectChecklist
@@ -143,7 +144,6 @@ public class ProjectChecklistFacade {
         List<CheckRequest> applications =
                 projectCheckRequestService.getAllCheckRequestByChecklistId(checklist);
 
-        // Service로 이동시켜야 할까?
         List<GetChecklistApplication.ChecklistApplication> result =
                 projectCheckRequestService.getChecklistApplications(applications);
 

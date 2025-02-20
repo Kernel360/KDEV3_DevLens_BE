@@ -8,7 +8,6 @@ import com.seveneleven.exception.BusinessException;
 import com.seveneleven.response.ErrorCode;
 import com.seveneleven.util.file.dto.FileMetadataResponse;
 import com.seveneleven.util.file.handler.FileHandler;
-import com.seveneleven.util.file.repository.FileMetadataHistoryRepository;
 import com.seveneleven.util.file.repository.FileMetadataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,6 +70,8 @@ public class PostFileServiceImpl implements PostFileService {
             fileResponseList.add(FileMetadataResponse.toResponse(uploadedFileMetadata));
         }
 
+        postEntity.setProjectLastActivityTimeNow();
+
         return fileResponseList;
     }
 
@@ -131,6 +132,9 @@ public class PostFileServiceImpl implements PostFileService {
 
         //5. 삭제 이력 등록
         postFileHistoryService.deletePostFileHistory(deletedFileMetadata, deleterId);
+
+        //6. 프로젝트 최종 활동 일자 변경
+        postEntity.setProjectLastActivityTimeNow();
     }
 
     /**

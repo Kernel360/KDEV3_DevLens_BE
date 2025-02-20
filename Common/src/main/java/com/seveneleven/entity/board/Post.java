@@ -150,4 +150,8 @@ public class Post extends BaseEntity {
     public boolean isParent() {
         return this.getParentPost() == null;
     }
+
+    public void setProjectLastActivityTimeNow() {
+        projectStep.getProject().setLastActivityTimeNow();
+    }
 }

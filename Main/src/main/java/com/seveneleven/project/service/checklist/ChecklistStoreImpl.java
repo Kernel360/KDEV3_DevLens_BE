@@ -9,7 +9,6 @@ import com.seveneleven.project.repository.ProjectStepRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,13 +21,15 @@ public class ChecklistStoreImpl implements ChecklistStore {
     private final ProjectStepRepository projectStepRepository;
 
     @Override
-    @Transactional
     public Checklist storeChecklist(ProjectStep projectStep, PostProjectChecklist.Request request) {
-        return checklistRepository.save(request.toEntity(projectStep));
+        Checklist checklist = request.toEntity(projectStep);
+        checklist.setProjectLastActivityTimeNow();
+        return checklistRepository.save(checklist);
     }
 
     @Override
     public Checklist updateChecklist(Checklist checklist, PutProjectChecklist.Request request) {
+        checklist.setProjectLastActivityTimeNow();
         return checklist.updateChecklist(request.getTitle(), request.getDescription());
     }
 

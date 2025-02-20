@@ -12,7 +12,6 @@ import com.seveneleven.project.service.authorization.AuthorizationStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class ProjectAuthorizationServiceImpl implements ProjectAuthorizationServ
      * 해당 프로젝트 단계에 접근할 수 있는 인원을 반환하는 함수
      */
     @Override
-    @Transactional(readOnly = true)
     public GetProjectAuthorization.Response getProjectAuthorization(Project project) {
         List<ProjectAuthorization> authorizations = authorizationReader.readByProjectId(project.getId());
         return GetProjectAuthorization.Response.toDto(project.getId(), authorizations);
@@ -51,7 +49,6 @@ public class ProjectAuthorizationServiceImpl implements ProjectAuthorizationServ
      * 해당 프로젝트 단계의 접근 권한을 편집하는 함수
      */
     @Override
-    @Transactional
     public PostProjectAuthorization.Response createProjectAuthorization(
             Project project,
             PostProjectAuthorization.Request requestDto

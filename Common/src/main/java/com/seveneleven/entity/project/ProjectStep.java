@@ -65,4 +65,8 @@ public class ProjectStep extends BaseEntity {
         }
         throw new BusinessException(ErrorCode.PROJECT_STEP_ALREADY_DELETED);
     }
+
+    public void setProjectLastActivityTimeNow() {
+        project.setLastActivityTimeNow();
+    }
 }

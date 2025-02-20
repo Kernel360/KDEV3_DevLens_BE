@@ -77,4 +77,8 @@ public class CheckRequest extends BaseEntity {
         }
         throw new BusinessException(ErrorCode.CHECK_REQUEST_ALREADY_HAS_RESULT);
     }
+
+    public void setProjectLastActivityTimeNow() {
+        checklist.getProjectStep().getProject().setLastActivityTimeNow();
+    }
 }

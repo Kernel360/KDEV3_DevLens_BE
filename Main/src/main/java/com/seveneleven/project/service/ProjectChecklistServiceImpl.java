@@ -89,6 +89,7 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     ) {
         CheckRequest checkRequest = checkRequestStore.checkRequestStore(checklist, requestDto, member, ip);
         checklist.setChecklistApplication();
+        checklist.setProjectLastActivityTimeNow();
         checkRequestStore.checkRequestHistoryStore(checkRequest);
 
         return PostProjectChecklistApplication.Response.toDto(checkRequest);
@@ -113,6 +114,8 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
 
         //4. 파일 업로드
         checkRequestFileStore.checkRequestFileStore(files, checkRequest, member);
+
+        checklist.setProjectLastActivityTimeNow();
     }
 
     @Override
@@ -121,6 +124,7 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
             Checklist checklist,
             PutProjectChecklist.Request putProjectChecklist
     ) {
+        checklist.setProjectLastActivityTimeNow();
         return PutProjectChecklist.Response.toDto(
                 checklistStore.updateChecklist(checklist, putProjectChecklist)
         );
@@ -130,6 +134,7 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
     @Transactional
     public DeleteProjectChecklist.Response deleteProjectChecklist(Checklist checklist) {
         checklistStore.delete(checklist);
+        checklist.setProjectLastActivityTimeNow();
         return DeleteProjectChecklist.Response.toDto(checklist);
     }
 
@@ -144,6 +149,8 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
 
         checkRequestStore.acceptCheckRequest(checkRequest);
         checklistStore.accept(checkRequest.getChecklist(), memberId);
+
+        checkRequest.setProjectLastActivityTimeNow();
 
         return response;
     }
@@ -188,6 +195,9 @@ public class ProjectChecklistServiceImpl implements ProjectChecklistService {
 
         //3. 파일 업로드
         checkRequestFileStore.checkRequestRejectFileStore(files, checkRequest, member);
+
+        //4. 프로젝트 최종 활동 시간 최신화
+        checkRequest.setProjectLastActivityTimeNow();
     }
 
     @Override

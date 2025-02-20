@@ -61,18 +61,21 @@ public class ProjectStepServiceImpl implements ProjectStepService {
 
         Integer order = getStepOrder(orderList, requestDto.getStepOrderNumber() - 1);
 
+        project.setLastActivityTimeNow();
+
         return stepStore.store(requestDto, project, order);
     }
 
     @Override
     @Transactional
     public PutProjectStep.Response putProjectStep(ProjectStep projectStep, PutProjectStep.Request requestDto) {
-        log.info("request.order : {}", requestDto.getStepOrder());
         List<Integer> orderList = stepReader.getStepOrderList(projectStep.getProject().getId());
         orderList.removeIf(order -> order.equals(projectStep.getStepOrder()));
 
         Integer order = getStepOrder(orderList, requestDto.getStepOrder() - 1);
-        log.info("order : {}", order);
+
+        projectStep.setProjectLastActivityTimeNow();
+
         return stepStore.edit(requestDto, projectStep, order);
     }
 
@@ -83,6 +86,7 @@ public class ProjectStepServiceImpl implements ProjectStepService {
         ProjectStep projectStep = stepReader.read(stepId);
         checklistStore.deleteAll(checklists);
         stepStore.delete(projectStep);
+        projectStep.setProjectLastActivityTimeNow();
         return DeleteProjectStep.Response.toDto(projectId, stepId);
     }
 
