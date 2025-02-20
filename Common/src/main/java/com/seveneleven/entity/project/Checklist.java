@@ -99,7 +99,7 @@ public class Checklist extends BaseEntity {
 
     public void rejectChecklist() {
         if(checklistStatus == ChecklistStatus.APPROVE_WAITING) {
-            checklistStatus = ChecklistStatus.APPLICATION_WAITING;
+            checklistStatus = ChecklistStatus.REJECTED;
             return;
         }
         throw new BusinessException(ErrorCode.CHECKLIST_ALREADY_APPROVED);
