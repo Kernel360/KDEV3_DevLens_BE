@@ -69,6 +69,7 @@ public class AdminProjectFacade {
         return adminProjectService.getCompanyProject(page, id);
     }
 
+    @Transactional(readOnly = true)
     public List<GetAdminDashboard.Response> getAdminDashboard() {
         List<Project> processingProjects = adminProjectService.getProcessingProjects();
 
