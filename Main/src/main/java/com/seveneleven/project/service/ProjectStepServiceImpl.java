@@ -59,7 +59,7 @@ public class ProjectStepServiceImpl implements ProjectStepService {
             throw new BusinessException(ErrorCode.PROJECT_STEP_MAX_SIZE);
         }
 
-        Integer order = getStepOrder(orderList, requestDto.getStepOrderNumber());
+        Integer order = getStepOrder(orderList, requestDto.getStepOrderNumber() - 1);
 
         return stepStore.store(requestDto, project, order);
     }
