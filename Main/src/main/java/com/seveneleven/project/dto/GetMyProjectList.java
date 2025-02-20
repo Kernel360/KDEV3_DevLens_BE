@@ -1,10 +1,10 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.Project;
-import com.seveneleven.util.CustomDateFormatter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GetMyProjectList {
@@ -37,8 +37,8 @@ public class GetMyProjectList {
     public static class GetMyProjectResponseInfo {
         private Long id;
         private String projectName;
-        private String startDate;
-        private String endDate;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private Long customerId;
         private String customerCompanyName;
         private Long developerId;
@@ -56,8 +56,8 @@ public class GetMyProjectList {
         private GetMyProjectResponseInfo(Project project, List<String> projectTags) {
             this.id = project.getId();
             this.projectName = project.getProjectName();
-            this.startDate = CustomDateFormatter.formatDate(project.getPlannedStartDate());
-            this.endDate = CustomDateFormatter.formatDate(project.getPlannedEndDate());
+            this.startDate = project.getPlannedStartDate();
+            this.endDate = project.getPlannedEndDate();
             this.customerId = project.getCustomer().getId();
             this.customerCompanyName = project.getCustomer().getCompanyName();
             this.developerId = project.getDeveloper().getId();
