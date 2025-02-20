@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.seveneleven.common.PageSize.DEFAULT_PAGE_SIZE;
 
 @Service
@@ -103,5 +105,10 @@ public class AdminProjectServiceImpl implements AdminProjectService {
         Pageable pageable = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE.getPageSize());
         Page<GetProjectList.Response> page = adminCompanyReader.getCompanyProject(pageable, id);
         return PaginatedResponse.createPaginatedResponse(page);
+    }
+
+    @Override
+    public List<Project> getProcessingProjects() {
+        return adminProjectReader.getProcessingProjects();
     }
 }

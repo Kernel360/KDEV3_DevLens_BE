@@ -3,10 +3,7 @@ package com.seveneleven.project.application;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectAuthorization;
 import com.seveneleven.entity.project.ProjectTag;
-import com.seveneleven.project.dto.GetProject;
-import com.seveneleven.project.dto.GetProjectList;
-import com.seveneleven.project.dto.PostProject;
-import com.seveneleven.project.dto.PutProject;
+import com.seveneleven.project.dto.*;
 import com.seveneleven.project.service.*;
 import com.seveneleven.response.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
@@ -70,5 +67,16 @@ public class AdminProjectFacade {
 
     public PaginatedResponse<GetProjectList.Response> getCompanyProject(Long id, Integer page) {
         return adminProjectService.getCompanyProject(page, id);
+    }
+
+    public List<GetAdminDashboard.Response> getAdminDashboard() {
+        List<Project> processingProjects = adminProjectService.getProcessingProjects();
+
+        return processingProjects.stream().map(project ->
+            GetAdminDashboard.Response.toDto(
+                    project,
+                    adminProjectTagService.getAllProjectTags(project.getId())
+            )
+        ).toList();
     }
 }

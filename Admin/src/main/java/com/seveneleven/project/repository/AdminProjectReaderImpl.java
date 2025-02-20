@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class AdminProjectReaderImpl implements AdminProjectReader {
@@ -16,6 +18,11 @@ public class AdminProjectReaderImpl implements AdminProjectReader {
     @Override
     public Project getProject(Long id) {
         return adminProjectRepository.findByIdAndProjectStatusCodeNot(id, ProjectStatusCode.DELETED).orElseThrow(ProjectNotFoundException::new);
+    }
+
+    @Override
+    public List<Project> getProcessingProjects() {
+        return adminProjectRepository.findAllByProjectStatusCode(ProjectStatusCode.IN_PROGRESS);
     }
 
     @Override
