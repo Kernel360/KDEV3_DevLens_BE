@@ -3,10 +3,10 @@ package com.seveneleven.project.dto;
 import com.seveneleven.entity.project.Project;
 import com.seveneleven.entity.project.ProjectTag;
 import com.seveneleven.entity.project.constant.ProjectStatusCode;
-import com.seveneleven.util.CustomDateFormatter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GetAdminDashboard {
@@ -16,8 +16,8 @@ public class GetAdminDashboard {
     public static class Response {
         private Long id;
         private String projectName;
-        private String startDate;
-        private String endDate;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private Long customerId;
         private String customerCompanyName;
         private Long developerId;
@@ -29,8 +29,8 @@ public class GetAdminDashboard {
         private Response(Project project, List<ProjectTag> projectTags) {
             this.id = project.getId();
             this.projectName = project.getProjectName();
-            this.startDate = CustomDateFormatter.formatDate(project.getPlannedStartDate());
-            this.endDate = CustomDateFormatter.formatDate(project.getPlannedEndDate());
+            this.startDate = project.getPlannedStartDate();
+            this.endDate = project.getPlannedEndDate();
             this.customerId = project.getCustomer().getId();
             this.customerCompanyName = project.getCustomer().getCompanyName();
             this.developerId = project.getDeveloper().getId();

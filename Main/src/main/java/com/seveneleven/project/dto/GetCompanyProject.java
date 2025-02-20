@@ -1,11 +1,11 @@
 package com.seveneleven.project.dto;
 
 import com.seveneleven.entity.project.Project;
-import com.seveneleven.util.CustomDateFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class GetCompanyProject {
@@ -39,8 +39,8 @@ public class GetCompanyProject {
     public static class CompanyProject {
         private Long id;
         private String projectName;
-        private String startDate;
-        private String endDate;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private Long customerId;
         private String customerCompanyName;
         private Long developerId;
@@ -51,8 +51,8 @@ public class GetCompanyProject {
         private CompanyProject(Project project, List<String> projectTags) {
             this.id = project.getId();
             this.projectName = project.getProjectName();
-            this.startDate = CustomDateFormatter.formatDate(project.getStartDate());
-            this.endDate = CustomDateFormatter.formatDate(project.getEndDate());
+            this.startDate = project.getStartDate();
+            this.endDate = project.getEndDate();
             this.customerId = project.getCustomer().getId();
             this.customerCompanyName = project.getCustomer().getCompanyName();
             this.developerId = project.getDeveloper().getId();
