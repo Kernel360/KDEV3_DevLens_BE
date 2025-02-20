@@ -80,7 +80,7 @@ public class Checklist extends BaseEntity {
     }
 
     public void setChecklistApplication() {
-        if(checklistStatus == ChecklistStatus.APPLICATION_WAITING) {
+        if(checklistStatus == ChecklistStatus.APPLICATION_WAITING || checklistStatus == ChecklistStatus.REJECTED) {
             checklistStatus = ChecklistStatus.APPROVE_WAITING;
             return;
         }
