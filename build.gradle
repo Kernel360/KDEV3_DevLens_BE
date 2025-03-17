@@ -53,6 +53,7 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
         implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
         implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -116,5 +117,14 @@ project(':Admin') {
     dependencies {
         testCompileOnly project(':Common')
         compileOnly project(':Common')
+    }
+}
+
+project(':History') {
+    jar {
+        archiveBaseName = 'history'
+    }
+    dependencies {
+
     }
 }

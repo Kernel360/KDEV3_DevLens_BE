@@ -33,5 +33,5 @@ public interface ChecklistRepository extends JpaRepository<Checklist, Long> {
 
     Optional<Checklist> findByIdAndChecklistStatusNot(@Param("id") Long checklistId, @Param("checklistStatus") ChecklistStatus checklistStatus);
 
-    List<Checklist> findByProjectStepIdAndChecklistStatusNot(@Param("projectStepId") Long projectStepId, ChecklistStatus checklistStatus);
+    List<Checklist> findByProjectStepIdAndChecklistStatusNot(@Param("projectStepId") Long projectStepId, @Param("checklistStatus") ChecklistStatus checklistStatus);
 }
